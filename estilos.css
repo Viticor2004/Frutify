@@ -1,0 +1,32 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body{
+    display: flex;
+    background-color: cornflowerblue;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+}
+
+form {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    text-align: center;
+    margin-top: 300px;
+    width: 280px;
+    height: 250px;
+    background-image: url(images/degradado.png);
+    padding: 30px;
+    border-radius: 4px;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    color: white;
+}
+
+.login {
+    margin-bottom: 10px;
+}
