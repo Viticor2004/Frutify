@@ -15,7 +15,7 @@ fetch('informacion.json')
         const valor_nombre = document.getElementById('nombre').value;
         const valor_gmail = document.getElementById('gmail').value;
         const valor_contrasena = document.getElementById('contrasena').value;
-        
+        const error = document.getElementById('error');
 
         let usuarioEncontrado = false;
         let administrador=false;
@@ -32,7 +32,11 @@ fetch('informacion.json')
         });
 
         if (!usuarioEncontrado) {
-            alert("Usuario no encontrado");
+            //alert("Usuario no encontrado");
+            error.innerHTML=`
+            <h1>Campos incorrectos</h1>
+            `;
+
         }
     });
 })
