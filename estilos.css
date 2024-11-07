@@ -90,6 +90,19 @@ h1 {
     font-size: 30px;
 }
 
+nav {
+    margin-top: 300px;
+    animation: mover 3s infinite alternate;
+}
+
+h1 {
+    display: flex;
+    justify-content: center;
+    color: red;
+    margin-top: 20px;
+    font-size: 30px;
+}
+
 form {
     display: flex;
     flex-wrap: wrap;
