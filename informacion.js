@@ -54,3 +54,5 @@ function redirigir(valor_nombre,administrador) {
     window.location.href = "logueado.html"; // Cambia esto por la URL que necesites
      // Evita el envío real del formulario
 }
+
+
