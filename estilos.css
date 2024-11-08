@@ -1,3 +1,7 @@
+
+
+
+
 * {
     margin: 0;
     padding: 0;
@@ -175,3 +179,17 @@ form {
     height: 70px;
     margin-right: 1840px;
 }
+
+
+
+
+
+@media only screen and (max-width: 600px) {
+    .fondo_naranjas{
+        display: none;
+    }
+    .fondo_frutas{
+        display: none;
+    }
+  }
+
