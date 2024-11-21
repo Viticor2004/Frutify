@@ -53,10 +53,12 @@ fetch('informacion.json')
 
         console.log(empleados);
         definirEmpleados(empleados);
-        if (logeado) {
-            console.log("CACA1");
+        if (logeado && usuario_administrador) {
             definirUsuarioLogeado(valor_nombre,usuario_administrador);
             redirigir();
+        } else if (logeado && usuario_administrador === false){
+            definirUsuarioLogeado(valor_nombre,usuario_administrador);
+            redirigirNoAdmin();
         }
 
         if (!logeado) {
@@ -84,6 +86,10 @@ function definirUsuarioLogeado(valor_nombre,usuario_administrador) {
 
 function redirigir() {
     window.location.href = "logueado.html";
+}
+
+function redirigirNoAdmin() {
+    window.location.href = "logueadoNoAdmin.html";
 }
 
 // function getEmpleados() {
