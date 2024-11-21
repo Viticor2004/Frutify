@@ -1,18 +1,56 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <!-- <script type="module" src="fetch.js"></script> -->
+    <script src="informacion.js"></script>
     <script>
         document.addEventListener("DOMContentLoaded", function() {
-            const nombre = localStorage.getItem('nombre');
-            const administrador=localStorage.getItem('administrador');
-            document.getElementById('info').innerHTML = `${nombre}`;
-            if(administrador==="true"){
-                document.getElementById('poner').innerHTML = `<p>Hola administrador</p>`;
+        const nombre = localStorage.getItem('nombre');
+        const administrador = localStorage.getItem('administrador');
+        const empleadosString = localStorage.getItem('empleados');
+        console.log(administrador);
+        // Mostrar el nombre del usuario logueado
+        document.getElementById('info').innerHTML = `${nombre}`;
+
+        // Mostrar mensaje de administrador y tabla de empleados si es administrador
+        const mostrar_empleados = document.getElementById('mostrarEmpleados');
+        if(administrador === "true") {
+            document.getElementById('poner').innerHTML = `<p>Hola administrador</p>`;
+            document.getElementById('isAdmin').style = "display: block;";
+        }
+
+        // Verifica que 'empleados' sea un JSON válido
+        if (empleadosString) {
+            const empleados = JSON.parse(empleadosString);
+            console.log(empleados);
+            function mostrarEmpleados() {
+                let tabla;
+
+                // Recorre el arreglo de empleados y genera las filas de la tabla
+                empleados.forEach(empleado => {
+                    tabla = `
+                        ${empleado.id} 
+                        ${empleado.nombre}
+                        ${empleado.email}
+                        ${empleado.telefono}
+                        ${empleado.direccion}
+                        
+                    `;
+                });
+
+               
+                mostrar_empleados.innerHTML = tabla; // Muestra la tabla
             }
-            
-        });
+
+            // Llama a la función para mostrar los empleados
+            mostrarEmpleados();
+        } else {
+            console.error("No se encontraron empleados en el localStorage");
+        }
+});
     </script>
-     <link rel="icon" href="images/iconofrutify.png" type="image/x-icon">
+
+    <link rel="icon" href="images/iconofrutify.png" type="image/x-icon">
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -20,22 +58,30 @@
     <title>Frutify</title>
 </head>
 
-<body class ="bodyLogueado">
+<body class="bodyLogueado">
     
     <header>
         <img src="images/iconofrutify.png" alt="naranja" class="fondo_logueado">
         <a href="index.html">
             <input type="submit" id="cerrarSesion" value="Cerrar Sesión">
         </a>
-        
     </header>
+
     <section>
         <div class="Bienvenido">
             <h2>Bienvenido: <h2 id="info"></h2></h2>
-                <h3 id="poner"></h3>
+            <h3 id="poner"></h3>
         </div>
     </section>
-</body>
 
+    <div id="isAdmin" style="display: block;">
+        <div id="mostrarEmpleados">
+        </div>
+    </div>
+
+    <div class="panel">
+        <div class="empleado">
+        </div>
+    </div>
+</body>
 </html>
-<!-- li list style none -->

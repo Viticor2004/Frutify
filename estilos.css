@@ -159,7 +159,7 @@ form {
     justify-content: center;
     align-items: left;
     width: 100%;
-    height: 200px;
+    height: 250px;
     font-size: 30px;
 }
 
@@ -180,6 +180,18 @@ form {
     margin-right: 1840px;
 }
 
+.bodyLogueado .panel{
+    display: flex;
+    outline: 2px solid red;
+    width: 90%;
+    height: 500px;
+}
+.bodyLogueado .panel .empleado{
+    display: flex;
+    outline: 2px solid red;
+    width: 100%;
+    height: 100px;
+}
 
 
 
