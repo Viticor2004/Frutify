@@ -21,32 +21,51 @@
 
         // Verifica que 'empleados' sea un JSON válido
         if (empleadosString) {
-            const empleados = JSON.parse(empleadosString);
-            console.log(empleados);
-            function mostrarEmpleados() {
-                let tabla;
+                const empleados = JSON.parse(empleadosString);
+                console.log(empleados);
 
-                // Recorre el arreglo de empleados y genera las filas de la tabla
-                empleados.forEach(empleado => {
-                    tabla = `
-                        ${empleado.id} git 
-                        ${empleado.nombre}
-                        ${empleado.email}
-                        ${empleado.telefono}
-                        ${empleado.direccion}
-                        
+                function mostrarEmpleados() {
+                    let tabla = `
+                        <table border="1">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Nombre</th>
+                                    <th>Email</th>
+                                    <th>Teléfono</th>
+                                    <th>Dirección</th>
+                                </tr>
+                            </thead>
+                            <tbody>
                     `;
-                });
 
-               
-                mostrar_empleados.innerHTML = tabla; // Muestra la tabla
+                    // Recorre el arreglo de empleados y genera las filas de la tabla
+                    empleados.forEach(empleado => {
+                        tabla += `
+
+                            <tr>
+                                <td>${empleado.id}</td>
+                                <td>${empleado.nombre}</td>
+                                <td>${empleado.email}</td>
+                                <td>${empleado.telefono}</td>
+                                <td>${empleado.direccion}</td>
+                                <td><div class="botones"> <button class="modificar"></button> <button class="eliminar"></button> </div></td>
+                            </tr>                            
+                        `;
+                    });
+
+                    tabla += `</tbody></table>`; // Cierra las etiquetas de la tabla
+                    const panel = document.getElementById("panel");
+                   panel.innerHTML = tabla;
+                    
+                    // Muestra la tabla
+                }
+
+                // Llama a la función para mostrar los empleados
+                mostrarEmpleados();
+            } else {
+                console.error("No se encontraron empleados en el localStorage");
             }
-
-            // Llama a la función para mostrar los empleados
-            mostrarEmpleados();
-        } else {
-            console.error("No se encontraron empleados en el localStorage");
-        }
 });
     </script>
 
@@ -73,25 +92,12 @@
         </div>
         <button class="add">Añadir</button>
     </section>
-    <div class="panel">
-        <div class="empleado-container">
-            <div class="cliente">
-
-            </div>
-            <div class="botones">
-                <button class="modificar"></button>
-                <button class="eliminar"></button>
-            </div>
-        </div>
+    <div class="panel" id="panel">
+        
     </div>
 
     <div id="isAdmin" style="display: block;">
         <div id="mostrarEmpleados">
-        </div>
-    </div>
-
-    <div class="panel">
-        <div class="empleado">
         </div>
     </div>
 </body>

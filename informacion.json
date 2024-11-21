@@ -24,9 +24,27 @@
             "nombre":"Carla",
             "email":"carla@gmail.com",
             "contrasena":"carla12345",
-            "administrar":true,
+            "administrar":false,
             "telefono":"6785943084",
             "direccion":"Calle Tarara"
+        },
+        {
+            "id":4,
+            "nombre":"Carlota",
+            "email":"carlota@gmail.com",
+            "contrasena":"carlota12345",
+            "administrar":false,
+            "telefono":"6782243674",
+            "direccion":"Calle Limones"
+        },
+        {
+            "id":5,
+            "nombre":"Paco",
+            "email":"paco@gmail.com",
+            "contrasena":"paco12345",
+            "administrar":false,
+            "telefono":"6784543674",
+            "direccion":"Calle Guay"
         }
     ]
 }
