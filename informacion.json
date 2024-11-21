@@ -5,25 +5,28 @@
             "nombre":"Pepe",
             "email":"pepe@gmail.com",
             "contrasena":"pepe12345",
-            "administrar":true
+            "administrar":true,
+            "telefono":"6785943087",
+            "direccion":"Calle Fruty"
         },
         {
             "id":2,
             "nombre":"Manolo",
             "email":"manolo@gmail.com",
             "contrasena":"manolo12345",
-            "administrar":false
+            "administrar":false,
+            "telefono":"6785943083",
+            "direccion":"Calle Landia"
+            
         },
         {
             "id":3,
             "nombre":"Carla",
             "email":"carla@gmail.com",
             "contrasena":"carla12345",
-            "administrar":true
+            "administrar":true,
+            "telefono":"6785943084",
+            "direccion":"Calle Tarara"
         }
     ]
-
-
-
-
 }
