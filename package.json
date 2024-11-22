@@ -1,0 +1,23 @@
+{
+  "name": "frutify",
+  "version": "1.0.0",
+  "description": "Frutify es nuestra gran frutería. La más querida del pueblo (es la única). Ya que a todo el mundo le gusta Frutify hemos decidido implementarla también en el ámbito online. Para poder hacer esto de forma organizada y coherente contamos con nuestro nuevo ERP, el cual organizará nuestras ventas (ya sean presenciales como online), el acceso a datos, entre otras.",
+  "main": "informacion.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Viticor2004/Frutify.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Viticor2004/Frutify/issues"
+  },
+  "homepage": "https://github.com/Viticor2004/Frutify#readme",
+  "dependencies": {
+    "express": "^4.21.1"
+  }
+}

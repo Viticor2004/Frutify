@@ -4,6 +4,9 @@
     <!-- <script type="module" src="fetch.js"></script> -->
     <script src="informacion.js"></script>
     <script>
+
+    </script>
+    <script>
         document.addEventListener("DOMContentLoaded", function() {
         const nombre = localStorage.getItem('nombre');
         const administrador = localStorage.getItem('administrador');
@@ -21,8 +24,14 @@
 
         // Verifica que 'empleados' sea un JSON válido
         if (empleadosString) {
-                const empleados = JSON.parse(empleadosString);
+                    
                 console.log(empleados);
+
+                function eliminar(){
+                    alert("¿Seguro que quieres eliminar?");
+                    
+
+                }
 
                 function mostrarEmpleados() {
                     let tabla = `
@@ -41,17 +50,20 @@
 
                     // Recorre el arreglo de empleados y genera las filas de la tabla
                     empleados.forEach(empleado => {
-                        tabla += `
-
+                        if(!empleado.administrador){
+                            tabla += `
                             <tr>
                                 <td>${empleado.id}</td>
                                 <td>${empleado.nombre}</td>
                                 <td>${empleado.email}</td>
                                 <td>${empleado.telefono}</td>
                                 <td>${empleado.direccion}</td>
-                                <td><div class="botones"> <button class="modificar"></button> <button class="eliminar"></button> </div></td>
+                                <td><div class="botones"> <button class="modificar" value="${empleado.id}" ></button> <button class="eliminar" value="${empleado.id}" id="eliminar"></button> </div></td>
                             </tr>                            
                         `;
+
+                        }
+                        
                     });
 
                     tabla += `</tbody></table>`; // Cierra las etiquetas de la tabla
@@ -60,14 +72,31 @@
                     
                     // Muestra la tabla
                 }
+                
+
+                
+
+
 
                 // Llama a la función para mostrar los empleados
                 mostrarEmpleados();
+                document.getElementById("eliminar").addEventListener("click", function() {
+                    const respuesta=confirm("¿Deseas eliminarlo?");
+                    if(respuesta){
+                        const boton=document.getElementById("eliminar");
+                        const valor=boton.value;
+                        
+                        empleados=empleados.filter(usuario=>usuario.id!==valor);
+                        mostrarEmpleados();
+                    }
+
+                });
             } else {
                 console.error("No se encontraron empleados en el localStorage");
             }
 });
     </script>
+   
 
     <link rel="icon" href="images/iconofrutify.png" type="image/x-icon">
     <meta charset="UTF-8">
