@@ -9,7 +9,7 @@
         },
         {
             "id":2,
-            "nombre":"Manolo",
+            "nombre":"Manolo5",
             "email":"manolo@gmail.com",
             "contrasena":"manolo12345",
             "administrar":false
