@@ -1,9 +1,5 @@
 
 
-
-
-@media only screen and (min-width: 600px) {
-    
 * {
     margin: 0;
     padding: 0;
@@ -139,29 +135,40 @@ form {
 .bodyLogueado header {
     display: flex;
     align-items: center;
+    justify-content: space-evenly;
     width: 100%;
-    height: 50px;
-    border: 2px solid red;
+    height: 90px;
     display: flex;
     justify-content: end;
 }
 
 .bodyLogueado header input{
     margin-right: 20px;
-    width: 100px;
-    height: 20px;
-    background: none;
-    border: none;
-    border: olive 1px solid;
+    width: 160px;
+    height: 30px;
+    background:transparent;
+    border: transparent;
+    color: black;
+    font-size: 20px;
 }
 
-.bodyLogueado section{
+.bodyLogueado .sectionNoAdmin{
     display: flex;
-    border: 2px solid red;
     justify-content: center;
-    align-items: center;
+    align-items: left;
     width: 100%;
-    height: 877px;
+    height: 250px;
+    font-size: 30px;
+}
+
+.bodyLogueado .sectionAdmin{
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    align-items: left;
+    width: 100%;
+    height: 200px;
+    font-size: 30px;
 }
 
 .bodyLogueado section .Bienvenido{
@@ -169,18 +176,72 @@ form {
     flex-wrap: wrap;
     justify-content: center;
     align-items: center;
-    width: 200px;
+    width: 500px;
     height: 100px;
-    background:#b5b5b5;
     border-radius: 4px;
-
 }
 
+.fondo_logueado {
+    position: absolute;
+    width: 80px;
+    height: 70px;
+    margin-right: 1840px;
+}
+
+.bodyLogueado .panel{
+    display: flex;
+    outline: 2px solid black;
+    width: 90%;
+    height: 500px;
+}
+.bodyLogueado .panel .empleado{
+    display: flex;
+    outline: 2px solid red;
+    width: 100%;
+    height: 100px;
+}
+
+
+
+
+@media only screen and (max-width: 600px) {
+    .fondo_naranjas{
+        display: none;
+    }
+    .fondo_frutas{
+        display: none;
+    }
   }
 
+/* ADMIN */
 
+.add {
+    width: 100px;
+    height: 50px;
+}
 
+.panel {
+    display: flex;
+    outline: 2px solid blue;
+    width: 80%;
+    height: 500px;
+    overflow-y: scroll;   
+    flex-wrap: wrap;
+}
 
-  @media only screen and (max-width: 600px) {
-      
-  }
+td{
+    text-align: center;
+    width: 300px;
+    height: 100px;
+}
+
+.panel .botones{
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+.panel .botones button{
+    width: 30px;
+    height: 30px;
+}

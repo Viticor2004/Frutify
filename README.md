@@ -20,3 +20,7 @@ Frutify es nuestra gran frutería. La más querida del pueblo (es la única). Ya
 - Tener la versión de JavaScript moderna (ES6 y posteriores)
 - Hace falta tener git instalado (versión 2.37.3.windows.1)
 - Ejecutar este código: git clone https://github.com/Viticor2004/Frutify.git
+
+## Acceso (web)
+
+- https://viticor2004.github.io/Frutify/

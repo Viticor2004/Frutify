@@ -1,3 +1,4 @@
+let empleados = [];
 
 fetch('informacion.json')
 .then(response=>{
@@ -7,9 +8,12 @@ fetch('informacion.json')
     return response.json();
 })
 .then(data=>{
+    console.log("CACA4");
     const personas = data.usuarios;
 
     document.getElementById("formulario").addEventListener("submit", function(event) {
+        
+        console.log("CACA3");
         event.preventDefault(); // Evita el envío del formulario
 
         const valor_nombre = document.getElementById('nombre').value;
@@ -18,20 +22,46 @@ fetch('informacion.json')
         const error = document.getElementById('error');
 
         let usuarioEncontrado = false;
-        let administrador=false;
+        let usuario_administrador=false;
+        let logeado = false;
+
         personas.forEach(usuario => {
             
+            console.log("CACA2");
+            console.log(usuario);
+
+            let new_empleado = new Empleado(
+                id=usuario.id,
+                nombre=usuario.nombre,
+                email=usuario.email,
+                contrasena=usuario.contrasena,
+                administrador=usuario.administrar,
+                telefono=usuario.telefono,
+                direccion=usuario.direccion,
+            )
+
+            empleados.push(new_empleado);
+
             if (valor_nombre === usuario.nombre && valor_gmail === usuario.email && valor_contrasena === usuario.contrasena) {
                 usuarioEncontrado = true;
                 if(usuario.administrar===true){
-                    administrador=true;
+                    usuario_administrador=true;
                 }
-                
-                redirigir(valor_nombre,administrador);
+                logeado = true;                
             }
         });
 
-        if (!usuarioEncontrado) {
+        console.log(empleados);
+        definirEmpleados(empleados);
+        if (logeado && usuario_administrador) {
+            definirUsuarioLogeado(valor_nombre,usuario_administrador);
+            redirigir();
+        } else if (logeado && usuario_administrador === false){
+            definirUsuarioLogeado(valor_nombre,usuario_administrador);
+            redirigirNoAdmin();
+        }
+
+        if (!logeado) {
             //alert("Usuario no encontrado");
             error.innerHTML=`
             <h1>Campos incorrectos</h1>
@@ -39,20 +69,29 @@ fetch('informacion.json')
 
         }
     });
+    
 })
 .catch(error=>{
-    console.error('Error',error);
+    console.log(error)
 });
 
-function redirigir(valor_nombre,administrador) {  
-    // localStorage.setItem('contrasena',valor_contrasena);
-    localStorage.setItem('nombre',valor_nombre);
-    localStorage.setItem('administrador',administrador);
-    // localStorage.setItem('gmail',valor_gmail);
-    // Aquí puedes hacer alguna validación si lo necesitas
-    // Luego redirigir a otra página
-    window.location.href = "logueado.html"; // Cambia esto por la URL que necesites
-     // Evita el envío real del formulario
+function definirEmpleados(empleados) {
+    localStorage.setItem('empleados', JSON.stringify(empleados));
 }
 
+function definirUsuarioLogeado(valor_nombre,usuario_administrador) {
+    localStorage.setItem('nombre',valor_nombre);
+    localStorage.setItem('administrador',usuario_administrador);
+}
 
+function redirigir() {
+    window.location.href = "logueado.html";
+}
+
+function redirigirNoAdmin() {
+    window.location.href = "logueadoNoAdmin.html";
+}
+
+// function getEmpleados() {
+//     return empleados;
+// }
