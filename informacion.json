@@ -10,6 +10,24 @@
       "direccion": "Calle Fruty"
     },
     {
+      "id": 2,
+      "nombre": "sss",
+      "email": "sss",
+      "contrasena": "manolo12345",
+      "administrar": false,
+      "telefono": "sss",
+      "direccion": "sss"
+    },
+    {
+      "id": 3,
+      "nombre": "Carla",
+      "email": "carla@gmail.com",
+      "contrasena": "carla12345",
+      "administrar": false,
+      "telefono": "6785943084",
+      "direccion": "Calle Tarara"
+    },
+    {
       "id": 4,
       "nombre": "Carlota",
       "email": "carlota@gmail.com",
@@ -28,31 +46,13 @@
       "direccion": "Calle Guay"
     },
     {
-      "id": 4,
-      "nombre": "ddd",
-      "email": "ddd",
+      "id": 6,
+      "nombre": "Perico",
+      "email": "perico@gmail.com",
       "contrasena": "123456",
       "administrar": false,
-      "telefono": "ddd",
-      "direccion": "dd"
-    },
-    {
-      "id": 7,
-      "nombre": "fd",
-      "email": "djsfja",
-      "contrasena": "123456",
-      "administrar": false,
-      "telefono": "dsjfnd",
-      "direccion": "dffdsafd"
-    },
-    {
-      "id": 8,
-      "nombre": "jddj",
-      "email": "jjdjdj",
-      "contrasena": "123456",
-      "administrar": false,
-      "telefono": "jddjdj",
-      "direccion": "jdjdj"
+      "telefono": "675849576",
+      "direccion": "Calle Parguela"
     }
   ]
 }

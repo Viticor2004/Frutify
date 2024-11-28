@@ -33,8 +33,9 @@
 
                 function mostrarEmpleados() {
                     let tabla = `
-                        <table border="1">
-                            <thead>
+                        <table>
+                            <div>
+                                <thead>
                                 <tr>
                                     <th>ID</th>
                                     <th>Nombre</th>
@@ -43,6 +44,8 @@
                                     <th>Dirección</th>
                                 </tr>
                             </thead>
+                            </div>
+                            
                             <tbody>
                     `;
 
@@ -131,7 +134,7 @@
                                             let y=0;
                                             for(const hijo of hijos){
                                                 y++;
-                                                if(y>1 && y<6){
+                                                if(y>1 && y<hijos.length){
                                                     const input=document.createElement('input');
                                                     input.className='id';
                                                     hijo.innerHTML='';

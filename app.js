@@ -3,7 +3,7 @@ const app = express();
 
 
 app.get('/eliminar/:id', (req, res) => {
-    res.send('¡Hola, mundo con dExpress!');
+   
     const idE = parseInt(req.params.id, 10); // Asegúrate de que el ID sea un número
     // 10 es de base decimal
     console.log(idE);
