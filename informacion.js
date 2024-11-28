@@ -8,12 +8,10 @@ fetch('informacion.json')
     return response.json();
 })
 .then(data=>{
-    console.log("CACA4");
     const personas = data.usuarios;
 
     document.getElementById("formulario").addEventListener("submit", function(event) {
         
-        console.log("CACA3");
         event.preventDefault(); // Evita el envío del formulario
 
         const valor_nombre = document.getElementById('nombre').value;
@@ -26,9 +24,6 @@ fetch('informacion.json')
         let logeado = false;
 
         personas.forEach(usuario => {
-            
-            console.log("CACA2");
-            console.log(usuario);
 
             let new_empleado = new Empleado(
                 id=usuario.id,
@@ -39,7 +34,7 @@ fetch('informacion.json')
                 telefono=usuario.telefono,
                 direccion=usuario.direccion,
             )
-
+                
             empleados.push(new_empleado);
 
             if (valor_nombre === usuario.nombre && valor_gmail === usuario.email && valor_contrasena === usuario.contrasena) {
@@ -51,7 +46,6 @@ fetch('informacion.json')
             }
         });
 
-        console.log(empleados);
         definirEmpleados(empleados);
         if (logeado && usuario_administrador) {
             definirUsuarioLogeado(valor_nombre,usuario_administrador);
