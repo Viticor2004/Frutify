@@ -11,12 +11,12 @@
     },
     {
       "id": 2,
-      "nombre": "sss",
-      "email": "sss",
+      "nombre": "Manolo",
+      "email": "manolo@gmail.com",
       "contrasena": "manolo12345",
       "administrar": false,
-      "telefono": "sss",
-      "direccion": "sss"
+      "telefono": "661295055",
+      "direccion": "Calle Fleming"
     },
     {
       "id": 3,
