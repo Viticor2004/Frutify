@@ -3,7 +3,7 @@ const app = express();
 
 
 app.get('/eliminar/:id', (req, res) => {
-   
+    res.send('¡Hola, mundo con dExpress!');
     const idE = parseInt(req.params.id, 10); // Asegúrate de que el ID sea un número
     // 10 es de base decimal
     console.log(idE);
@@ -23,16 +23,16 @@ app.get('/modificar/:id/:nombre/:email/:telefono/:direccion',(req,res)=>{
     
 });
 
-app.get('/anadir/:id/:nombre/:email/:telefono/:direccion', (req, res) => {
+app.get('/anadir/:nombre/:email/:telefono/:direccion', (req, res) => {
     console.log("anadir ha entrado");
-    const idA=parseInt(req.params.id,10);
+    //const idA=parseInt(req.params.id,10);
     const nombre=req.params.nombre;
     const email=req.params.email;
     //const contrasena=req.params.contrasena;
     //const administrar=req.params.administrar;
     const telefono=req.params.telefono;
     const direccion=req.params.direccion;
-    anadir(idA,nombre,email,telefono,direccion);
+    anadir(nombre,email,telefono,direccion);
 });
 
 app.listen(3000,() => {
@@ -121,7 +121,7 @@ function modificar(idM,nombre,email,telefono,direccion){
     });
 }
 
-function anadir(idA,nombre,email,telefono,direccion){
+function anadir(nombre,email,telefono,direccion){
 
     const fs=require('fs');
     const path=require('path');
@@ -139,10 +139,25 @@ function anadir(idA,nombre,email,telefono,direccion){
     
         // Obtener el arreglo de usuarios
         const personas = jsonData.usuarios;
-    
+        let x=1;
+        let idA=0;
+        let encontrado;
+
+       
+        do{
+            encontrado=false;
+            for(let usuario of personas){
+                if(usuario.id===x) {
+                    encontrado=true;
+                    break;
+                }
+            }
+            if(encontrado)x++;
+        }while(encontrado);
+
         // Crear el nuevo usuario
         const nuevoUsuario = {
-            id: idA, // Función para generar un ID único
+            id: x, // Función para generar un ID único
             nombre: nombre, // Reemplaza con el nombre del usuario
             email: email, // Reemplaza con el email del usuario
             contrasena: "123456", // Puedes incluir la contraseña si es necesario
