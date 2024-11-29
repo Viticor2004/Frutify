@@ -225,6 +225,31 @@ form {
     .fondo_frutas{
         display: none;
     }
+
+    table{
+        margin-top: 100px;
+    }
+    .aceptar{
+        margin-left: 280px;
+        margin-top: 250px;
+    }
+    .anadir{
+        margin-left: -500px;
+        margin-top: 250px;
+    }
+
+    .Bienvenido{
+        margin-left: -100px;
+    }
+    #cerrarSesion{
+        margin-left: -290px;
+        margin-top: 60px;
+    }
+    th:nth-of-type(3) {
+        width: 20px;  /* Establece el ancho de la celda */
+    }
+    
+
   }
 
 /* ADMIN */ 
