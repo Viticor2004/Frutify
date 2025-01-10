@@ -1,0 +1,42 @@
+body{
+    display: flex;
+    margin: 0px;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+.contenedor{
+    display: flex;
+    outline: 2px solid red;
+    width: 1700px;
+    min-height: 880px;
+    margin-top: 2px;
+    border-radius: 8px;
+    align-items: center;
+    margin-top: -30px;
+}
+ul{
+    display: flex;
+    outline: 2px solid red;
+    width: 240px;
+    height: 600px;
+    flex-wrap: wrap;
+    align-content: flex-start;
+}
+button{
+    display: flex;
+    list-style: none;
+    outline: 2px solid green;
+    width: 280px;
+    height: 80px;
+    margin-left: -40px;
+    align-items: center;
+    cursor: pointer;
+}
+section{
+    display: flex;
+    outline: 2px solid red;
+    width: 1500px;
+    height:800px;
+    margin-top: 200px;
+}
+
