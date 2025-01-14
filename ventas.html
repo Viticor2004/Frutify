@@ -11,49 +11,233 @@
 
       // Load the Visualization API and the corechart package.
       google.charts.load('current', {'packages':['corechart']});
-
+      google.charts.load('current', {packages: ['corechart', 'bar']});
       // Set a callback to run when the Google Visualization API is loaded.
-      google.charts.setOnLoadCallback(drawChart);
-
+      
+      
+      google.charts.setOnLoadCallback(frutasAnual);
+      google.charts.setOnLoadCallback(verdurasAnual);
+      google.charts.setOnLoadCallback(ventasFrutasGenero);
+      google.charts.setOnLoadCallback(ventasVerdurasGenero);
+      google.charts.setOnLoadCallback(ventasMensual);
+      google.charts.setOnLoadCallback(ventasSemanal);
+      //google.charts.setOnLoadCallback(frutasSemanas);
+      
+      
+      
+      
+      //google.charts.setOnLoadCallback(ventasTotales);
       // Callback that creates and populates a data table,
       // instantiates the pie chart, passes in the data and
       // draws it.
-      function drawChart() {
+      function frutasAnual() {
 
-        // Create the data table.
-        var data = new google.visualization.DataTable();
-        data.addColumn('string', 'Topping');
-        data.addColumn('number', 'Slices');
-        data.addRows([
-          ['Manzana', 3],
-          ['Plátano', 1],
-          ['Naranja', 1],
-          ['Tomate', 1],
-          ['Sandía', 2],
-          ['Melón',4],
-          ['Fresas',2],
-          ['Uvas',4],
-          ['Arándano',4],
-          ['Frambuesas',2]
-          ['Fresa',4],
-          ['Pómelo',2]
-          ['Aguacate',4],
-          ['Piña',2]
-          ['Pera',4],
-          ['Zarzamora',2]
+        var data = google.visualization.arrayToDataTable([
+          ['Frutas', 'Frutas/año'],
+          ['Manzanas', 12000],
+          ['Naranjas', 13000],
+          ['Plátanos',  18000],
+          ['Fresas', 7500],
+          ['Uvas',    8000],
+          ['Mangos',5000],
+          ['Peras',6000],
+          ['Limones',10000],
+          ['Sandías',3500],
+          ['Melones',4000],
+          ['Piñas',6000],
+          ['Ciruelas',5500],
+          ['Duraznos',7000],
+          ['Ciruelas',5500],
+          ['Kiwis',3000],
+          ['Papayas',4500]
         ]);
-        
-        
 
-        // Set chart options
-        var options = {'title':'Frutas',
-                       'width':800,
-                       'height':600};
+        var options = {
+          title: 'Frutas vendidas por año'
+        };
 
-        // Instantiate and draw our chart, passing in some options.
-        var chart = new google.visualization.PieChart(document.getElementById('chart_div'));
+        var chart = new google.visualization.PieChart(document.getElementById('frutasAnual'));
+
         chart.draw(data, options);
       }
+
+      function verdurasAnual() {
+
+        var data = google.visualization.arrayToDataTable([
+          ['Frutas', 'Verduras/año'],
+          ['Tomates',20000],
+          ['Zanahorias',15000],
+          ['Cebollas',10000],
+          ['Papas',25000],
+          ['Ajos',8000],
+          ['Lechugas',9000],
+          ['Espinacas',6500],
+          ['Pepinos',7200],
+          ['Chiles',5800],
+          ['Calabacitas',6000],
+          ['Brócoli',4500],
+          ['Coliflor',4000],
+          ['Pimientos',7500],
+          ['Maíz',8000],
+          ['Berenjena',6700],
+          ['Alcachofas',2000]
+        ]);
+
+        var options = {
+          title: 'Verduras vendidas por año'
+        };
+
+        var chart = new google.visualization.PieChart(document.getElementById('verdurasAnual'));
+
+        chart.draw(data, options);
+        }
+
+        function ventasFrutasGenero() {
+          var data = google.visualization.arrayToDataTable([
+            ['Unidades/año', 'Hombres', 'Mujeres'],
+            ['Manzanas', 6000, 6000],
+            ['Naranjas', 6500, 6500],
+            ['Plátanos', 10800, 7200],
+            ['Fresas',3000,4500],
+            ['Uvas',3200,4800],
+            ['Mangos',3000,2000],
+            ['Peras',2400,3600],
+            ['Limones',4000,6000],
+            ['Sandías',2100,1400],
+            ['Melones',2400,1600],
+            ['Piñas',3600,2400],
+            ['Ciruelas',2200,3300],
+            ['Duraznos',2800,4200],
+            ['Ciruelas',2200,3300],
+            ['Kiwis',1800,1200],
+            ['Papayas',1800,2700]
+          ]);
+
+
+          var materialOptions = {
+            chart: {
+              title: 'Venta anual de frutas por género',
+              subtitle: ''
+            },
+            hAxis: {
+              title: 'Total Population',
+              minValue: 0,
+            },
+            vAxis: {
+              title: 'Frutas'
+            },
+            bars: 'horizontal',
+          };
+          var materialChart = new google.charts.Bar(document.getElementById('ventasFrutasGenero'));
+          materialChart.draw(data, materialOptions);
+    }
+     
+     
+    function ventasVerdurasGenero() {
+          var data = google.visualization.arrayToDataTable([
+            ['Unidades/año', 'Hombres', 'Mujeres'],
+            ['Tomates', 6000, 6000],
+            ['Zanahorias', 6500, 6500],
+            ['Cebollas', 10800, 7200],
+            ['Papas',3000,4500],
+            ['Ajos',3200,4800],
+            ['Lechugas',3000,2000],
+            ['Pepinos',2400,3600],
+            ['Chiles',4000,6000],
+            ['Calabacitas',2100,1400],
+            ['Brócoli',2400,1600],
+            ['Coliflor',3600,2400],
+            ['Pimientos',2200,3300],
+            ['Maíz',2800,4200],
+            ['Berenjena',2200,3300],
+            ['Alcachofas',1800,1200]
+          ]);
+          
+
+          var materialOptions = {
+            chart: {
+              title: 'Venta anual de verduras por género',
+              subtitle: ''
+            },
+            hAxis: {
+              title: 'Total Population',
+              minValue: 0,
+            },
+            vAxis: {
+              title: 'Frutas'
+            },
+            bars: 'horizontal',
+          };
+          var materialChart = new google.charts.Bar(document.getElementById('ventasVerdurasGenero'));
+          materialChart.draw(data, materialOptions);
+    }
+
+
+
+
+
+      function ventasMensual() {
+
+        // Create the data table.
+        var data=google.visualization.arrayToDataTable([
+          ['Mes', 'Frutas','Verduras'],
+          ['E', 10650,13650],
+          ['F', 10650,13650],
+          ['M', 11600,14400],
+          ['A',11800,14300],
+          ['M',12200,14900],
+          ['J',13000,15300],
+          ['J',12800,15400],
+          ['A',12650,15500],
+          ['S',11900,14500],
+          ['O',11850,14550],
+          ['N',11950,13950],
+          ['D',11850,13750]
+        ]);
+
+
+        // Set chart options
+        var options = {
+          title: 'Ventas mensuales',
+          curveType: 'function', // Suaviza las líneas
+          legend: { position: 'bottom' },
+          bar: {groupWidth:'100%'}
+        };
+
+        // Instantiate and draw our chart, passing in some options.
+        var chart = new google.visualization.ColumnChart(document.getElementById('ventasMensual'));
+        chart.draw(data, options);
+      }
+
+      function ventasSemanal() {
+
+        // Create the data table.
+        var data=google.visualization.arrayToDataTable([
+          ['Mes', 'Frutas','Verduras'],
+          ['L', 435,537],
+          ['M', 290,358],
+          ['M', 435,537],
+          ['J',581,716],
+          ['V',726,895],
+          ['S',290,358],
+          ['D',145,179]
+        ]);
+
+
+        // Set chart options
+        var options = {
+          title: 'Ventas promedia semanal',
+          curveType: 'function', // Suaviza las líneas
+          legend: { position: 'bottom' },
+          bar: {groupWidth:'100%'}
+        };
+
+        // Instantiate and draw our chart, passing in some options.
+        var chart = new google.visualization.ColumnChart(document.getElementById('ventasSemanal'));
+        chart.draw(data, options);
+}
+
+
     </script>
 
 </head>
@@ -65,8 +249,16 @@
         </ul>
 
         <section>
-            <div id="chart_div"></div>
+          <div id="frutasAnual" style="width:700px;height: 600px;outline: 2px solid blue;display: flex;z-index: 1;"></div>
+          <div id="verdurasAnual" style="width:700px;height: 600px;outline: 2px solid red;display: flex;z-index: 1;"></div>
+          
+          <div id="ventasMensual" style="width: 700px;height: 600px;"></div>
+          <div id="ventasSemanal" style="width: 700px;height: 600px;"></div> 
 
+          <div id="ventasFrutasGenero" style="width: 700px;height: 600px;"></div>
+          <div id="ventasVerdurasGenero" style="width: 700px;height: 600px;"></div>
+          
+          
         </section>
 
     </div>

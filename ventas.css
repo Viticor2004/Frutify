@@ -34,7 +34,8 @@ button{
 }
 section{
     display: flex;
-    outline: 2px solid red;
+    flex-wrap: wrap;
+    outline: 10px solid gray;
     width: 1500px;
     height:800px;
     margin-top: 200px;
