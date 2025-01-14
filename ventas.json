@@ -1,0 +1,61 @@
+{
+    "frutas_anuales": [
+      {"producto": "Manzanas", "cantidad": 12000, "comprador": "Juan Pérez", "genero": "Masculino", "fecha_compra": "2025-01-01"},
+      {"producto": "Naranjas", "cantidad": 13000, "comprador": "Ana Gómez", "genero": "Femenino", "fecha_compra": "2025-01-03"},
+      {"producto": "Plátanos", "cantidad": 18000, "comprador": "Carlos Rodríguez", "genero": "Masculino", "fecha_compra": "2025-01-05"},
+      {"producto": "Fresas", "cantidad": 7500, "comprador": "Laura Fernández", "genero": "Femenino", "fecha_compra": "2025-01-07"},
+      {"producto": "Uvas", "cantidad": 8000, "comprador": "Pedro López", "genero": "Masculino", "fecha_compra": "2025-01-10"},
+      {"producto": "Mangos", "cantidad": 5000, "comprador": "María Pérez", "genero": "Femenino", "fecha_compra": "2025-01-12"},
+      {"producto": "Peras", "cantidad": 6000, "comprador": "Sergio Ruiz", "genero": "Masculino", "fecha_compra": "2025-01-14"},
+      {"producto": "Limones", "cantidad": 10000, "comprador": "Elena Sánchez", "genero": "Femenino", "fecha_compra": "2025-01-16"},
+      {"producto": "Sandías", "cantidad": 3500, "comprador": "Miguel Díaz", "genero": "Masculino", "fecha_compra": "2025-01-18"},
+      {"producto": "Melones", "cantidad": 4000, "comprador": "Raquel Morales", "genero": "Femenino", "fecha_compra": "2025-01-20"},
+      {"producto": "Piñas", "cantidad": 6000, "comprador": "Juan Martínez", "genero": "Masculino", "fecha_compra": "2025-01-22"},
+      {"producto": "Ciruelas", "cantidad": 5500, "comprador": "Patricia Fernández", "genero": "Femenino", "fecha_compra": "2025-01-24"},
+      {"producto": "Duraznos", "cantidad": 7000, "comprador": "Ricardo García", "genero": "Masculino", "fecha_compra": "2025-01-26"},
+      {"producto": "Kiwis", "cantidad": 3000, "comprador": "Claudia López", "genero": "Femenino", "fecha_compra": "2025-01-28"},
+      {"producto": "Papayas", "cantidad": 4500, "comprador": "David Martínez", "genero": "Masculino", "fecha_compra": "2025-01-30"}
+    ],
+    "verduras_anuales": [
+      {"producto": "Tomates", "cantidad": 20000, "comprador": "Luisa Gómez", "genero": "Femenino", "fecha_compra": "2025-01-02"},
+      {"producto": "Zanahorias", "cantidad": 15000, "comprador": "José Pérez", "genero": "Masculino", "fecha_compra": "2025-01-04"},
+      {"producto": "Cebollas", "cantidad": 10000, "comprador": "Sandra Rodríguez", "genero": "Femenino", "fecha_compra": "2025-01-06"},
+      {"producto": "Papas", "cantidad": 25000, "comprador": "Antonio Fernández", "genero": "Masculino", "fecha_compra": "2025-01-08"},
+      {"producto": "Ajos", "cantidad": 8000, "comprador": "Raúl López", "genero": "Masculino", "fecha_compra": "2025-01-10"},
+      {"producto": "Lechugas", "cantidad": 9000, "comprador": "Carmen Díaz", "genero": "Femenino", "fecha_compra": "2025-01-12"},
+      {"producto": "Espinacas", "cantidad": 6500, "comprador": "Luis García", "genero": "Masculino", "fecha_compra": "2025-01-14"},
+      {"producto": "Pepinos", "cantidad": 7200, "comprador": "Marta Sánchez", "genero": "Femenino", "fecha_compra": "2025-01-16"},
+      {"producto": "Chiles", "cantidad": 5800, "comprador": "Javier Ruiz", "genero": "Masculino", "fecha_compra": "2025-01-18"},
+      {"producto": "Calabacitas", "cantidad": 6000, "comprador": "Verónica Torres", "genero": "Femenino", "fecha_compra": "2025-01-20"},
+      {"producto": "Brócoli", "cantidad": 4500, "comprador": "Francisco Díaz", "genero": "Masculino", "fecha_compra": "2025-01-22"},
+      {"producto": "Coliflor", "cantidad": 4000, "comprador": "Isabel Ruiz", "genero": "Femenino", "fecha_compra": "2025-01-24"},
+      {"producto": "Pimientos", "cantidad": 7500, "comprador": "Oscar Gómez", "genero": "Masculino", "fecha_compra": "2025-01-26"},
+      {"producto": "Maíz", "cantidad": 8000, "comprador": "Laura Martínez", "genero": "Femenino", "fecha_compra": "2025-01-28"},
+      {"producto": "Berenjena", "cantidad": 6700, "comprador": "Carlos Torres", "genero": "Masculino", "fecha_compra": "2025-01-30"},
+      {"producto": "Alcachofas", "cantidad": 2000, "comprador": "Nuria Sánchez", "genero": "Femenino", "fecha_compra": "2025-02-01"}
+    ],
+    "ventas_mensuales": [
+      {"mes": "Enero", "frutas": 10650, "verduras": 13650, "comprador": "Juan Pérez", "genero": "Masculino", "fecha_compra": "2025-01-02"},
+      {"mes": "Febrero", "frutas": 10650, "verduras": 13650, "comprador": "Ana Gómez", "genero": "Femenino", "fecha_compra": "2025-02-03"},
+      {"mes": "Marzo", "frutas": 11600, "verduras": 14400, "comprador": "Carlos Rodríguez", "genero": "Masculino", "fecha_compra": "2025-03-05"},
+      {"mes": "Abril", "frutas": 11800, "verduras": 14300, "comprador": "Laura Fernández", "genero": "Femenino", "fecha_compra": "2025-04-07"},
+      {"mes": "Mayo", "frutas": 12200, "verduras": 14900, "comprador": "Pedro López", "genero": "Masculino", "fecha_compra": "2025-05-10"},
+      {"mes": "Junio", "frutas": 13000, "verduras": 15300, "comprador": "María Pérez", "genero": "Femenino", "fecha_compra": "2025-06-12"},
+      {"mes": "Julio", "frutas": 12800, "verduras": 15400, "comprador": "Sergio Ruiz", "genero": "Masculino", "fecha_compra": "2025-07-14"},
+      {"mes": "Agosto", "frutas": 12650, "verduras": 15500, "comprador": "Elena Sánchez", "genero": "Femenino", "fecha_compra": "2025-08-16"},
+      {"mes": "Septiembre", "frutas": 11900, "verduras": 14500, "comprador": "Miguel Díaz", "genero": "Masculino", "fecha_compra": "2025-09-18"},
+      {"mes": "Octubre", "frutas": 11850, "verduras": 14550, "comprador": "Raquel Morales", "genero": "Femenino", "fecha_compra": "2025-10-20"},
+      {"mes": "Noviembre", "frutas": 11950, "verduras": 13950, "comprador": "Juan Martínez", "genero": "Masculino", "fecha_compra": "2025-11-22"},
+      {"mes": "Diciembre", "frutas": 11850, "verduras": 13750, "comprador": "Patricia Fernández", "genero": "Femenino", "fecha_compra": "2025-12-24"}
+    ],
+    "ventas_semanales": [
+      {"dia": "Lunes", "frutas": 435, "verduras": 537, "comprador": "Luisa Gómez", "genero": "Femenino", "fecha_compra": "2025-01-02"},
+      {"dia": "Martes", "frutas": 290, "verduras": 358, "comprador": "José Pérez", "genero": "Masculino", "fecha_compra": "2025-01-03"},
+      {"dia": "Miércoles", "frutas": 435, "verduras": 537, "comprador": "Sandra Rodríguez", "genero": "Femenino", "fecha_compra": "2025-01-04"},
+      {"dia": "Jueves", "frutas": 581, "verduras": 716, "comprador": "Antonio Fernández", "genero": "Masculino", "fecha_compra": "2025-01-05"},
+      {"dia": "Viernes", "frutas": 726, "verduras": 895, "comprador": "Raúl López", "genero": "Masculino", "fecha_compra": "2025-01-06"},
+      {"dia": "Sábado", "frutas": 290, "verduras": 358, "comprador": "Carmen Díaz", "genero": "Femenino", "fecha_compra": "2025-01-07"},
+      {"dia": "Domingo", "frutas": 145, "verduras": 179, "comprador": "Luis García", "genero": "Masculino", "fecha_compra": "2025-01-08"}
+    ]
+  }
+  
