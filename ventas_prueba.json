@@ -1,0 +1,10 @@
+
+
+{
+    "frutas_anuales": [
+      {"producto": "Manzanas", "cantidad": 6000, "comprador": "Juan Pérez", "genero": "Masculino", "fecha_compra": "2025-01-01"},
+      {"producto": "Manzanas", "cantidad": 6000, "comprador": "Ana Gómez", "genero": "Femenino", "fecha_compra": "2025-01-01"},
+      {"producto": "Naranjas", "cantidad": 6500, "comprador": "Juan Pérez", "genero": "Masculino", "fecha_compra": "2025-01-03"},
+      {"producto": "Naranjas", "cantidad": 6500, "comprador": "Ana Gómez", "genero": "Femenino", "fecha_compra": "2025-01-03"}
+    ]
+}
