@@ -10,6 +10,12 @@
     <link rel="stylesheet" href="ventas.css">
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     <script>
+      var frutasResultado;
+      var verdurasResultado;
+      var ventaMensual;
+      var ventaSemanal;
+      var frutasGeneroResultado;
+      var verdurasGeneroResultado;
       fetch('ventas.json')
         .then(response => response.json())
         .then(data => {
@@ -59,7 +65,7 @@
 
           
           
-          const frutasResultado = Object.entries(acumuladorFrutas);
+          frutasResultado = Object.entries(acumuladorFrutas);
          
 
 
@@ -73,7 +79,7 @@
           });
 
 
-          const verdurasResultado = Object.entries(acumuladorVerduras);
+          verdurasResultado = Object.entries(acumuladorVerduras);
 
 
         
@@ -86,7 +92,7 @@
           });
 
          
-          const frutasGeneroResultado = Object.entries(acumuladorFrutasGenero).map(([producto, generos]) => [
+          frutasGeneroResultado = Object.entries(acumuladorFrutasGenero).map(([producto, generos]) => [
             producto, 
             generos.Masculino, 
             generos.Femenino
@@ -105,7 +111,7 @@
           });
 
          
-          const verdurasGeneroResultado = Object.entries(acumuladorVerdurasGenero).map(([producto, generos]) => [
+          verdurasGeneroResultado = Object.entries(acumuladorVerdurasGenero).map(([producto, generos]) => [
             producto, 
             generos.Masculino, 
             generos.Femenino
@@ -115,14 +121,14 @@
 
           //ventaMensual
 
-          const ventaMensual=[];
+          ventaMensual=[];
           vMensuales.forEach(venta=>{
             ventaMensual.push([venta.mes,venta.frutas,venta.verduras]);
           });
 
       
           //ventaSemanal
-          const ventaSemanal=[];
+          ventaSemanal=[];
           vSemanales.forEach(venta=>{
             ventaSemanal.push([venta.dia,venta.frutas,venta.verduras]);
           });
@@ -280,96 +286,41 @@
 
       
     </script>
-    <script type="text/javascript">
+
+    
+    
 
 
-      // Load the Visualization API and the corechart package.
-     
-      // Set a callback to run when the Google Visualization API is loaded.
-     
-     
-     
-     
-      // google.charts.setOnLoadCallback(ventasFrutasGenero);
-      // google.charts.setOnLoadCallback(ventasVerdurasGenero);
-      // google.charts.setOnLoadCallback(ventasMensual);
-      // google.charts.setOnLoadCallback(ventasSemanal);
-      //google.charts.setOnLoadCallback(frutasSemanas);
-     
-     
-     
+</head>
+<body>
+    <div class="contenedor">
+        <ul>
+            <button>&nbsp;&nbsp;Stock</button>
+            <button>&nbsp;&nbsp;Productos vendidos</button>
+        </ul>
 
 
-      //google.charts.setOnLoadCallback(ventasTotales);
-      // Callback that creates and populates a data table,
-      // instantiates the pie chart, passes in the data and
-      // draws it.
-     
+        <section>
+          <div id="frutasAnual" style="width:700px;height: 600px;outline: 2px solid blue;display: flex;z-index: 1;"></div>
+          <button id="frutas_resultado">Exportar</button> 
+          <div id="verdurasAnual" style="width:700px;height: 600px;outline: 2px solid red;display: flex;z-index: 1;"></div>
+          <button id="verduras_resultado">Exportar</button>
+          <div id="ventasMensual" style="width: 700px;height: 600px;"></div>
+          <button id="mensuales_resultado">Exportar</button>
+          <div id="ventasSemanal" style="width: 700px;height: 600px;"></div>
+          <button id="semanales_resultado">Exportar</button>
 
 
-     
-
-
-       
-     
-     
-    // function ventasVerdurasGenero() {
-    //       var data = google.visualization.arrayToDataTable([
-    //         ['Unidades/año', 'Hombres', 'Mujeres'],
-    //         ['Tomates', 6000, 6000],
-    //         ['Zanahorias', 6500, 6500],
-    //         ['Cebollas', 10800, 7200],
-    //         ['Papas',3000,4500],
-    //         ['Ajos',3200,4800],
-    //         ['Lechugas',3000,2000],
-    //         ['Pepinos',2400,3600],
-    //         ['Chiles',4000,6000],
-    //         ['Calabacitas',2100,1400],
-    //         ['Brócoli',2400,1600],
-    //         ['Coliflor',3600,2400],
-    //         ['Pimientos',2200,3300],
-    //         ['Maíz',2800,4200],
-    //         ['Berenjena',2200,3300],
-    //         ['Alcachofas',1800,1200]
-    //       ]);
+          <div id="ventasFrutasGenero" style="width: 700px;height: 600px;"></div>
+          <button id="frutas_genero_resultado">Exportar</button>
+          <div id="ventasVerdurasGenero" style="width: 700px;height: 600px;"></div>
+          <button id="verduras_genero_resultado">Exportar</button>
          
-
-
-    //       var materialOptions = {
-    //         chart: {
-    //           title: 'Venta anual de verduras por género',
-    //           subtitle: ''
-    //         },
-    //         hAxis: {
-    //           title: 'Total Population',
-    //           minValue: 0,
-    //         },
-    //         vAxis: {
-    //           title: 'Frutas'
-    //         },
-    //         bars: 'horizontal',
-    //       };
-    //       var materialChart = new google.charts.Bar(document.getElementById('ventasVerdurasGenero'));
-    //       materialChart.draw(data, materialOptions);
-    // }
-
-
-
-
-
-
-
-
-
-
-      
-
-
-
-
-    </script>
-    <!-- <script>
+        </section>
+    </div>
+    <script>
       function exportToCSV(data) {
+      
         var csvData = [];
         var headers = data.getColumnLabel(0) + "," + data.getColumnLabel(1);
         csvData.push(headers);
@@ -390,40 +341,50 @@
       }
 
 
-      poner este codigo al final de las funciones creadas y además crear dentro del body el boton con id=export-csv
-      document.getElementById("export-csv").addEventListener("click", function() {
+      //poner este codigo al final de las funciones creadas y además crear dentro del body el boton con id=export-csv
+      document.getElementById("frutas_resultado").addEventListener("click", function() {
+
+        var data = google.visualization.arrayToDataTable([
+              ['Frutas', 'Frutas/año'],
+              ...frutasResultado
+        ]);
         exportToCSV(data);
       });
-    </script> -->
-
-
-</head>
-<body>
-    <div class="contenedor">
-        <ul>
-            <button>&nbsp;&nbsp;Stock</button>
-            <button>&nbsp;&nbsp;Productos vendidos</button>
-        </ul>
-
-
-        <section>
-          <div id="frutasAnual" style="width:700px;height: 600px;outline: 2px solid blue;display: flex;z-index: 1;"></div>
-          <div id="verdurasAnual" style="width:700px;height: 600px;outline: 2px solid red;display: flex;z-index: 1;"></div>
-         
-          <div id="ventasMensual" style="width: 700px;height: 600px;"></div>
-          <div id="ventasSemanal" style="width: 700px;height: 600px;"></div>
-
-
-          <div id="ventasFrutasGenero" style="width: 700px;height: 600px;"></div>
-          <div id="ventasVerdurasGenero" style="width: 700px;height: 600px;"></div>
-         
-         
-        </section>
-
-
-       
-
-
-    </div>
+      document.getElementById("verduras_resultado").addEventListener("click", function() {
+        var data = google.visualization.arrayToDataTable([
+               ['Frutas', 'Frutas/año'],
+               ...verdurasResultado
+        ]);
+        exportToCSV(data);
+      });
+      document.getElementById("mensuales_resultado").addEventListener("click", function() {
+        var data = google.visualization.arrayToDataTable([
+              ['Mes', 'Frutas','Verduras'],
+               ...ventaMensual
+        ]);
+        exportToCSV(data);
+      });
+      document.getElementById("semanales_resultado").addEventListener("click", function() {
+        var data = google.visualization.arrayToDataTable([
+              ['Dia', 'Frutas','Verduras'],
+               ...ventaSemanal
+        ]);
+        exportToCSV(data);
+      });
+      document.getElementById("frutas_genero_resultado").addEventListener("click", function() {
+        var data = google.visualization.arrayToDataTable([
+             ['Fruta', 'Hombres', 'Mujeres'],
+             ...frutasGeneroResultado
+        ]);
+        exportToCSV(data);
+      });
+      document.getElementById("verduras_genero_resultado").addEventListener("click", function() {
+        var data = google.visualization.arrayToDataTable([
+             ['Verdura', 'Hombres', 'Mujeres'],
+             ...verdurasGeneroResultado
+        ]);
+        exportToCSV(data);
+      });
+    </script>
 </body>
 </html>
