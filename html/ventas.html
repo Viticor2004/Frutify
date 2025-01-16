@@ -3,12 +3,12 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <link rel="icon" href="images/iconofrutify.png" type="image/x-icon">
+  <link rel="icon" href="../images/iconofrutify.png" type="image/x-icon">
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ventas</title>
-    <link rel="stylesheet" href="ventas.css">
+    <link rel="stylesheet" href="../css/ventas.css">
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     <script>
       var frutasResultado;
@@ -17,7 +17,7 @@
       var ventaSemanal;
       var frutasGeneroResultado;
       var verdurasGeneroResultado;
-      fetch('ventas.json')
+      fetch('../json/ventas.json')
         .then(response => response.json())
         .then(data => {
          
@@ -302,7 +302,7 @@
 </head>
 <body>
   <header>
-    <img src="images/iconofrutify.png" alt="naranja" class="fondo_logueado">
+    <img src="../images/iconofrutify.png" alt="naranja" class="fondo_logueado">
     <div>
       <a href="logueado.html">
         <input type="button" id="volverAtras" value="Volver">

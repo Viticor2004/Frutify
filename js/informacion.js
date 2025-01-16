@@ -1,6 +1,6 @@
 let empleados = [];
 
-fetch('informacion.json')
+fetch('../json/informacion.json')
 .then(response=>{
     if(!response.ok){
         throw new Error('Error');
