@@ -1,31 +1,56 @@
 body{
+    background-color:#ccfacc;
     display: flex;
     margin: 0px;
     flex-wrap: wrap;
     justify-content: center;
 }
+
+header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    height: 90px;
+}
+
+header img{
+    width: 80px;
+    height: 70px;
+}
+
+header input{
+    margin-right: 20px;
+    width: 160px;
+    height: 30px;
+    background:transparent;
+    border: transparent;
+    color: black;
+    font-size: 20px;
+}
+
+
 .contenedor{
     display: flex;
-    outline: 2px solid red;
-    width: 1700px;
+    width: 1800px;
     min-height: 880px;
-    margin-top: 2px;
     border-radius: 8px;
-    align-items: center;
-    margin-top: -30px;
 }
+
 ul{
     display: flex;
-    outline: 2px solid red;
-    width: 240px;
-    height: 600px;
+    width: 15%;
+    height: 200px;
+    border-top: black 1px solid;
     flex-wrap: wrap;
-    align-content: flex-start;
+    margin-top: 0;
+    align-content: space-evenly;
+    justify-content: center;
 }
+
 button{
     display: flex;
     list-style: none;
-    outline: 2px solid green;
     width: 280px;
     height: 80px;
     margin-left: -40px;
@@ -34,10 +59,22 @@ button{
 }
 section{
     display: flex;
+    justify-content: space-evenly;
     flex-wrap: wrap;
-    outline: 10px solid gray;
-    width: 1500px;
-    height:800px;
-    margin-top: 200px;
+    border: 1px solid black;
+    width: 85%;
 }
 
+section button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 150px;
+    height: 50px;
+    background: #52fc68;
+    border: transparent;
+    border-radius: 10px;
+    color: black;
+    font-size: 20px;
+    margin-top: 200px;
+}
