@@ -92,3 +92,32 @@ section{
 button:hover {
     background-color: var(--color-boton-hover);
 }
+
+h3 {
+    margin-left: 40px;
+}
+
+#listaProductos { 
+    margin: 150px 0 0 0;
+    margin-left: -360px;
+}
+
+#listaProductos li {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 30px;
+}
+
+#listaProductos button {
+    font-size: 16px;
+    padding: 5px 15px;
+    width: 200px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-left: 10px;
+}
+
+#listaProductos button:hover {
+    background-color: var(--color-boton-hover); 
+}

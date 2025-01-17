@@ -1,5 +1,3 @@
-
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -10,6 +8,67 @@
     <title>Productos</title>
     <link rel="stylesheet" href="../css/productos.css">
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript">
+      // Array para almacenar los productos
+      let productos = [
+            { id: 1, nombre: 'Producto 1', precio: 100 },
+            { id: 2, nombre: 'Producto 2', precio: 200 },
+            { id: 3, nombre: 'Producto 3', precio: 300 },
+        ];
+
+        // Función para visualizar los productos en la lista
+        function mostrarProductos() {
+            const listaProductos = document.getElementById('listaProductos');
+            listaProductos.innerHTML = '';
+            productos.forEach(producto => {
+                const li = document.createElement('li');
+                li.innerHTML = `${producto.nombre} - $${producto.precio} 
+                    <button onclick="editarProducto(${producto.id})">Editar</button>
+                    <button onclick="eliminarProducto(${producto.id})">Eliminar</button>`;
+                listaProductos.appendChild(li);
+            });
+        }
+
+        // Función para editar un producto
+        function editarProducto(id) {
+            const producto = productos.find(p => p.id === id);
+            if (producto) {
+                document.getElementById('nombreProducto').value = producto.nombre;
+                document.getElementById('precioProducto').value = producto.precio;
+                document.getElementById('editarProductoId').value = producto.id;
+            }
+        }
+
+        // Función para eliminar un producto
+        function eliminarProducto(id) {
+            productos = productos.filter(p => p.id !== id);
+            mostrarProductos();
+        }
+
+        // Función para guardar los cambios al editar un producto
+        function guardarEdicion() {
+            const id = document.getElementById('editarProductoId').value;
+            const nombre = document.getElementById('nombreProducto').value;
+            const precio = document.getElementById('precioProducto').value;
+
+            const producto = productos.find(p => p.id == id);
+            if (producto) {
+                producto.nombre = nombre;
+                producto.precio = precio;
+            } else {
+                productos.push({ id: Date.now(), nombre, precio });
+            }
+
+            // Limpiar el formulario y mostrar los productos actualizados
+            document.getElementById('editarProductoId').value = '';
+            document.getElementById('nombreProducto').value = '';
+            document.getElementById('precioProducto').value = '';
+            mostrarProductos();
+        }
+
+        // Inicializar mostrando los productos
+        window.onload = mostrarProductos;
+    </script>
 </head>
 <body>
   <header>
@@ -30,9 +89,23 @@
             <button>&nbsp;&nbsp;Productos vendidos</button>
         </ul>
         <section>
-         
+          <h2>Gestión de Productos</h2>
+          <div>
+              <h3>Editar Producto</h3>
+              <form onsubmit="event.preventDefault(); guardarEdicion();">
+                  <input type="hidden" id="editarProductoId">
+                  <label for="nombreProducto">Nombre:</label>
+                  <input type="text" id="nombreProducto" required><br><br>
+
+                  <label for="precioProducto">Precio:</label>
+                  <input type="number" id="precioProducto" required><br><br>
+
+                  <input type="submit" value="Guardar Cambios">
+              </form>
+          </div>
+          <h3>Lista de Productos</h3>
+          <ul id="listaProductos"></ul>
         </section>
     </div>
-    
 </body>
 </html>
