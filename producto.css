@@ -1,0 +1,22 @@
+body{
+    display: flex;
+    margin: 0px;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.contenedor{
+    display: flex;
+    flex-wrap: wrap;
+    outline: 2px solid red;
+    width: 2000px;
+    height: 1000px;
+    margin-top: 2px;
+}
+.botones{
+    display: flex;
+    flex-wrap: wrap;
+    outline: 2px solid red;
+    height: 400px;
+    width: 1000px;
+}

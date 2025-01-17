@@ -53,6 +53,33 @@
       "administrar": false,
       "telefono": "675849576",
       "direccion": "Calle Parguela"
+    },
+    {
+      "id": 7,
+      "nombre": "producto",
+      "email": "frutas",
+      "contrasena": "123456",
+      "administrar": false,
+      "telefono": "Manzana",
+      "direccion": "44"
+    },
+    {
+      "id": 8,
+      "nombre": "producto",
+      "email": "frutas",
+      "contrasena": "123456",
+      "administrar": false,
+      "telefono": "Manzana",
+      "direccion": "484"
+    },
+    {
+      "id": 9,
+      "nombre": "producto",
+      "email": "frutas",
+      "contrasena": "123456",
+      "administrar": false,
+      "telefono": "Manzana",
+      "direccion": "484"
     }
   ]
 }

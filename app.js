@@ -35,6 +35,17 @@ app.get('/anadir/:nombre/:email/:telefono/:direccion', (req, res) => {
     anadir(nombre,email,telefono,direccion);
 });
 
+app.get('/anadir/producto/:nombre_fruta/:cantidad_fruta', (req, res) => {
+    
+    
+    const nombre_fruta=req.params.nombre;
+    const cantidad_fruta=req.params.cantidad_fruta;
+    
+    console.log(nombre_fruta);
+    console.log("ha entrado");
+    //actualizarProducto(nombre_fruta,cantidad_fruta);
+});
+
 app.listen(3000,() => {
     console.log('Servidor escuchando en http://localhost:3000');
 });
@@ -119,6 +130,43 @@ function modificar(idM,nombre,email,telefono,direccion){
             console.log("Archivo actualizado con éxito.");
         });
     });
+}
+function actualizarProducto(cantidad_fruta){
+    const fs=require('fs');
+    const path=require('path');
+
+    const archivoJSON = path.join(__dirname, 'stock.json');
+
+    fs.readFile(archivoJSON,'utf8',(err,data)=>{
+        if(err){
+            console.error("Error al leer el archivo: ",err);
+            return;
+        }
+
+
+        let jsonData = JSON.parse(data);
+
+        const frutas=jsonData.frutas;
+
+        const nombre=nombreF;
+        
+        
+        frutas.forEach(fruta => {
+            if(nombre===fruta.nombre){
+                console.log("Nombre de la fruta encontrada");
+                fruta.cantidad-=cantidad_fruta;
+            }
+        });
+
+        fs.writeFile(archivoJSON, JSON.stringify(jsonData, null, 2), (err) => {
+            if (err) {
+                console.error("Error al escribir en el archivo: ", err);
+                return;
+            }
+            console.log("Archivo actualizado con éxito.");
+        });
+    });
+
 }
 
 function anadir(nombre,email,telefono,direccion){

@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="producto.css">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Producto</title>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+</head>
+<script>
+    const frutas = [];
+    const verduras=[];
+    fetch('stock.json')
+    .then(response => response.json())
+    .then(data => {
+        google.charts.load('current', {'packages':['corechart']});
+        google.charts.load('current', {packages: ['corechart', 'bar']});
+
+        const frutasDatos=data.frutas;
+        const verdurasDatos=data.verduras;
+
+        google.charts.setOnLoadCallback(frutasStock);
+        google.charts.setOnLoadCallback(verdurasStock);
+        
+
+        
+
+        frutasDatos.forEach(fruta => {
+            frutas.push([fruta.nombre,fruta.cantidad]);
+        });
+
+        verdurasDatos.forEach(verdura => {
+            verduras.push([verdura.nombre,verdura.cantidad]);
+        });
+        
+        anadirFrutasOpciones();
+        anadirVerdurasOpciones();
+
+        function frutasStock() {
+            var data = google.visualization.arrayToDataTable([
+            ['Frutas', 'Cantidad',],
+            ...frutas
+            ]);
+
+            var materialOptions = {
+            chart: {
+              title: 'Venta anual de verduras por género',
+              subtitle: ''
+            },
+            hAxis: {
+              title: 'Cantidad vendida',
+              minValue: 0,
+            },
+            vAxis: {
+              title: 'Frutas'
+            },
+            bars: 'vertical', // tipo de barra horizontal
+            };
+
+            var materialChart = new google.charts.Bar(document.getElementById('frutasStock'));
+            materialChart.draw(data, materialOptions);
+          }
+
+          function verdurasStock() {
+            var data = google.visualization.arrayToDataTable([
+            ['Verduras', 'Cantidad',],
+            ...verduras
+            ]);
+
+            var materialOptions = {
+            chart: {
+              title: 'Venta anual de verduras por género',
+              subtitle: ''
+            },
+            hAxis: {
+              title: 'Cantidad vendida',
+              minValue: 0,
+            },
+            vAxis: {
+              title: 'Frutas'
+            },
+            bars: 'vertical', // tipo de barra horizontal
+            };
+
+            var materialChart = new google.charts.Bar(document.getElementById('verdurasStock'));
+            materialChart.draw(data, materialOptions);
+          }
+        
+
+    });
+
+
+
+</script>
+
+<body>
+    
+    <div class="contenedor">
+        
+
+        <!-- Graficas  -->
+
+        <div id="frutasStock" style="width: 900px;height: 600px;"></div>
+        <div id="verdurasStock" style="width: 900px;height: 600px;"></div>
+
+
+
+        <!-- Compras -->
+        <div class="botones">
+            <select id="selectFruits" style="width: 100px;height: 100px;">
+                
+                
+            </select>
+            <input type="number" style="width: 100px;height: 100px;" id="cantidad_fruta">
+            <select id="selectVegetables" style="width: 100px;height: 100px;">
+                
+                
+            </select>
+            <input type="number" style="width: 100px;height: 100px;" id="cantidad_verdura">
+            <button id="comprar" style="width: 100px;height: 100px;">Comprar </button>
+        </div>
+        
+    </div>
+</body>
+<script>
+    
+    function anadirFrutasOpciones(){
+        let opcionesFrutas="";
+        const opciones=document.getElementById("selectFruits");
+        
+        for(let x=0;x<frutas.length;x++){
+            opcionesFrutas += `<option value='${frutas[x][0]}' >${frutas[x][0]}</option>`;
+        }
+        opciones.innerHTML=opcionesFrutas;
+        
+    }
+    function anadirVerdurasOpciones(){
+        let opcionesVerduras="";
+        const opciones=document.getElementById("selectVegetables");
+        
+        for(let x=0;x<verduras.length;x++){
+            opcionesVerduras += `<option value='${verduras[x][0]}'>${verduras[x][0]}</option>`;
+        }
+        opciones.innerHTML=opcionesVerduras ;
+        
+    }
+
+    function comprar(){
+        const botonComprar=document.getElementById("comprar");
+        let nuevaURL=`http://localhost:3000/anadir/producto`;
+        botonComprar.addEventListener('click',function(){
+            
+
+            const selectFruits=document.getElementById("selectFruits");
+            const selectedOption=selectFruits.options[selectFruits.selectedIndex];
+            const valueSeleccionado=selectedOption.value;
+
+            const quantityFruits=parseInt(document.getElementById("cantidad_fruta").value);
+
+            if (isNaN(quantityFruits) || quantityFruits <= 0) {
+                alert("Por favor, ingresa una cantidad válida.");
+                return;
+            }
+        
+            fetch('stock.json')
+            .then(response => response.json())
+            .then(data => {
+               
+                
+                const frutasDatos=data.frutas;
+                const verdurasDatos=data.verduras;
+                
+                frutasDatos.forEach(fruta => {
+                    if(valueSeleccionado===fruta.nombre){
+                        nuevaURL+=`/frutas/${fruta.nombre}/${quantityFruits}`;
+                    }
+                    
+                });
+                fetch(nuevaURL)
+                .then(response => response.text())
+                .then(data => {
+
+                })
+                .catch(error => {               
+                    console.error(error);
+                });
+                alert("Comprado con éxito");
+
+            });
+
+        });
+    }
+    comprar();
+    
+    
+
+</script>
+
+</html>
