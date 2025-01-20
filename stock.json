@@ -1,127 +1,126 @@
 {
-    "frutas":[
-        {
-            "nombre":"Manzana",
-            "cantidad":1000
-        },
-        {
-            "nombre":"Plátano",
-            "cantidad":1030
-        },
-        {
-            "nombre":"Naranja",
-            "cantidad":1200 
-        },
-        {
-            "nombre":"Fresa",
-            "cantidad":1000 
-        },
-        {
-            "nombre":"Uva",
-            "cantidad":1000 
-        },
-        {
-            "nombre":"Mango",
-            "cantidad":1000 
-        },
-        {
-            "nombre":"Peras",
-            "cantidad":1000
-        },
-        {
-            "nombre":"Limones",
-            "cantidad":1000 
-        },
-        {
-            "nombre":"Sandías",
-            "cantidad":1000
-        },
-        {
-            "nombre":"Melones",
-            "cantidad":1000 
-        },
-        {
-            "nombre":"Piñas",
-            "cantidad":1000
-        },
-        {
-            "nombre":"Ciruela",
-            "cantidad":1000
-        },
-        {
-            "nombre":"Durazno",
-            "cantidad":1000
-        },
-        {
-            "nombre":"Kiwi",
-            "cantidad":1000
-        },
-        {
-            "nombre":"Papaya",
-            "cantidad":1000
-        }
-    ],
-    "verduras":[
-        {
-            "nombre":"Tomate",
-            "cantidad":1000
-        },
-        {
-            "nombre":"Zanahoria",
-            "cantidad":1000 
-        },
-        {
-            "nombre":"Cebolla",
-            "cantidad":1000 
-        },
-        {
-            "nombre":"Papa",
-            "cantidad":1000 
-        },
-        {
-            "nombre":"Ajo",
-            "cantidad":1000 
-        },
-        {
-            "nombre":"Lechuga",
-            "cantidad":1000 
-        },
-        {
-            "nombre":"Pepino",
-            "cantidad":1000 
-        },
-        {
-            "nombre":"Chile",
-            "cantidad":1000 
-        },
-        {
-            "nombre":"Calabacita",
-            "cantidad":1000 
-        },
-        {
-            "nombre":"Brócoli",
-            "cantidad":1000 
-        },
-        {
-            "nombre":"Coliflor",
-            "cantidad":1000 
-        },
-        {
-            "nombre":"Pimiento",
-            "cantidad":1000 
-        },
-        {
-            "nombre":"Maiz",
-            "cantidad":1000 
-        },
-        {
-            "nombre":"Berenjena",
-            "cantidad":1000 
-        },
-        {
-            "nombre":"Alcachofa",
-            "cantidad":1000 
-        }
-    ]
-    
+  "frutas": [
+    {
+      "nombre": "Manzanas",
+      "cantidad": 1000
+    },
+    {
+      "nombre": "Naranjas",
+      "cantidad": 20
+    },
+    {
+      "nombre": "Plátanos",
+      "cantidad": 1000
+    },
+    {
+      "nombre": "Fresas",
+      "cantidad": 1000
+    },
+    {
+      "nombre": "Uvas",
+      "cantidad": 1000
+    },
+    {
+      "nombre": "Mangos",
+      "cantidad": 1000
+    },
+    {
+      "nombre": "Peras",
+      "cantidad": 1000
+    },
+    {
+      "nombre": "Limones",
+      "cantidad": 1000
+    },
+    {
+      "nombre": "Sandías",
+      "cantidad": 1000
+    },
+    {
+      "nombre": "Melones",
+      "cantidad": 1000
+    },
+    {
+      "nombre": "Piñas",
+      "cantidad": 1000
+    },
+    {
+      "nombre": "Ciruelas",
+      "cantidad": 1000
+    },
+    {
+      "nombre": "Duraznos",
+      "cantidad": 900
+    },
+    {
+      "nombre": "Kiwis",
+      "cantidad": 1000
+    },
+    {
+      "nombre": "Papayas",
+      "cantidad": 1000
+    }
+  ],
+  "verduras": [
+    {
+      "nombre": "Cebollas",
+      "cantidad": 10
+    },
+    {
+      "nombre": "Tomates",
+      "cantidad": 1000
+    },
+    {
+      "nombre": "Zanahorias",
+      "cantidad": 1000
+    },
+    {
+      "nombre": "Papas",
+      "cantidad": 1000
+    },
+    {
+      "nombre": "Ajos",
+      "cantidad": 1000
+    },
+    {
+      "nombre": "Lechugas",
+      "cantidad": 1000
+    },
+    {
+      "nombre": "Pepinos",
+      "cantidad": 1000
+    },
+    {
+      "nombre": "Chiles",
+      "cantidad": 1000
+    },
+    {
+      "nombre": "Calabacitas",
+      "cantidad": 1000
+    },
+    {
+      "nombre": "Brócolis",
+      "cantidad": 1000
+    },
+    {
+      "nombre": "Coliflores",
+      "cantidad": 1000
+    },
+    {
+      "nombre": "Pimientos",
+      "cantidad": 1000
+    },
+    {
+      "nombre": "Maices",
+      "cantidad": 1000
+    },
+    {
+      "nombre": "Berenjenas",
+      "cantidad": 1000
+    },
+    {
+      "nombre": "Alcachofas",
+      "cantidad": 1000
+    }
+  ]
 }
