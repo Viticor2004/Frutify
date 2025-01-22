@@ -1,16 +1,16 @@
 {
   "frutas": [
     {
-      "nombre": "Duraznos",
+      "nombre": "Manzanas",
       "cantidad": 100,
-      "fecha": "2025/0/6 18:44:33"
+      "fecha": "2025/0/3 13:41:43"
     }
   ],
   "verduras": [
     {
       "nombre": "Cebollas",
-      "cantidad": 10,
-      "fecha": "2025/0/6 18:44:33"
+      "cantidad": 1,
+      "fecha": "2025/0/3 13:41:43"
     }
   ]
 }

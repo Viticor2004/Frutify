@@ -2,7 +2,7 @@
   "frutas": [
     {
       "nombre": "Manzanas",
-      "cantidad": 1000
+      "cantidad": 590
     },
     {
       "nombre": "Naranjas",
@@ -64,7 +64,7 @@
   "verduras": [
     {
       "nombre": "Cebollas",
-      "cantidad": 10
+      "cantidad": 499
     },
     {
       "nombre": "Tomates",

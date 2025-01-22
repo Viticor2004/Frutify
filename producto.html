@@ -1,3 +1,9 @@
+
+
+
+
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -17,24 +23,45 @@
         google.charts.load('current', {'packages':['corechart']});
         google.charts.load('current', {packages: ['corechart', 'bar']});
 
+
+
+
         const frutasDatos=data.frutas;
         const verdurasDatos=data.verduras;
 
+
+
+
         google.charts.setOnLoadCallback(frutasStock);
         google.charts.setOnLoadCallback(verdurasStock);
-        
+       
 
-    
+
+
+
+   
         frutasDatos.forEach(fruta => {
             frutas.push([fruta.nombre,fruta.cantidad]);
         });
 
+
+
+
         verdurasDatos.forEach(verdura => {
             verduras.push([verdura.nombre,verdura.cantidad]);
         });
-        
+       
         anadirFrutasOpciones();
         anadirVerdurasOpciones();
+
+
+
+
+
+
+
+
+
 
 
 
@@ -44,9 +71,12 @@
             ...frutas
             ]);
 
+
+
+
             var materialOptions = {
             chart: {
-              title: 'Venta anual de verduras por género',
+              title: 'Venta anual de frutas por género',
               subtitle: ''
             },
             hAxis: {
@@ -59,9 +89,15 @@
             bars: 'vertical', // tipo de barra horizontal
             };
 
+
+
+
             var materialChart = new google.charts.Bar(document.getElementById('frutasStock'));
             materialChart.draw(data, materialOptions);
           }
+
+
+
 
           function verdurasStock() {
             var data = google.visualization.arrayToDataTable([
@@ -69,6 +105,9 @@
             ...verduras
             ]);
 
+
+
+
             var materialOptions = {
             chart: {
               title: 'Venta anual de verduras por género',
@@ -84,71 +123,114 @@
             bars: 'vertical', // tipo de barra horizontal
             };
 
+
+
+
             var materialChart = new google.charts.Bar(document.getElementById('verdurasStock'));
             materialChart.draw(data, materialOptions);
           }
-        
+       
+
+
+
 
     });
 
 
 
+
+
+
+
+
+
+
+
+
 </script>
 
+
+
+
 <body>
-    
+    <header>
+        <img src="images/iconofrutify.png" alt="Logo">
+        <input type="text" placeholder="Buscar producto">
+        <div>
+            <a href="logueado.html">
+              <input type="button" id="volverAtras" value="Volver">
+            </a>
+            <a href="index.html">
+                <input type="submit" id="cerrarSesion" value="Cerrar Sesión">
+            </a>
+          </div>
+    </header>
+
+
+
+
     <div class="contenedor">
-        
-
-        <!-- Graficas  -->
-
-        <div id="frutasStock" style="width: 900px;height: 600px;"></div>
-        <div id="verdurasStock" style="width: 900px;height: 600px;"></div>
+        <h3>Gráficas de Stock</h3>
 
 
-        <!-- Compras -->
+        <div id="frutasStock"></div>
+        <div id="verdurasStock"></div>
+
+
         <div class="botones">
-            <select id="selectFruits" style="width: 100px;height: 100px;">
-                
-                
-            </select>
-            <input type="number" style="width: 100px;height: 100px;" id="cantidad_fruta">
-            <select id="selectVegetables" style="width: 100px;height: 100px;">
-                
-                
-            </select>
-            <input type="number" style="width: 100px;height: 100px;" id="cantidad_verdura">
-            <button id="comprar" style="width: 100px;height: 100px;">Comprar </button>
+            <label>Seleccionar Fruta</label>
+            <select id="selectFruits"></select>
+            <label>Cantidad</label>
+            <input type="number" id="cantidad_fruta">
 
-            <label>Nombre de la nueva fruta a añadir</label>
-            <input type="text" id="nombre_nuevo_producto_fruta"><br><br>
-            <label>Cantidad del nuevo producto a añadir</label>
+
+            <label>Seleccionar Verdura</label>
+            <select id="selectVegetables"></select>
+            <label>Cantidad</label>
+            <input type="number" id="cantidad_verdura">
+
+
+            <button id="comprar">Comprar</button>
+
+
+            <label>Nombre de la nueva fruta</label>
+            <input type="text" id="nombre_nuevo_producto_fruta">
+            <label>Cantidad</label>
             <input type="number" id="cantidad_nuevo_producto_fruta">
 
-            <label>Nombre dde la nueva verdura a añadir</label>
-            <input type="text" id="nombre_nuevo_producto_verdura"><br><br>
-            <label>Cantidad del nuevo producto a añadir</label>
+
+            <label>Nombre de la nueva verdura</label>
+            <input type="text" id="nombre_nuevo_producto_verdura">
+            <label>Cantidad</label>
             <input type="number" id="cantidad_nuevo_producto_verdura">
-            <button id="anadir">Anadir nuevo producto</button>
 
-            <label>Nombre de la nueva fruta a eliminar</label>
-            <input type="text" id="eliminar_fruta"><br><br>
 
-            <label>Nombre dde la nueva verdura a eliminar</label>
-            <input type="text" id="eliminar_verdura"><br><br>
-            <button id="eliminar">Eliminar nuevo producto</button>
+            <button id="anadir">Añadir nuevo producto</button>
 
-            <label>Nombre de la fruta del stock que queremos cambiar</label>
+
+            <label>Nombre de la fruta a eliminar</label>
+            <input type="text" id="eliminar_fruta">
+            <label>Nombre de la verdura a eliminar</label>
+            <input type="text" id="eliminar_verdura">
+
+
+            <button id="eliminar">Eliminar producto</button>
+
+
+            <label>Nombre de la fruta a modificar</label>
             <input type="text" id="nombre_stock_fruta">
-            <label>Modificar el stock de la fruta</label>
+            <label>Nuevo stock</label>
             <input type="number" id="stock_fruta">
-            <label>Nombre de la verdura del stock que queremos cambiar</label>
+
+
+            <label>Nombre de la verdura a modificar</label>
             <input type="text" id="nombre_stock_verdura">
-            <label>Modficar el stock de la verdura</label>
+            <label>Nuevo stock</label>
             <input type="number" id="stock_verdura">
-            <button id="modificar_stock">Modificar_stock</button>
+
+
+            <button id="modificar_stock">Modificar stock</button>
         </div>
-        
     </div>
 </body>
 <script>
@@ -157,82 +239,125 @@
     function anadirFrutasOpciones(){
         let opcionesFrutas="";
         const opciones=document.getElementById("selectFruits");
-        
+       
         for(let x=0;x<frutas.length;x++){
             opcionesFrutas += `<option value='${frutas[x][0]}' >${frutas[x][0]}</option>`;
         }
         opciones.innerHTML=opcionesFrutas;
-        
+       
     }
     function anadirVerdurasOpciones(){
         let opcionesVerduras="";
         const opciones=document.getElementById("selectVegetables");
-        
+       
         for(let x=0;x<verduras.length;x++){
             opcionesVerduras += `<option value='${verduras[x][0]}'>${verduras[x][0]}</option>`;
         }
         opciones.innerHTML=opcionesVerduras ;
-        
+       
     }
+
+
+
 
     function comprar(){
         const botonComprar=document.getElementById("comprar");
         let nuevaURL=`http://localhost:3000/comprar/producto`;
         botonComprar.addEventListener('click',function(){
-            
+           
+
+
+
 
             const selectFruits=document.getElementById("selectFruits");
             const selectedOptionFruits=selectFruits.options[selectFruits.selectedIndex];
             const valueSeleccionadoFruta=selectedOptionFruits.value;
 
+
+
+
             const selectVegetables=document.getElementById("selectVegetables");
             const selectedOptionVegetables=selectVegetables.options[selectVegetables.selectedIndex];
             const valueSeleccionadoVerdura=selectedOptionVegetables.value;
 
+
+
+
             const quantityFruits=parseInt(document.getElementById("cantidad_fruta").value);
             const quantityVegetables=parseInt(document.getElementById("cantidad_verdura").value);
 
-            if (isNaN(quantityFruits) || quantityFruits <= 0) {
+
+
+
+            if (isNaN(quantityFruits) || quantityVegetables <= 0) {
                 alert("Por favor, ingresa una cantidad válida.");
                 return;
             }
-        
+       
             fetch('stock.json')
             .then(response => response.json())
             .then(data => {
                
+                nuevaURL=`http://localhost:3000/comprar/producto`;
+
+                let frutasboolean = false;
+                let verdurasboolean = false ;
+
                 const frutasDatos=data.frutas;
                 const verdurasDatos=data.verduras;
-                
+               
                 frutasDatos.forEach(fruta => {
-                    if(valueSeleccionadoFruta===fruta.nombre){
-                        nuevaURL+=`/${fruta.nombre}/${quantityFruits}`;
+                    if(valueSeleccionadoFruta===fruta.nombre && quantityFruits <= fruta.cantidad){
+                        nuevaURL+=`/${valueSeleccionadoFruta}/${quantityFruits}`;
+                        frutasboolean= true;
                     }
-                    
+                   
                 });
+                
+
 
                 verdurasDatos.forEach(verdura => {
-                    if(valueSeleccionadoVerdura===verdura.nombre){
-                        nuevaURL+=`/${verdura.nombre}/${quantityVegetables}`;
+                    if(valueSeleccionadoVerdura===verdura.nombre &&  quantityVegetables <= verdura.cantidad){
+                        nuevaURL+=`/${valueSeleccionadoVerdura}/${quantityVegetables}`;
+                        verdurasboolean = true;
                     }
                 });
-                //nuevaURL+=
-                
+                const usuario = localStorage.getItem('nombre');
+                const email = localStorage.getItem('gmail');
+                const genero = localStorage.getItem('nombre');
+                nuevaURL+=`/${usuario}/${genero}`;
+
+                if (frutasboolean && verdurasboolean){
                 fetch(nuevaURL)
                 .then(response => response.text())
                 .then(data => {
 
+
+
+
                 })
-                .catch(error => {               
+                .catch(error => {              
                     console.error(error);
                 });
                 alert("Comprado con éxito");
 
+                }
+
+               
+
+
+
             });
+
+
+
 
         });
     }
     comprar();
+
+
+
 
     function anadirProducto(){
         const botonAnadir=document.getElementById("anadir");
@@ -241,24 +366,39 @@
             const nuevoProductoFruta=document.getElementById("nombre_nuevo_producto_fruta").value;
             const cantidadNuevoProductoFruta=document.getElementById("cantidad_nuevo_producto_fruta").value;
 
+
+
+
             const nuevoProductoVerdura=document.getElementById("nombre_nuevo_producto_verdura").value;
             const cantidadNuevoProductoVerdura=document.getElementById("cantidad_nuevo_producto_verdura").value;
 
+
+
+
             nuevaURL+=`/${nuevoProductoFruta}/${cantidadNuevoProductoFruta}/${nuevoProductoVerdura}/${cantidadNuevoProductoVerdura}`;
+
+
+
 
             fetch(nuevaURL)
                 .then(response => response.text())
                 .then(data => {
 
+
+
+
                 })
-                .catch(error => {               
+                .catch(error => {              
                     console.error(error);
                 });
                 alert("Registrado con éxito");
-            
+           
         });
     }
     anadirProducto();
+
+
+
 
     function eliminarProducto(){
         const botonEliminar=document.getElementById("eliminar");
@@ -267,18 +407,30 @@
             const eliminarFruta=document.getElementById("eliminar_fruta").value;
             const eliminarVerdura=document.getElementById("eliminar_verdura").value;
 
+
+
+
             nuevaURL+=`/${eliminarFruta}/${eliminarVerdura}`;
             fetch(nuevaURL)
                 .then(response => response.text())
                 .then(data => {
 
+
+
+
                 })
-                .catch(error => {               
+                .catch(error => {              
                     console.error(error);
                 });
                 alert("Eliminado con éxito");
 
+
+
+
         });
+
+
+
 
     }
     eliminarProducto();
@@ -286,27 +438,40 @@
         const botonStock=document.getElementById("modificar_stock");
         let nuevaURL=`http://localhost:3000/modificar/stock`;
         botonStock.addEventListener('click',function(){
-            
+           
             const nombreStockFruta=document.getElementById("nombre_stock_fruta").value;
             const nombreStockVerdura=document.getElementById("nombre_stock_verdura").value;
-            
+           
             const stockFruta=document.getElementById("stock_fruta").value;
             const stockVerdura=document.getElementById("stock_verdura").value;
 
-            nuevaURL+=`/${nombreStockFruta}/${stockFruta}/${nombreStockVerdura}/${stockVerdura}`; 
+
+
+
+            nuevaURL+=`/${nombreStockFruta}/${stockFruta}/${nombreStockVerdura}/${stockVerdura}`;
             fetch(nuevaURL)
             .then(response => response.text())
             .then(data => {
 
+
+
+
             })
-            .catch(error => {               
+            .catch(error => {              
                 console.error(error);
             });
             alert("Stock modificado con éxito");
+
+
+
 
         });
     }
     modificarStock();
 
+
+
+
 </script>
 </html>
+

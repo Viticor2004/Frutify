@@ -430,8 +430,6 @@ function eliminarProducto(nombre_fruta,nombre_verdura){
             return;
         }
         let jsonData = JSON.parse(data);
-
-
         
         jsonData.frutas = jsonData.frutas.filter(fruta => fruta.nombre !== nombre_fruta);
         jsonData.verduras = jsonData.verduras.filter(verdura => verdura.nombre !== nombre_verdura);
