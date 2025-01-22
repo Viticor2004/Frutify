@@ -55,53 +55,49 @@ app.get('/comprar/producto/:nombre_fruta/:cantidad_fruta/:nombre_verdura/:cantid
     actualizarProducto(nombre_fruta,cantidad_fruta,nombre_verdura,cantidad_verdura,usuario,genero);
 });
 
-
-app.get('/anadir/producto/:nombre_fruta/:cantidad_fruta/:nombre_verdura/:cantidad_verdura', (req, res) => {
+app.get('/anadir/fruta/:nombre_fruta/:cantidad_fruta', (req, res) => {
    
     const nombre_fruta=req.params.nombre_fruta;
     const cantidad_fruta=req.params.cantidad_fruta;
+    anadirFruta(nombre_fruta,cantidad_fruta);
+});
+
+app.get('/anadir/verdura/:nombre_verdura/:cantidad_verdura', (req, res) => {
+    
     const nombre_verdura=req.params.nombre_verdura;
     const cantidad_verdura=req.params.cantidad_verdura;
-   
-   
-    anadirProducto(nombre_fruta,cantidad_fruta,nombre_verdura,cantidad_verdura);
-
-
+    anadirVerdura(nombre_verdura,cantidad_verdura);
 });
 
-
-app.get('/eliminar/producto/:nombre_fruta/:nombre_verdura', (req, res) => {
+app.get('/eliminar/fruta/:nombre_fruta', (req, res) => {
+    
     const nombre_fruta=req.params.nombre_fruta;
-    const nombre_verdura=req.params.nombre_verdura;
-
-
-    eliminarProducto(nombre_fruta,nombre_verdura);
+    eliminarFruta(nombre_fruta);
 });
 
-
-app.get('/modificar/stock/:nombre_fruta/:cantidad_fruta/:nombre_verdura/:cantidad_verdura', (req, res) => {
-
-
-    const nombre_fruta=req.params.nombre_fruta;
+app.get('/eliminar/verdura/:nombre_verdura', (req, res) => {
+   
     const nombre_verdura=req.params.nombre_verdura;
+    eliminarVerdura(nombre_verdura);
+});
 
-
+app.get('/modificar/stock_fruta/:nombre_fruta/:cantidad_fruta', (req, res) => {
+    
+    const nombre_fruta=req.params.nombre_fruta;
     const cantidad_fruta=req.params.cantidad_fruta;
-    const cantidad_verdura=req.params.cantidad_verdura;
-
-
-    modificarStock(nombre_fruta,cantidad_fruta,nombre_verdura,cantidad_verdura);
+    modificarStockFruta(nombre_fruta,cantidad_fruta);
 });
 
-
-
+app.get('/modificar/stock_verdura/:nombre_verdura/:cantidad_verdura', (req, res) => {
+    
+    const nombre_verdura=req.params.nombre_verdura;
+    const cantidad_verdura=req.params.cantidad_verdura;
+    modificarStockVerdura(nombre_verdura,cantidad_verdura);
+});
 
 app.listen(3000,() => {
     console.log('Servidor escuchando en http://localhost:3000');
 });
-
-
-
 
 function eliminar(idE){
     const fs=require('fs');
@@ -436,7 +432,7 @@ function actualizarProducto(nombre_fruta,cantidad_fruta,nombre_verdura,cantidad_
 
 
 }
-function anadirProducto(nombre_fruta,cantidad_fruta,nombre_verdura,cantidad_verdura){
+function anadirFruta(nombre_fruta,cantidad_fruta){
     const fs=require('fs');
     const path=require('path');
 
@@ -445,8 +441,7 @@ function anadirProducto(nombre_fruta,cantidad_fruta,nombre_verdura,cantidad_verd
 
 
     const cantidad_frutaInt=parseInt(cantidad_fruta);
-    const cantidad_verduraInt=parseInt(cantidad_verdura);
-   
+
     const registroFruta = [
         {
             "nombre": nombre_fruta,
@@ -454,35 +449,16 @@ function anadirProducto(nombre_fruta,cantidad_fruta,nombre_verdura,cantidad_verd
         }
     ];
    
-    const registroVerdura = [
-        {
-            "nombre": nombre_verdura,
-            "cantidad": cantidad_verduraInt
-        }
-    ];
-   
-   
-   
     fs.readFile(archivoJSON, 'utf8', (err, data) => {
         if (err) {
             console.error("Error al leer el archivo: ", err);
             return;
         }
-   
-       
         let jsonData = {};
-
-
         if (data) {
             jsonData = JSON.parse(data);
         }
-       
-       
-
-
         jsonData.frutas.push(...registroFruta);
-        jsonData.verduras.push(...registroVerdura);
-   
        
         fs.writeFile(archivoJSON, JSON.stringify(jsonData, null, 2), (err) => {
             if (err) {
@@ -492,12 +468,47 @@ function anadirProducto(nombre_fruta,cantidad_fruta,nombre_verdura,cantidad_verd
             console.log("Archivo actualizado con éxito.");
         });
     });
-
-
-
-
 }
-function eliminarProducto(nombre_fruta,nombre_verdura){
+
+function anadirVerdura(nombre_verdura,cantidad_verdura){
+    const fs=require('fs');
+    const path=require('path');
+
+
+    const archivoJSON = path.join(__dirname, 'stock.json');
+
+
+    const cantidad_verduraInt=parseInt(cantidad_verdura);
+
+    const registroVerdura = [
+        {
+            "nombre": nombre_verdura,
+            "cantidad": cantidad_verduraInt
+        }
+    ];
+   
+    fs.readFile(archivoJSON, 'utf8', (err, data) => {
+        if (err) {
+            console.error("Error al leer el archivo: ", err);
+            return;
+        }
+        let jsonData = {};
+        if (data) {
+            jsonData = JSON.parse(data);
+        }
+        jsonData.verduras.push(...registroVerdura);
+       
+        fs.writeFile(archivoJSON, JSON.stringify(jsonData, null, 2), (err) => {
+            if (err) {
+                console.error("Error al escribir en el archivo: ", err);
+                return;
+            }
+            console.log("Archivo actualizado con éxito.");
+        });
+    });
+}
+
+function eliminarFruta(nombre_fruta){
     const fs=require('fs');
     const path=require('path');
 
@@ -513,11 +524,6 @@ function eliminarProducto(nombre_fruta,nombre_verdura){
         let jsonData = JSON.parse(data);
        
         jsonData.frutas = jsonData.frutas.filter(fruta => fruta.nombre !== nombre_fruta);
-        jsonData.verduras = jsonData.verduras.filter(verdura => verdura.nombre !== nombre_verdura);
-
-
-
-
         // Guardar el archivo actualizado
         fs.writeFile(archivoJSON, JSON.stringify(jsonData, null, 2), (err) => {
             if (err) {
@@ -529,7 +535,8 @@ function eliminarProducto(nombre_fruta,nombre_verdura){
         });
     });
 }
-function modificarStock(nombre_fruta,cantidad_fruta,nombre_verdura,cantidad_verdura){
+
+function eliminarVerdura(nombre_verdura){
     const fs=require('fs');
     const path=require('path');
 
@@ -537,41 +544,78 @@ function modificarStock(nombre_fruta,cantidad_fruta,nombre_verdura,cantidad_verd
     const archivoJSON = path.join(__dirname, 'stock.json');
 
 
+    fs.readFile(archivoJSON, 'utf8', (err, data) => {
+        if (err) {
+            console.error('Error al leer el archivo:', err);
+            return;
+        }
+        let jsonData = JSON.parse(data);
+        jsonData.verduras = jsonData.verduras.filter(verdura => verdura.nombre !== nombre_verdura);
+        // Guardar el archivo actualizado
+        fs.writeFile(archivoJSON, JSON.stringify(jsonData, null, 2), (err) => {
+            if (err) {
+                console.error('Error al guardar el archivo:', err);
+                return;
+            }
+            console.log('Verdura y fruta eliminado y archivo actualizado');
+           
+        });
+    });
+}
+
+function modificarStockFruta(nombre_fruta,cantidad_fruta){
+   
+    const fs=require('fs');
+    const path=require('path');
+    const archivoJSON = path.join(__dirname, 'stock.json');
+    
     fs.readFile(archivoJSON,'utf8',(err,data)=>{
         if(err){
             console.error("Error al leer el archivo: ",err);
             return;
         }
 
-
-
-
         let jsonData = JSON.parse(data);
 
-
-        const frutas=jsonData.frutas;
-        const verduras=jsonData.verduras;
-
-
         const cantidad_frutaInt=parseInt(cantidad_fruta);
-        const cantidad_verduraInt=parseInt(cantidad_verdura);
 
-
-
-
-        frutas.forEach(fruta => {
+        jsonData.frutas.forEach(fruta => {
             if(fruta.nombre===nombre_fruta){
                 fruta.cantidad=cantidad_frutaInt;
             }
         });
 
+        fs.writeFile(archivoJSON, JSON.stringify(jsonData, null, 2), (err) => {
+            if (err) {
+                console.error("Error al escribir en el archivo: ", err);
+                return;
+            }
+            console.log("Stock modificado con éxito");
+        });
+    });
+}
 
-        verduras.forEach(verdura => {
+function modificarStockVerdura(nombre_verdura,cantidad_verdura){
+   
+    const fs=require('fs');
+    const path=require('path');
+    const archivoJSON = path.join(__dirname, 'stock.json');
+    
+    fs.readFile(archivoJSON,'utf8',(err,data)=>{
+        if(err){
+            console.error("Error al leer el archivo: ",err);
+            return;
+        }
+
+        let jsonData = JSON.parse(data);
+
+        const cantidad_verduraInt=parseInt(cantidad_verdura);
+
+        jsonData.verduras.forEach(verdura => {
             if(verdura.nombre===nombre_verdura){
                 verdura.cantidad=cantidad_verduraInt;
             }
         });
-
 
         fs.writeFile(archivoJSON, JSON.stringify(jsonData, null, 2), (err) => {
             if (err) {

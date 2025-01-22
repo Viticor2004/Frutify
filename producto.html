@@ -83,29 +83,41 @@
             <label>Cantidad</label>
             <input type="number" id="cantidad_verdura">
             <button id="comprar">Comprar</button>
+
+            <!-- Añadir -->
             <label>Nombre de la nueva fruta</label>
             <input type="text" id="nombre_nuevo_producto_fruta">
             <label>Cantidad</label>
             <input type="number" id="cantidad_nuevo_producto_fruta">
+            <button id="anadir_fruta">Añadir nuevo producto</button>
+
             <label>Nombre de la nueva verdura</label>
             <input type="text" id="nombre_nuevo_producto_verdura">
             <label>Cantidad</label>
             <input type="number" id="cantidad_nuevo_producto_verdura">
-            <button id="anadir">Añadir nuevo producto</button>
+            <button id="anadir_verdura">Añadir nuevo producto</button>
+
+            <!-- Eliminar -->
             <label>Nombre de la fruta a eliminar</label>
-            <input type="text" id="eliminar_fruta">
+            <input type="text" id="eliminar_fru">
+            <button id="eliminar_fruta">Eliminar fruta</button>
+
             <label>Nombre de la verdura a eliminar</label>
-            <input type="text" id="eliminar_verdura">
-            <button id="eliminar">Eliminar producto</button>
+            <input type="text" id="eliminar_verd">
+            <button id="eliminar_verdura">Eliminar verdura</button>
+
+            <!-- Modificar -->
             <label>Nombre de la fruta a modificar</label>
             <input type="text" id="nombre_stock_fruta">
             <label>Nuevo stock</label>
             <input type="number" id="stock_fruta">
+            <button id="modificar_stock_fruta">Modificar stock</button>
+
             <label>Nombre de la verdura a modificar</label>
             <input type="text" id="nombre_stock_verdura">
             <label>Nuevo stock</label>
             <input type="number" id="stock_verdura">
-            <button id="modificar_stock">Modificar stock</button>
+            <button id="modificar_stock_verdura">Modificar stock</button>
         </div>
     </div>
 </body>
@@ -175,14 +187,12 @@
         });
     }
     comprar();
-    function anadirProducto(){
-        const botonAnadir = document.getElementById("anadir");
+    function anadirFruta(){
+        const botonAnadir = document.getElementById("anadir_fruta");
         botonAnadir.addEventListener('click', function(){
             const nuevoProductoFruta = document.getElementById("nombre_nuevo_producto_fruta").value;
             const cantidadNuevoProductoFruta = document.getElementById("cantidad_nuevo_producto_fruta").value;
-            const nuevoProductoVerdura = document.getElementById("nombre_nuevo_producto_verdura").value;
-            const cantidadNuevoProductoVerdura = document.getElementById("cantidad_nuevo_producto_verdura").value;
-            let nuevaURL = `http://localhost:3000/anadir/producto/${nuevoProductoFruta}/${cantidadNuevoProductoFruta}/${nuevoProductoVerdura}/${cantidadNuevoProductoVerdura}`;
+            let nuevaURL = `http://localhost:3000/anadir/fruta/${nuevoProductoFruta}/${cantidadNuevoProductoFruta}`;
             fetch(nuevaURL)
             .then(response => response.text())
             .then(data => {})
@@ -190,13 +200,27 @@
             alert("Registrado con éxito");
         });
     }
-    anadirProducto();
-    function eliminarProducto(){
-        const botonEliminar = document.getElementById("eliminar");
+    anadirFruta();
+    function anadirVerdura(){
+        const botonAnadir = document.getElementById("anadir_verdura");
+        botonAnadir.addEventListener('click', function(){
+            const nuevoProductoVerdura = document.getElementById("nombre_nuevo_producto_verdura").value;
+            const cantidadNuevoProductoVerdura = document.getElementById("cantidad_nuevo_producto_verdura").value;
+            let nuevaURL = `http://localhost:3000/anadir/verdura/${nuevoProductoVerdura}/${cantidadNuevoProductoVerdura}`;
+            fetch(nuevaURL)
+            .then(response => response.text())
+            .then(data => {})
+            .catch(error => console.error(error));
+            alert("Registrado con éxito");
+        });
+    }
+    anadirVerdura();
+
+    function eliminarFruta(){
+        const botonEliminar = document.getElementById("eliminar_fruta");
         botonEliminar.addEventListener('click', function(){
-            const eliminarFruta = document.getElementById("eliminar_fruta").value;
-            const eliminarVerdura = document.getElementById("eliminar_verdura").value;
-            let nuevaURL = `http://localhost:3000/eliminar/producto/${eliminarFruta}/${eliminarVerdura}`;
+            const eliminarFruta = document.getElementById("eliminar_fru").value;
+            let nuevaURL = `http://localhost:3000/eliminar/fruta/${eliminarFruta}`;
             fetch(nuevaURL)
             .then(response => response.text())
             .then(data => {})
@@ -204,15 +228,28 @@
             alert("Eliminado con éxito");
         });
     }
-    eliminarProducto();
-    function modificarStock(){
-        const botonStock = document.getElementById("modificar_stock");
+    eliminarFruta();
+
+    function eliminarVerdura(){
+        const botonEliminar = document.getElementById("eliminar_verdura");
+        botonEliminar.addEventListener('click', function(){
+            const eliminarVerdura = document.getElementById("eliminar_verd").value;
+            let nuevaURL = `http://localhost:3000/eliminar/verdura/${eliminarVerdura}`;
+            fetch(nuevaURL)
+            .then(response => response.text())
+            .then(data => {})
+            .catch(error => console.error(error));
+            alert("Eliminado con éxito");
+        });
+    }
+    eliminarVerdura();
+
+    function modificarStockFruta(){
+        const botonStock = document.getElementById("modificar_stock_fruta");
         botonStock.addEventListener('click', function(){
             const nombreStockFruta = document.getElementById("nombre_stock_fruta").value;
-            const nombreStockVerdura = document.getElementById("nombre_stock_verdura").value;
             const stockFruta = document.getElementById("stock_fruta").value;
-            const stockVerdura = document.getElementById("stock_verdura").value;
-            let nuevaURL = `http://localhost:3000/modificar/stock/${nombreStockFruta}/${stockFruta}/${nombreStockVerdura}/${stockVerdura}`;
+            let nuevaURL = `http://localhost:3000/modificar/stock_fruta/${nombreStockFruta}/${stockFruta}`;
             fetch(nuevaURL)
             .then(response => response.text())
             .then(data => {})
@@ -220,6 +257,21 @@
             alert("Stock modificado con éxito");
         });
     }
-    modificarStock();
+    modificarStockFruta();
+
+    function modificarStockVerdura(){
+        const botonStock = document.getElementById("modificar_stock_verdura");
+        botonStock.addEventListener('click', function(){
+            const nombreStockVerdura = document.getElementById("nombre_stock_verdura").value;
+            const stockVerdura = document.getElementById("stock_verdura").value;
+            let nuevaURL = `http://localhost:3000/modificar/stock_verdura/${nombreStockVerdura}/${stockVerdura}`;
+            fetch(nuevaURL)
+            .then(response => response.text())
+            .then(data => {})
+            .catch(error => console.error(error));
+            alert("Stock modificado con éxito");
+        });
+    }
+    modificarStockVerdura();
 </script>
 </html>
