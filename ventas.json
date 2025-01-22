@@ -181,6 +181,15 @@
         "genero": "Pepe",
         "fecha_compra": "2025/0/3 13:41:43"
       }
+    ],
+    [
+      {
+        "producto": "Manzanas",
+        "cantidad": 1,
+        "comprador": "Pepe",
+        "genero": "Pepe",
+        "fecha_compra": "2025/0/3 13:52:44"
+      }
     ]
   ],
   "ventas_mensuales": [
