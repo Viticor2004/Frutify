@@ -2,15 +2,15 @@
   "frutas": [
     {
       "nombre": "Manzanas",
-      "cantidad": -10,
-      "fecha": "2025/0/3 13:52:44"
+      "cantidad": 0,
+      "fecha": "2025/0/3 17:10:51"
     }
   ],
   "verduras": [
     {
       "nombre": "Cebollas",
-      "cantidad": 1,
-      "fecha": "2025/0/3 13:52:44"
+      "cantidad": 0,
+      "fecha": "2025/0/3 17:10:51"
     }
   ]
 }

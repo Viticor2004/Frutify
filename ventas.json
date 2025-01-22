@@ -3,10 +3,10 @@
     [
       {
         "producto": "Manzanas",
-        "cantidad": 233,
+        "cantidad": 1,
         "comprador": "Pepe",
-        "genero": "Pepe",
-        "fecha_compra": "2025/0/3 13:23:6"
+        "genero": "Hombre",
+        "fecha_compra": "2025/0/3 16:47:12"
       }
     ],
     [
@@ -14,181 +14,28 @@
         "producto": "Manzanas",
         "cantidad": 1,
         "comprador": "Pepe",
-        "genero": "Pepe",
-        "fecha_compra": "2025/0/3 13:26:49"
-      }
-    ],
-    [
-      {
-        "producto": "Manzanas",
-        "cantidad": 1,
-        "comprador": "Pepe",
-        "genero": "Pepe",
-        "fecha_compra": "2025/0/3 13:27:16"
-      }
-    ],
-    [
-      {
-        "producto": "Manzanas",
-        "cantidad": 1,
-        "comprador": "Pepe",
-        "genero": "Pepe",
-        "fecha_compra": "2025/0/3 13:27:22"
-      }
-    ],
-    [
-      {
-        "producto": "Manzanas",
-        "cantidad": 1,
-        "comprador": "Pepe",
-        "genero": "Pepe",
-        "fecha_compra": "2025/0/3 13:27:54"
-      }
-    ],
-    [
-      {
-        "producto": "Manzanas",
-        "cantidad": 1,
-        "comprador": "Pepe",
-        "genero": "Pepe",
-        "fecha_compra": "2025/0/3 13:28:25"
-      }
-    ],
-    [
-      {
-        "producto": "Manzanas",
-        "cantidad": 9,
-        "comprador": "Pepe",
-        "genero": "Pepe",
-        "fecha_compra": "2025/0/3 13:39:4"
-      }
-    ],
-    [
-      {
-        "producto": "Manzanas",
-        "cantidad": 100,
-        "comprador": "Pepe",
-        "genero": "Pepe",
-        "fecha_compra": "2025/0/3 13:40:18"
-      }
-    ],
-    [
-      {
-        "producto": "Manzanas",
-        "cantidad": 100,
-        "comprador": "Pepe",
-        "genero": "Pepe",
-        "fecha_compra": "2025/0/3 13:41:31"
-      }
-    ],
-    [
-      {
-        "producto": "Manzanas",
-        "cantidad": 100,
-        "comprador": "Pepe",
-        "genero": "Pepe",
-        "fecha_compra": "2025/0/3 13:41:43"
+        "genero": "Hombre",
+        "fecha_compra": "2025/0/3 17:8:16"
       }
     ]
   ],
   "verduras_anuales": [
     [
       {
-        "producto": "Manzanas",
-        "cantidad": 231,
-        "comprador": "Pepe",
-        "genero": "Pepe",
-        "fecha_compra": "2025/0/3 13:23:6"
-      }
-    ],
-    [
-      {
-        "producto": "Manzanas",
+        "producto": "Cebollas",
         "cantidad": 1,
         "comprador": "Pepe",
-        "genero": "Pepe",
-        "fecha_compra": "2025/0/3 13:26:49"
+        "genero": "Hombre",
+        "fecha_compra": "2025/0/3 16:47:12"
       }
     ],
     [
       {
-        "producto": "Manzanas",
-        "cantidad": 3,
-        "comprador": "Pepe",
-        "genero": "Pepe",
-        "fecha_compra": "2025/0/3 13:27:16"
-      }
-    ],
-    [
-      {
-        "producto": "Manzanas",
-        "cantidad": 3,
-        "comprador": "Pepe",
-        "genero": "Pepe",
-        "fecha_compra": "2025/0/3 13:27:22"
-      }
-    ],
-    [
-      {
-        "producto": "Manzanas",
+        "producto": "Cebollas",
         "cantidad": 1,
         "comprador": "Pepe",
-        "genero": "Pepe",
-        "fecha_compra": "2025/0/3 13:27:54"
-      }
-    ],
-    [
-      {
-        "producto": "Manzanas",
-        "cantidad": 100,
-        "comprador": "Pepe",
-        "genero": "Pepe",
-        "fecha_compra": "2025/0/3 13:28:25"
-      }
-    ],
-    [
-      {
-        "producto": "Manzanas",
-        "cantidad": 10,
-        "comprador": "Pepe",
-        "genero": "Pepe",
-        "fecha_compra": "2025/0/3 13:39:4"
-      }
-    ],
-    [
-      {
-        "producto": "Manzanas",
-        "cantidad": 78,
-        "comprador": "Pepe",
-        "genero": "Pepe",
-        "fecha_compra": "2025/0/3 13:40:18"
-      }
-    ],
-    [
-      {
-        "producto": "Manzanas",
-        "cantidad": 12,
-        "comprador": "Pepe",
-        "genero": "Pepe",
-        "fecha_compra": "2025/0/3 13:41:31"
-      }
-    ],
-    [
-      {
-        "producto": "Manzanas",
-        "cantidad": 1,
-        "comprador": "Pepe",
-        "genero": "Pepe",
-        "fecha_compra": "2025/0/3 13:41:43"
-      }
-    ],
-    [
-      {
-        "producto": "Manzanas",
-        "cantidad": 1,
-        "comprador": "Pepe",
-        "genero": "Pepe",
-        "fecha_compra": "2025/0/3 13:52:44"
+        "genero": "Hombre",
+        "fecha_compra": "2025/0/3 17:8:16"
       }
     ]
   ],
