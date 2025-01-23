@@ -1,0 +1,16 @@
+{
+  "frutas": [
+    {
+      "nombre": "Manzanas",
+      "cantidad": 0,
+      "fecha": "2025/0/3 21:4:22"
+    }
+  ],
+  "verduras": [
+    {
+      "nombre": "Cebollas",
+      "cantidad": 4,
+      "fecha": "2025/0/3 21:4:22"
+    }
+  ]
+}

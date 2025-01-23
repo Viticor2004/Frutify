@@ -1,0 +1,126 @@
+{
+  "frutas": [
+    {
+      "nombre": "Manzanas",
+      "cantidad": 444
+    },
+    {
+      "nombre": "Naranjas",
+      "cantidad": 20
+    },
+    {
+      "nombre": "Plátanos",
+      "cantidad": 1000
+    },
+    {
+      "nombre": "Fresas",
+      "cantidad": 1000
+    },
+    {
+      "nombre": "Uvas",
+      "cantidad": 1000
+    },
+    {
+      "nombre": "Mangos",
+      "cantidad": 1000
+    },
+    {
+      "nombre": "Peras",
+      "cantidad": 1000
+    },
+    {
+      "nombre": "Limones",
+      "cantidad": 1000
+    },
+    {
+      "nombre": "Sandías",
+      "cantidad": 1000
+    },
+    {
+      "nombre": "Melones",
+      "cantidad": 1000
+    },
+    {
+      "nombre": "Piñas",
+      "cantidad": 1000
+    },
+    {
+      "nombre": "Ciruelas",
+      "cantidad": 1000
+    },
+    {
+      "nombre": "Duraznos",
+      "cantidad": 900
+    },
+    {
+      "nombre": "Kiwis",
+      "cantidad": 1000
+    },
+    {
+      "nombre": "Papayas",
+      "cantidad": 1000
+    }
+  ],
+  "verduras": [
+    {
+      "nombre": "Cebollas",
+      "cantidad": 426
+    },
+    {
+      "nombre": "Tomates",
+      "cantidad": 1000
+    },
+    {
+      "nombre": "Zanahorias",
+      "cantidad": 1000
+    },
+    {
+      "nombre": "Papas",
+      "cantidad": 1000
+    },
+    {
+      "nombre": "Ajos",
+      "cantidad": 1000
+    },
+    {
+      "nombre": "Lechugas",
+      "cantidad": 1000
+    },
+    {
+      "nombre": "Pepinos",
+      "cantidad": 1000
+    },
+    {
+      "nombre": "Chiles",
+      "cantidad": 1000
+    },
+    {
+      "nombre": "Calabacitas",
+      "cantidad": 1000
+    },
+    {
+      "nombre": "Brócolis",
+      "cantidad": 1000
+    },
+    {
+      "nombre": "Coliflores",
+      "cantidad": 1000
+    },
+    {
+      "nombre": "Pimientos",
+      "cantidad": 1000
+    },
+    {
+      "nombre": "Maices",
+      "cantidad": 1000
+    },
+    {
+      "nombre": "Berenjenas",
+      "cantidad": 1000
+    },
+    {
+      "nombre": "Alcachofas",
+      "cantidad": 1000
+    }
+  ]
+}
