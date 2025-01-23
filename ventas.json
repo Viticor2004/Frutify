@@ -55,6 +55,15 @@
         "genero": "Hombre",
         "fecha_compra": "2025/0/3 21:4:22"
       }
+    ],
+    [
+      {
+        "producto": "Cebollas",
+        "cantidad": 1,
+        "comprador": "Pepe",
+        "genero": "Hombre",
+        "fecha_compra": "2025/0/4 11:48:38"
+      }
     ]
   ],
   "ventas_mensuales": [
