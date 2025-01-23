@@ -5,6 +5,7 @@
     <script src="informacion.js"></script>
     <script>
 
+
     </script>
     <script>
         document.addEventListener("DOMContentLoaded", function() {
@@ -15,6 +16,7 @@
         // Mostrar el nombre del usuario logueado
         document.getElementById('info').innerHTML = `${nombre}`;
 
+
         // Mostrar mensaje de administrador y tabla de empleados si es administrador
         const mostrar_empleados = document.getElementById('mostrarEmpleados');
         if(administrador === "true") {
@@ -22,12 +24,14 @@
             document.getElementById('isAdmin').style = "display: block;";
         }
 
+
         // Verifica que 'empleados' sea un JSON válido
         if (empleadosString) {
 
+
                 const empleados = JSON.parse(empleadosString);    
-                
-            
+
+
                 function mostrarEmpleados() {
                     let tabla = `
                         <table>
@@ -39,6 +43,8 @@
                                     <th>Email</th>
                                     <th>Teléfono</th>
                                     <th>Dirección</th>
+                                    <th>Genero</th>
+                                    <th>Edad</th>
                                 </tr>
                             </thead>
                             </div>
@@ -46,9 +52,10 @@
                             <tbody>
                     `;
 
+
                     // Recorre el arreglo de empleados y genera las filas de la tabla
-                    
-                    
+
+
                     fetch('informacion.json')
                     .then(response=>{
                         if(!response.ok){
@@ -61,6 +68,7 @@
                           const personas=data.usuarios;
                           
 
+
                           personas.forEach(usuario => { 
                             
                                 if(!usuario.administrar){
@@ -71,9 +79,12 @@
                                     <td>${usuario.email}</td>
                                     <td>${usuario.telefono}</td>
                                     <td>${usuario.direccion}</td>
+                                    <td>${usuario.genero}</td>
+                                    <td>${usuario.edad}</td>
                                     <td><div class="botones"> <button class="modificar" data-id='${usuario.id}' ><img src="images/iconoModificar.png" alt="modificar"></button> <button class="eliminar" data-id='${usuario.id}' id='eliminar'><img src="images/cruzRoja.png" alt="cruzRoja"></button> </div></td>
                                 </tr>                            
                             `;
+
 
                             }
                         
@@ -81,6 +92,7 @@
                         tabla += `</tbody></table>`; // Cierra las etiquetas de la tabla
                         const panel = document.getElementById("panel");
                         panel.innerHTML = tabla;
+
 
                         document.querySelectorAll(".eliminar").forEach(boton => {
                             boton.addEventListener("click", function() {
@@ -93,6 +105,7 @@
                                 const nuevaUrl = `http://localhost:3000/eliminar/${idE}`;
                                 //window.history.pushState({}, '', nuevaUrl); 
                                 //window.location.href = nuevaUrl;  // Cambia la URL y recarga la página
+
 
                                 // Aquí podrías hacer la solicitud al servidor para eliminar el usuario
                                 // Por ejemplo, usando fetch:
@@ -147,15 +160,16 @@
                                         // const input=document.createElement('input');
                                         // input.innerHTML=td.innerHTML;
 
+
                                         // td.replaceWith(input);
-
-
                                     });
-
                                 }
+
+
                                 const ids=document.querySelectorAll('.id');
                                 const aceptar=document.querySelector('.aceptar');
                                 aceptar.addEventListener('click', function() {
+
 
                                     //const nuevaUrl = `localhost:3000/modificar/3/d/q/s/a/d`;
                                     let nuevaUrl = `http://localhost:3000/modificar/${id}`;
@@ -175,16 +189,14 @@
                                         console.error(error);
                                     });
                                 });
-                            });
+                            });                            
+                        });  
 
-                            
-                        });
-
-                        
 
                         const anadir = document.querySelector('.anadir');
                         anadir.addEventListener("click", function () {
                             console.log("Se ha pulsado sobre el botón añadir");
+
 
                             const tabla = document.querySelector("#panel table tbody");
                             
@@ -193,6 +205,8 @@
                                 const nuevaFila = document.createElement("tr");
                                 nuevaFila.innerHTML = `
                                     <td></td>
+                                    <td><input></td>
+                                    <td><input></td>
                                     <td><input></td>
                                     <td><input></td>
                                     <td><input></td>
@@ -212,6 +226,7 @@
                                 
                                 const aceptar=document.querySelector('.aceptar');
                                 aceptar.addEventListener('click', function() {
+
 
                                     //const nuevaUrl = `localhost:3000/modificar/3/d/q/s/a/d`;
                                     let nuevaUrl = `http://localhost:3000/anadir`;
@@ -247,21 +262,15 @@
                         //     tabla_anadida += `</tbody></table>`;
                         //     panel.innerHTML = tabla_anadida;
                         // });
-                        
-
-
                     })
                     .catch(error => {
                             console.error(error);
                     });
-
-                    
-    
                 }
             
                 // Llama a la función para mostrar los empleados
                 mostrarEmpleados();
-                
+
 
             } else {
                 console.error("No se encontraron empleados en el localStorage");
@@ -270,6 +279,7 @@
     </script>
    
 
+
     <link rel="icon" href="images/iconofrutify.png" type="image/x-icon">
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -277,6 +287,7 @@
     <link rel="stylesheet" href="estilos.css" type="text/css">
     <title>Frutify</title>
 </head>
+
 
 <body class="bodyLogueado">
     
@@ -294,21 +305,16 @@
         <a href="ventas.html">
             <button class="ventas" type="submit">Módulo de Ventas</button>
         </a>
-<<<<<<< HEAD
-        <a href="productos.html">
-            <button class="productos" type="submit">Productos</button>
-=======
         <a href="producto.html">
             <button class="producto">Módulo de productos</button>
->>>>>>> 44693682b34c05a36b348b95c1db2dd771eeeab1
         </a>
         <button class="anadir" type="submit"><img src="images/simboloMas.png" alt="mas"></button>
         <button class="aceptar" type="submit">Aceptar</button>
     </section>
     <div class="panel" id="panel">
-        
-        
+ 
     </div>
+
 
     <div id="isAdmin" style="display: block;">
         <div id="mostrarEmpleados">
