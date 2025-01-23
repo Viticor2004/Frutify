@@ -1,5 +1,4 @@
 const express = require('express');
-const { defaultMaxListeners } = require('stream');
 const app = express();
 
 
@@ -14,9 +13,7 @@ app.get('/eliminar/:id', (req, res) => {
 });
 
 
-
-
-app.get('/modificar/usuario/:id/:nombre/:email/:telefono/:direccion',(req,res)=>{
+app.get('/modificar/:id/:nombre/:email/:telefono/:direccion',(req,res)=>{
     console.log("modificar ha entrado");
     const idM=parseInt(req.params.id,10);
     const nombre=req.params.nombre;
@@ -26,11 +23,11 @@ app.get('/modificar/usuario/:id/:nombre/:email/:telefono/:direccion',(req,res)=>
     const telefono=req.params.telefono;
     const direccion=req.params.direccion;
     modificar(idM,nombre,email,telefono,direccion);
-   
+    
 });
 
 
-app.get('/anadir/:nombre/:email/:telefono/:direccion', (req, res) => {
+app.get('/anadir/:nombre/:email/:telefono/:direccion/:genero/:edad', (req, res) => {
     console.log("anadir ha entrado");
     //const idA=parseInt(req.params.id,10);
     const nombre=req.params.nombre;
@@ -39,7 +36,9 @@ app.get('/anadir/:nombre/:email/:telefono/:direccion', (req, res) => {
     //const administrar=req.params.administrar;
     const telefono=req.params.telefono;
     const direccion=req.params.direccion;
-    anadir(nombre,email,telefono,direccion);
+    const genero=req.params.genero;
+    const edad=req.params.edad;
+    anadir(nombre,email,telefono,direccion, genero, edad);
 });
 
 
@@ -55,12 +54,14 @@ app.get('/comprar/producto/:nombre_fruta/:cantidad_fruta/:nombre_verdura/:cantid
     actualizarProducto(nombre_fruta,cantidad_fruta,nombre_verdura,cantidad_verdura,usuario,genero);
 });
 
+
 app.get('/anadir/fruta/:nombre_fruta/:cantidad_fruta', (req, res) => {
    
     const nombre_fruta=req.params.nombre_fruta;
     const cantidad_fruta=req.params.cantidad_fruta;
     anadirFruta(nombre_fruta,cantidad_fruta);
 });
+
 
 app.get('/anadir/verdura/:nombre_verdura/:cantidad_verdura', (req, res) => {
     
@@ -69,17 +70,20 @@ app.get('/anadir/verdura/:nombre_verdura/:cantidad_verdura', (req, res) => {
     anadirVerdura(nombre_verdura,cantidad_verdura);
 });
 
+
 app.get('/eliminar/fruta/:nombre_fruta', (req, res) => {
     
     const nombre_fruta=req.params.nombre_fruta;
     eliminarFruta(nombre_fruta);
 });
 
+
 app.get('/eliminar/verdura/:nombre_verdura', (req, res) => {
    
     const nombre_verdura=req.params.nombre_verdura;
     eliminarVerdura(nombre_verdura);
 });
+
 
 app.get('/modificar/stock_fruta/:nombre_fruta/:cantidad_fruta', (req, res) => {
     
@@ -88,6 +92,7 @@ app.get('/modificar/stock_fruta/:nombre_fruta/:cantidad_fruta', (req, res) => {
     modificarStockFruta(nombre_fruta,cantidad_fruta);
 });
 
+
 app.get('/modificar/stock_verdura/:nombre_verdura/:cantidad_verdura', (req, res) => {
     
     const nombre_verdura=req.params.nombre_verdura;
@@ -95,16 +100,22 @@ app.get('/modificar/stock_verdura/:nombre_verdura/:cantidad_verdura', (req, res)
     modificarStockVerdura(nombre_verdura,cantidad_verdura);
 });
 
+
 app.listen(3000,() => {
     console.log('Servidor escuchando en http://localhost:3000');
 });
+
 
 function eliminar(idE){
     const fs=require('fs');
     const path=require('path');
 
 
+
+
     const archivoJSON = path.join(__dirname, 'informacion.json');
+
+
 
 
     fs.readFile(archivoJSON, 'utf8', (err, data) => {
@@ -115,8 +126,14 @@ function eliminar(idE){
         //console.log("Se ha leido el contenido");
 
 
+
+
         // Parsear el contenido JSON
         let jsonData = JSON.parse(data);
+
+
+
+
 
 
 
@@ -127,8 +144,16 @@ function eliminar(idE){
 
 
 
+
+
+
+
         // Filtrar los usuarios para eliminar el usuario con el id especificado
         jsonData.usuarios = jsonData.usuarios.filter(usuario => usuario.id !== idEliminar);
+
+
+
+
 
 
 
@@ -152,7 +177,11 @@ function modificar(idM,nombre,email,telefono,direccion){
     const path=require('path');
 
 
+
+
     const archivoJSON = path.join(__dirname, 'informacion.json');
+
+
 
 
     fs.readFile(archivoJSON,'utf8',(err,data)=>{
@@ -162,20 +191,19 @@ function modificar(idM,nombre,email,telefono,direccion){
         }
 
 
-
-
         let jsonData = JSON.parse(data);
 
 
         const personas=jsonData.usuarios;
 
 
-        const idModificar=idM;
-       
+        const idModificar=idM;    
        
         personas.forEach(usuario => {
             if(idModificar===usuario.id){
                 console.log("Usuario encontrado");
+
+
 
 
                 usuario.nombre=nombre;
@@ -199,7 +227,7 @@ function modificar(idM,nombre,email,telefono,direccion){
 }
 
 
-function anadir(nombre,email,telefono,direccion){
+function anadir(nombre,email,telefono,direccion, genero, edad){
 
 
     const fs=require('fs');
@@ -214,10 +242,10 @@ function anadir(nombre,email,telefono,direccion){
             console.error("Error al leer el archivo: ", err);
             return;
         }
-   
+    
         // Parsear el contenido del archivo
         let jsonData = JSON.parse(data);
-   
+    
         // Obtener el arreglo de usuarios
         const personas = jsonData.usuarios;
         let x=1;
@@ -225,7 +253,6 @@ function anadir(nombre,email,telefono,direccion){
         let encontrado;
 
 
-       
         do{
             encontrado=false;
             for(let usuario of personas){
@@ -246,12 +273,14 @@ function anadir(nombre,email,telefono,direccion){
             contrasena: "123456", // Puedes incluir la contraseña si es necesario
             administrar: false, // Indica si el usuario es administrador
             telefono: telefono, // Reemplaza con el teléfono del usuario
-            direccion: direccion// Reemplaza con la dirección del usuario
+            direccion: direccion, // Reemplaza con la dirección del usuario
+            genero: genero,
+            edad: edad
         };
-   
+    
         // Añadir el nuevo usuario al arreglo
         personas.push(nuevoUsuario);
-   
+    
         // Guardar los cambios escribiendo en el archivo JSON
         fs.writeFile(archivoJSON, JSON.stringify(jsonData, null, 2), (err) => {
             if (err) {
@@ -269,8 +298,14 @@ function actualizarProducto(nombre_fruta,cantidad_fruta,nombre_verdura,cantidad_
     const path=require('path');
 
 
+
+
     const archivoJSON = path.join(__dirname, 'stock.json');
     const archivoVentasJSON=path.join(__dirname,'ventas.json');
+
+
+
+
 
 
 
@@ -284,7 +319,13 @@ function actualizarProducto(nombre_fruta,cantidad_fruta,nombre_verdura,cantidad_
 
 
 
+
+
+
+
         let jsonData = JSON.parse(data);
+
+
 
 
         const frutas=jsonData.frutas;
@@ -299,11 +340,17 @@ function actualizarProducto(nombre_fruta,cantidad_fruta,nombre_verdura,cantidad_
 
 
 
+
+
+
+
         verduras.forEach(verdura => {
             if(nombre_verdura===verdura.nombre){
                 verdura.cantidad-=cantidad_verdura;
             }
         });
+
+
 
 
         fs.writeFile(archivoJSON, JSON.stringify(jsonData, null, 2), (err) => {
@@ -319,13 +366,25 @@ function actualizarProducto(nombre_fruta,cantidad_fruta,nombre_verdura,cantidad_
 
 
 
+
+
+
+
+
+
         const archivoJSONRegistrar=path.join(__dirname,'registrar_stock.json');
         const cantidad_frutaInt=parseInt(cantidad_fruta);
         const cantidad_verduraInt=parseInt(cantidad_verdura);
 
 
+
+
         const fechaActual=new Date();
         const fechaCreada=fechaActual.getFullYear()+"/"+fechaActual.getMonth()+"/"+fechaActual.getDay()+" "+fechaActual.getHours()+":"+fechaActual.getMinutes()+":"+fechaActual.getSeconds();
+
+
+
+
 
 
 
@@ -346,10 +405,14 @@ function actualizarProducto(nombre_fruta,cantidad_fruta,nombre_verdura,cantidad_
         ];
 
 
+
+
         const jsonDataRegistrar={
             frutas:registroFruta,
             verduras:registroVerdura
         };
+
+
 
 
        
@@ -362,8 +425,12 @@ function actualizarProducto(nombre_fruta,cantidad_fruta,nombre_verdura,cantidad_
         });
 
 
+
+
        
     });
+
+
 
 
     fs.readFile(archivoVentasJSON,'utf8',(err,data)=>{
@@ -375,13 +442,25 @@ function actualizarProducto(nombre_fruta,cantidad_fruta,nombre_verdura,cantidad_
 
 
 
+
+
+
+
         let jsonData = JSON.parse(data);
+
+
+
+
 
 
 
 
         const fechaActual=new Date();
         const fechaCreada=fechaActual.getFullYear()+"/"+fechaActual.getMonth()+"/"+fechaActual.getDay()+" "+fechaActual.getHours()+":"+fechaActual.getMinutes()+":"+fechaActual.getSeconds();
+
+
+
+
 
 
 
@@ -414,6 +493,8 @@ function actualizarProducto(nombre_fruta,cantidad_fruta,nombre_verdura,cantidad_
         }
 
 
+
+
        
         fs.writeFile(archivoVentasJSON, JSON.stringify(jsonData, null, 2), (err) => {
             if (err) {
@@ -428,7 +509,15 @@ function actualizarProducto(nombre_fruta,cantidad_fruta,nombre_verdura,cantidad_
 
 
 
+
+
+
+
+
+
     });
+
+
 
 
 }
@@ -437,10 +526,15 @@ function anadirFruta(nombre_fruta,cantidad_fruta){
     const path=require('path');
 
 
+
+
     const archivoJSON = path.join(__dirname, 'stock.json');
 
 
+
+
     const cantidad_frutaInt=parseInt(cantidad_fruta);
+
 
     const registroFruta = [
         {
@@ -470,15 +564,21 @@ function anadirFruta(nombre_fruta,cantidad_fruta){
     });
 }
 
+
 function anadirVerdura(nombre_verdura,cantidad_verdura){
     const fs=require('fs');
     const path=require('path');
 
 
+
+
     const archivoJSON = path.join(__dirname, 'stock.json');
 
 
+
+
     const cantidad_verduraInt=parseInt(cantidad_verdura);
+
 
     const registroVerdura = [
         {
@@ -508,12 +608,17 @@ function anadirVerdura(nombre_verdura,cantidad_verdura){
     });
 }
 
+
 function eliminarFruta(nombre_fruta){
     const fs=require('fs');
     const path=require('path');
 
 
+
+
     const archivoJSON = path.join(__dirname, 'stock.json');
+
+
 
 
     fs.readFile(archivoJSON, 'utf8', (err, data) => {
@@ -536,12 +641,17 @@ function eliminarFruta(nombre_fruta){
     });
 }
 
+
 function eliminarVerdura(nombre_verdura){
     const fs=require('fs');
     const path=require('path');
 
 
+
+
     const archivoJSON = path.join(__dirname, 'stock.json');
+
+
 
 
     fs.readFile(archivoJSON, 'utf8', (err, data) => {
@@ -563,6 +673,7 @@ function eliminarVerdura(nombre_verdura){
     });
 }
 
+
 function modificarStockFruta(nombre_fruta,cantidad_fruta){
    
     const fs=require('fs');
@@ -575,15 +686,19 @@ function modificarStockFruta(nombre_fruta,cantidad_fruta){
             return;
         }
 
+
         let jsonData = JSON.parse(data);
 
+
         const cantidad_frutaInt=parseInt(cantidad_fruta);
+
 
         jsonData.frutas.forEach(fruta => {
             if(fruta.nombre===nombre_fruta){
                 fruta.cantidad=cantidad_frutaInt;
             }
         });
+
 
         fs.writeFile(archivoJSON, JSON.stringify(jsonData, null, 2), (err) => {
             if (err) {
@@ -594,6 +709,7 @@ function modificarStockFruta(nombre_fruta,cantidad_fruta){
         });
     });
 }
+
 
 function modificarStockVerdura(nombre_verdura,cantidad_verdura){
    
