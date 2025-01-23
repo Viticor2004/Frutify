@@ -78,10 +78,14 @@
             <select id="selectFruits"></select>
             <label>Cantidad</label>
             <input type="number" id="cantidad_fruta">
+            <label>Cliente para la fruta</label>
+            <input type="text" id="cliente_fruta">
             <label>Seleccionar Verdura</label>
             <select id="selectVegetables"></select>
             <label>Cantidad</label>
             <input type="number" id="cantidad_verdura">
+            <label>Cliente para la verdura</label>
+            <input type="text" id="cliente_verdura">
             <button id="comprar">Comprar</button>
 
             <!-- Añadir -->
@@ -146,11 +150,14 @@
             const selectFruits = document.getElementById("selectFruits");
             const selectedOptionFruits = selectFruits.options[selectFruits.selectedIndex];
             const valueSeleccionadoFruta = selectedOptionFruits.value;
+            const cliente_fruta=document.getElementById("cliente_fruta").value;
             const selectVegetables = document.getElementById("selectVegetables");
             const selectedOptionVegetables = selectVegetables.options[selectVegetables.selectedIndex];
             const valueSeleccionadoVerdura = selectedOptionVegetables.value;
+            const cliente_verdura=document.getElementById("cliente_verdura").value;
             const quantityFruits = parseInt(document.getElementById("cantidad_fruta").value);
             const quantityVegetables = parseInt(document.getElementById("cantidad_verdura").value);
+            
             fetch('stock.json')
             .then(response => response.json())
             .then(data => {
@@ -161,19 +168,20 @@
                 const verdurasDatos = data.verduras;
                 frutasDatos.forEach(fruta => {
                     if(valueSeleccionadoFruta === fruta.nombre && quantityFruits <= fruta.cantidad && quantityFruits >= 0 ){
-                        nuevaURL += `/${valueSeleccionadoFruta}/${quantityFruits}`;
+                        nuevaURL += `/${valueSeleccionadoFruta}/${quantityFruits}/${cliente_fruta}`;
                         frutasboolean = true;
                     }
                 });
                 verdurasDatos.forEach(verdura => {
                     if(valueSeleccionadoVerdura === verdura.nombre &&  quantityVegetables <= verdura.cantidad && quantityVegetables >= 0 ){
-                        nuevaURL += `/${valueSeleccionadoVerdura}/${quantityVegetables}`;
+                        nuevaURL += `/${valueSeleccionadoVerdura}/${quantityVegetables}/${cliente_verdura}`;
                         verdurasboolean = true;
                     }
                 });
-                const usuario = localStorage.getItem('nombre');
-                const genero = "Hombre";
-                nuevaURL += `/${usuario}/${genero}`;
+                //const usuario = localStorage.getItem('nombre');
+                //const genero = localStorage.getItem('genero');
+                // const genero = "Hombre";
+                // nuevaURL += `/${usuario}/${genero}`;
                 if (frutasboolean && verdurasboolean){
                     fetch(nuevaURL)
                     .then(response => response.text())

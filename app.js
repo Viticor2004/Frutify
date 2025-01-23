@@ -42,16 +42,18 @@ app.get('/anadir/:nombre/:email/:telefono/:direccion/:genero/:edad', (req, res) 
 });
 
 
-app.get('/comprar/producto/:nombre_fruta/:cantidad_fruta/:nombre_verdura/:cantidad_verdura/:usuario/:genero', (req, res) => {
+app.get('/comprar/producto/:nombre_fruta/:cantidad_fruta/:cliente_fruta/:nombre_verdura/:cantidad_verdura/:cliente_verdura', (req, res) => {
    
     const nombre_fruta=req.params.nombre_fruta;
     const cantidad_fruta=req.params.cantidad_fruta;
+    const cliente_fruta=req.params.cliente_fruta;
     const nombre_verdura=req.params.nombre_verdura;
     const cantidad_verdura=req.params.cantidad_verdura;
-    const usuario=req.params.usuario;
-    const genero=req.params.genero;
+    const cliente_verdura=req.params.cliente_verdura;
+    //const usuario=req.params.usuario;
+    // const genero=req.params.genero;
    
-    actualizarProducto(nombre_fruta,cantidad_fruta,nombre_verdura,cantidad_verdura,usuario,genero);
+    actualizarProducto(nombre_fruta,cantidad_fruta,nombre_verdura,cantidad_verdura,cliente_fruta,cliente_verdura);
 });
 
 
@@ -249,7 +251,6 @@ function anadir(nombre,email,telefono,direccion, genero, edad){
         // Obtener el arreglo de usuarios
         const personas = jsonData.usuarios;
         let x=1;
-        let idA=0;
         let encontrado;
 
 
@@ -293,7 +294,7 @@ function anadir(nombre,email,telefono,direccion, genero, edad){
 
 
 }
-function actualizarProducto(nombre_fruta,cantidad_fruta,nombre_verdura,cantidad_verdura,usuario,genero){
+function actualizarProducto(nombre_fruta,cantidad_fruta,nombre_verdura,cantidad_verdura,cliente_fruta,cliente_verdura){
     const fs=require('fs');
     const path=require('path');
 
@@ -471,7 +472,7 @@ function actualizarProducto(nombre_fruta,cantidad_fruta,nombre_verdura,cantidad_
                 {
                     "producto":nombre_fruta,
                     "cantidad":cantidad_frutaInt,
-                    "comprador":usuario,
+                    "comprador":cliente_fruta,
                     "genero":genero,
                     "fecha_compra":fechaCreada
                 }
@@ -484,7 +485,7 @@ function actualizarProducto(nombre_fruta,cantidad_fruta,nombre_verdura,cantidad_
                 {
                     "producto":nombre_verdura,
                     "cantidad":cantidad_verduraInt,
-                    "comprador":usuario,
+                    "comprador":cliente_verdura,
                     "genero":genero,
                     "fecha_compra":fechaCreada
                 }
@@ -526,22 +527,8 @@ function anadirFruta(nombre_fruta,cantidad_fruta){
     const path=require('path');
 
 
-
-
     const archivoJSON = path.join(__dirname, 'stock.json');
 
-
-
-
-    const cantidad_frutaInt=parseInt(cantidad_fruta);
-
-
-    const registroFruta = [
-        {
-            "nombre": nombre_fruta,
-            "cantidad": cantidad_frutaInt
-        }
-    ];
    
     fs.readFile(archivoJSON, 'utf8', (err, data) => {
         if (err) {
@@ -552,6 +539,46 @@ function anadirFruta(nombre_fruta,cantidad_fruta){
         if (data) {
             jsonData = JSON.parse(data);
         }
+        
+        let x=1;
+        let encontrado = false;
+
+        const frutasEncontrar=jsonData.frutas;
+        const verdurasEncontrar=jsonData.verduras;
+
+       
+        do{
+            for(let fruta of frutasEncontrar){
+                if(fruta.id===x) {
+                    encontrado=true;
+                    break;
+                }
+            }
+            if(encontrado)x++;
+        }while(encontrado);
+
+    
+        do{
+            for(let verdura of verdurasEncontrar){
+                if(verdura.id===x) {
+                    encontrado=true;
+                    break;
+                }
+            }
+            if(encontrado)x++;
+        }while(encontrado);
+
+        const cantidad_frutaInt=parseInt(cantidad_fruta);
+
+        const registroFruta = [
+            {
+                "id":x,
+                "nombre": nombre_fruta,
+                "cantidad": cantidad_frutaInt
+            }
+        ];
+
+
         jsonData.frutas.push(...registroFruta);
        
         fs.writeFile(archivoJSON, JSON.stringify(jsonData, null, 2), (err) => {
@@ -569,23 +596,7 @@ function anadirVerdura(nombre_verdura,cantidad_verdura){
     const fs=require('fs');
     const path=require('path');
 
-
-
-
     const archivoJSON = path.join(__dirname, 'stock.json');
-
-
-
-
-    const cantidad_verduraInt=parseInt(cantidad_verdura);
-
-
-    const registroVerdura = [
-        {
-            "nombre": nombre_verdura,
-            "cantidad": cantidad_verduraInt
-        }
-    ];
    
     fs.readFile(archivoJSON, 'utf8', (err, data) => {
         if (err) {
@@ -596,6 +607,46 @@ function anadirVerdura(nombre_verdura,cantidad_verdura){
         if (data) {
             jsonData = JSON.parse(data);
         }
+        
+        let x=1;
+        let encontrado = false;
+
+        const frutasEncontrar=jsonData.frutas;
+        const verdurasEncontrar=jsonData.verduras;
+
+        
+        do{
+            for(let fruta of frutasEncontrar){
+                if(fruta.id===x) {
+                    encontrado=true;
+                    break;
+                }
+            }
+            if(encontrado)x++;
+        }while(encontrado);
+
+        do{
+            for(let verdura of verdurasEncontrar){
+                if(verdura.id===x) {
+                    encontrado=true;
+                    break;
+                }
+            }
+            if(encontrado)x++;
+        }while(encontrado);
+
+
+        const cantidad_verduraInt=parseInt(cantidad_verdura);
+
+        const registroVerdura = [
+            {
+                "id":x,
+                "nombre": nombre_verdura,
+                "cantidad": cantidad_verduraInt
+            }
+        ];
+        
+
         jsonData.verduras.push(...registroVerdura);
        
         fs.writeFile(archivoJSON, JSON.stringify(jsonData, null, 2), (err) => {
@@ -606,6 +657,7 @@ function anadirVerdura(nombre_verdura,cantidad_verdura){
             console.log("Archivo actualizado con éxito.");
         });
     });
+
 }
 
 
