@@ -3,14 +3,14 @@
     {
       "nombre": "Manzanas",
       "cantidad": 0,
-      "fecha": "2025/0/3 21:4:22"
+      "fecha": "2025/0/4 11:48:38"
     }
   ],
   "verduras": [
     {
       "nombre": "Cebollas",
-      "cantidad": 4,
-      "fecha": "2025/0/3 21:4:22"
+      "cantidad": 1,
+      "fecha": "2025/0/4 11:48:38"
     }
   ]
 }

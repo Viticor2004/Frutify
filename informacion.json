@@ -7,7 +7,9 @@
       "contrasena": "pepe12345",
       "administrar": true,
       "telefono": "6785943087",
-      "direccion": "Calle Fruty"
+      "direccion": "Calle Fruty",
+      "genero": "Masculino",
+      "edad": 35
     },
     {
       "id": 2,
@@ -16,7 +18,9 @@
       "contrasena": "manolo12345",
       "administrar": false,
       "telefono": "661295055",
-      "direccion": "Calle Fleming"
+      "direccion": "Calle Fleming",
+      "genero": "Masculino",
+      "edad": 42
     },
     {
       "id": 3,
@@ -25,7 +29,9 @@
       "contrasena": "carla12345",
       "administrar": false,
       "telefono": "6785943084",
-      "direccion": "Calle Tarara"
+      "direccion": "Calle Tarara",
+      "genero": "Femenino",
+      "edad": 29
     },
     {
       "id": 4,
@@ -34,7 +40,9 @@
       "contrasena": "carlota12345",
       "administrar": false,
       "telefono": "6782243674",
-      "direccion": "Calle Limones"
+      "direccion": "Calle Limones",
+      "genero": "Femenino",
+      "edad": 33
     },
     {
       "id": 5,
@@ -43,7 +51,9 @@
       "contrasena": "paco12345",
       "administrar": false,
       "telefono": "6784543674",
-      "direccion": "Calle Guay"
+      "direccion": "Calle Guay",
+      "genero": "Masculino",
+      "edad": 46
     },
     {
       "id": 6,
@@ -52,7 +62,20 @@
       "contrasena": "123456",
       "administrar": false,
       "telefono": "675849576",
-      "direccion": "Calle Parguela"
+      "direccion": "Calle Parguela",
+      "genero": "Masculino",
+      "edad": 25
+    },
+    {
+      "id": 7,
+      "nombre": "Carlos",
+      "email": "carlos@gmail.com",
+      "contrasena": "123456",
+      "administrar": false,
+      "telefono": "665235475",
+      "direccion": "Calle Chupiguay",
+      "genero": "Masculino",
+      "edad": "35"
     }
   ]
 }
