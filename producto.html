@@ -9,56 +9,118 @@
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 </head>
 <script>
-    const frutas = [];
-    const verduras = [];
-    fetch('stock.json')
-    .then(response => response.json())
-    .then(data => {
-        google.charts.load('current', {'packages':['corechart']});
-        google.charts.load('current', {packages: ['corechart', 'bar']});
-        const frutasDatos = data.frutas;
-        const verdurasDatos = data.verduras;
-        google.charts.setOnLoadCallback(frutasStock);
-        google.charts.setOnLoadCallback(verdurasStock);
-        frutasDatos.forEach(fruta => {
-            frutas.push([fruta.nombre, fruta.cantidad]);
-        });
-        verdurasDatos.forEach(verdura => {
-            verduras.push([verdura.nombre, verdura.cantidad]);
-        });
-        anadirFrutasOpciones();
-        anadirVerdurasOpciones();
 
-        function frutasStock(){
-            var data = google.visualization.arrayToDataTable([
-                ['Frutas', 'Cantidad'],
-                ...frutas
-            ]);
-            var materialOptions = {
-                chart: { title: 'Venta anual de frutas por género' },
-                hAxis: { title: 'Cantidad vendida', minValue: 0 },
-                vAxis: { title: 'Frutas' },
-                bars: 'vertical',
-            };
-            var materialChart = new google.charts.Bar(document.getElementById('frutasStock'));
-            materialChart.draw(data, materialOptions);
+        function mostrarFruta() {
+            let tabla = `
+                <table>
+                    <div>
+                        <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Nombre</th>
+                            <th>Cantidad</th>
+                        </tr>
+                    </thead>
+                    </div>
+                    
+                    <tbody>
+            `;
+
+            fetch('stock.json')
+            .then(response=>{
+                if(!response.ok){
+                    throw new Error('Error');
+                }
+                return response.json();
+            })
+            .then(data => {
+                
+                const frutas=data.frutas;
+                
+
+
+                frutas.forEach(fruta => { 
+                    
+                        tabla += `
+                        <tr>
+                            <td>${fruta.id}</td>
+                            <td>${fruta.nombre}</td>
+                            <td>${fruta.cantidad}</td>
+                        </tr>                            
+                    `;
+
+                
+                });
+                tabla += `</tbody></table>`; // Cierra las etiquetas de la tabla
+                const panelfruta = document.getElementById("panelfruta");
+                panelfruta.innerHTML = tabla;
+
+
+            })
+            .catch(error => {
+                    console.error(error);
+            });
         }
 
-        function verdurasStock() {
-            var data = google.visualization.arrayToDataTable([
-                ['Verduras', 'Cantidad'],
-                ...verduras
-            ]);
-            var materialOptions = {
-                chart: { title: 'Venta anual de verduras por género' },
-                hAxis: { title: 'Cantidad vendida', minValue: 0 },
-                vAxis: { title: 'Verduras' },
-                bars: 'vertical',
-            };
-            var materialChart = new google.charts.Bar(document.getElementById('verdurasStock'));
-            materialChart.draw(data, materialOptions);
+        // Llama a la función para mostrar los empleados
+        mostrarFruta();
+
+        function mostrarVerdura() {
+            let tabla = `
+                <table>
+                    <div>
+                        <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Nombre</th>
+                            <th>Cantidad</th>
+                        </tr>
+                    </thead>
+                    </div>
+                    
+                    <tbody>
+            `;
+
+            fetch('stock.json')
+            .then(response=>{
+                if(!response.ok){
+                    throw new Error('Error');
+                }
+                return response.json();
+            })
+            .then(data => {
+                
+                const verduras=data.verduras;
+                
+
+
+                verduras.forEach(verdura => { 
+                    
+                        
+                        tabla += `
+                        <tr>
+                            <td>${verdura.id}</td>
+                            <td>${verdura.nombre}</td>
+                            <td>${verdura.cantidad}</td>
+                        </tr>                            
+                    `;
+                
+                });
+                tabla += `</tbody></table>`; // Cierra las etiquetas de la tabla
+                const panelverdura = document.getElementById("panelverdura");
+                panelverdura.innerHTML = tabla;
+
+
+            })
+            .catch(error => {
+                    console.error(error);
+            });
         }
-    });
+
+        // Llama a la función para mostrar los empleados
+        mostrarVerdura();
+
+
 </script>
 <body>
     <header>
@@ -71,8 +133,10 @@
     </header>
     <div class="contenedor">
         <h3>Gráficas de Stock</h3>
-        <div id="frutasStock"></div>
-        <div id="verdurasStock"></div>
+        <div class="paneles">
+            <div class="panelfruta" id="panelfruta"></div>
+            <div class="panelverdura" id="panelverdura"></div>
+        </div>
         <div class="botones">
             <label>Seleccionar Fruta</label>
             <select id="selectFruits"></select>
