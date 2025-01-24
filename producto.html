@@ -166,32 +166,49 @@
                 let verdurasboolean = false;
                 const frutasDatos = data.frutas;
                 const verdurasDatos = data.verduras;
-                frutasDatos.forEach(fruta => {
-                    if(valueSeleccionadoFruta === fruta.nombre && quantityFruits <= fruta.cantidad && quantityFruits >= 0 ){
-                        nuevaURL += `/${valueSeleccionadoFruta}/${quantityFruits}/${cliente_fruta}`;
-                        frutasboolean = true;
-                    }
-                });
-                verdurasDatos.forEach(verdura => {
-                    if(valueSeleccionadoVerdura === verdura.nombre &&  quantityVegetables <= verdura.cantidad && quantityVegetables >= 0 ){
-                        nuevaURL += `/${valueSeleccionadoVerdura}/${quantityVegetables}/${cliente_verdura}`;
-                        verdurasboolean = true;
-                    }
-                });
+
+                // frutasDatos.forEach(fruta => {
+                //     if(valueSeleccionadoFruta === fruta.nombre && quantityFruits <= fruta.cantidad && quantityFruits >= 0 ){
+                         nuevaURL += `/${valueSeleccionadoFruta}/${quantityFruits}/${cliente_fruta}`;
+                //         frutasboolean = true;
+                //     }
+                // });
+                // verdurasDatos.forEach(verdura => {
+                //     if(valueSeleccionadoVerdura === verdura.nombre &&  quantityVegetables <= verdura.cantidad && quantityVegetables >= 0 ){
+                         nuevaURL += `/${valueSeleccionadoVerdura}/${quantityVegetables}/${cliente_verdura}`;
+                //         verdurasboolean = true;
+                //     }
+                // });
                 //const usuario = localStorage.getItem('nombre');
                 //const genero = localStorage.getItem('genero');
                 // const genero = "Hombre";
                 // nuevaURL += `/${usuario}/${genero}`;
-                if (frutasboolean && verdurasboolean){
-                    fetch(nuevaURL)
-                    .then(response => response.text())
-                    .then(data => {})
-                    .catch(error => console.error(error));
+                const payload = {
+                    frutas: frutasboolean ? { nombre: valueSeleccionadoFruta, cantidad: quantityFruits, cliente: cliente_fruta } : null,
+                    verduras: verdurasboolean ? { nombre: valueSeleccionadoVerdura, cantidad: quantityVegetables, cliente: cliente_verdura } : null
+                };
+              
+                fetch('http://localhost:3000/comprar/producto', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(payload)
+                })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Error en la compra');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    console.log('Respuesta del servidor:', data);
+                    pintarDatosNuevos(); // Asume que esta función se encarga de actualizar la UI
                     alert("Comprado con éxito");
-                } else {
-                    alert("Por favor, ingresa una cantidad válida.");
-                }
-            });
+                })
+                .catch(error => console.error('Error en el proceso:', error));
+                        alert("Comprado con éxito");
+                });
         });
     }
     comprar();

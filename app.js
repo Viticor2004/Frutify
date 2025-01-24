@@ -1,3 +1,4 @@
+const { json } = require('express');
 const express = require('express');
 const app = express();
 
@@ -42,18 +43,33 @@ app.get('/anadir/:nombre/:email/:telefono/:direccion/:genero/:edad', (req, res) 
 });
 
 
-app.get('/comprar/producto/:nombre_fruta/:cantidad_fruta/:cliente_fruta/:nombre_verdura/:cantidad_verdura/:cliente_verdura', (req, res) => {
-   
-    const nombre_fruta=req.params.nombre_fruta;
-    const cantidad_fruta=req.params.cantidad_fruta;
-    const cliente_fruta=req.params.cliente_fruta;
-    const nombre_verdura=req.params.nombre_verdura;
-    const cantidad_verdura=req.params.cantidad_verdura;
-    const cliente_verdura=req.params.cliente_verdura;
-    //const usuario=req.params.usuario;
-    // const genero=req.params.genero;
-   
-    actualizarProducto(nombre_fruta,cantidad_fruta,nombre_verdura,cantidad_verdura,cliente_fruta,cliente_verdura);
+app.post('/comprar/producto', (req, res) => {
+    // Extraer los datos del payload
+    const { frutas, verduras } = req.body;
+
+    // Variables para la venta
+    let nombre_fruta, cantidad_fruta, cliente_fruta;
+    let nombre_verdura, cantidad_verdura, cliente_verdura;
+
+    // Verificar si hay datos de frutas
+    if (frutas) {
+        nombre_fruta = frutas.nombre;
+        cantidad_fruta = frutas.cantidad;
+        cliente_fruta = frutas.cliente;
+    }
+
+    // Verificar si hay datos de verduras
+    if (verduras) {
+        nombre_verdura = verduras.nombre;
+        cantidad_verdura = verduras.cantidad;
+        cliente_verdura = verduras.cliente;
+    }
+
+    // Llamar a la función realizarVenta con los datos extraídos
+    realizarVenta(nombre_fruta, cantidad_fruta, cliente_fruta, nombre_verdura, cantidad_verdura, cliente_verdura);
+
+    // Responder al cliente con éxito
+    res.status(200).json({ message: 'Venta realizada con éxito' });
 });
 
 
@@ -294,144 +310,93 @@ function anadir(nombre,email,telefono,direccion, genero, edad){
 
 
 }
-function actualizarProducto(nombre_fruta,cantidad_fruta,nombre_verdura,cantidad_verdura,cliente_fruta,cliente_verdura){
+
+function actualizarProducto(nombre_fruta,cantidad_fruta,cliente_fruta,nombre_verdura,cantidad_verdura,cliente_verdura){
     const fs=require('fs');
     const path=require('path');
 
-
-
-
-    const archivoJSON = path.join(__dirname, 'stock.json');
     const archivoVentasJSON=path.join(__dirname,'ventas.json');
+    const archivoCliente=path.join(__dirname,'informacion.json');
+    const archivoStock=path.join(__dirname,'stock.json');
 
+    let cliente_fruta_genero;
+    let cliente_fruta_edad;
 
+    let cliente_verdura_genero;
+    let cliente_verdura_edad;
 
+    let id_fruta;
+    let id_verdura;
 
+    let crear_registro_fruta=false;
 
+    let x=1;
+    let encontrado = false;
 
-
-
-    fs.readFile(archivoJSON,'utf8',(err,data)=>{
+    fs.readFile(archivoCliente,'utf8',(err,data)=>{
         if(err){
             console.error("Error al leer el archivo: ",err);
             return;
         }
 
-
-
-
-
-
-
-
         let jsonData = JSON.parse(data);
 
 
-
-
-        const frutas=jsonData.frutas;
-        const verduras=jsonData.verduras;
-       
-        frutas.forEach(fruta => {
-            if(nombre_fruta===fruta.nombre){
-                fruta.cantidad-=cantidad_fruta;
+        jsonData.usuarios.forEach(usuario => {
+            if(usuario.nombre===cliente_fruta){
+                cliente_fruta_genero=usuario.genero;
+                cliente_fruta_edad=usuario.edad;
+            }
+            if(usuario.nombre===cliente_verdura){
+                cliente_verdura_genero=usuario.genero;
+                cliente_verdura_edad=usuario.edad;
             }
         });
+    
+        
+        
 
+        const id_encontrar=jsonData.usuarios;
 
-
-
-
-
-
-
-        verduras.forEach(verdura => {
-            if(nombre_verdura===verdura.nombre){
-                verdura.cantidad-=cantidad_verdura;
+        do{
+            for(let usuario of id_encontrar){
+                if(usuario.id===x) {
+                    encontrado=true;
+                    break;
+                }
             }
-        });
+            if(encontrado)x++;
+        }while(encontrado);
 
 
 
-
-        fs.writeFile(archivoJSON, JSON.stringify(jsonData, null, 2), (err) => {
-            if (err) {
-                console.error("Error al escribir en el archivo: ", err);
-                return;
-            }
-            console.log("Archivo actualizado con éxito.");
-        });
-
-
-
-
-
-
-
-
-
-
-
-
-        const archivoJSONRegistrar=path.join(__dirname,'registrar_stock.json');
-        const cantidad_frutaInt=parseInt(cantidad_fruta);
-        const cantidad_verduraInt=parseInt(cantidad_verdura);
-
-
-
-
-        const fechaActual=new Date();
-        const fechaCreada=fechaActual.getFullYear()+"/"+fechaActual.getMonth()+"/"+fechaActual.getDay()+" "+fechaActual.getHours()+":"+fechaActual.getMinutes()+":"+fechaActual.getSeconds();
-
-
-
-
-
-
-
-
-        const registroFruta=[
-            {
-                "nombre":nombre_fruta,
-                "cantidad":cantidad_frutaInt,
-                "fecha":fechaCreada
-            }
-        ];
-        const registroVerdura=[
-            {
-                "nombre":nombre_verdura,
-                "cantidad":cantidad_verduraInt,
-                "fecha":fechaCreada
-            }
-        ];
-
-
-
-
-        const jsonDataRegistrar={
-            frutas:registroFruta,
-            verduras:registroVerdura
-        };
-
-
-
-
-       
-        fs.writeFile(archivoJSONRegistrar, JSON.stringify(jsonDataRegistrar, null, 2), (err) => {
-            if (err) {
-                console.error("Error al escribir en el archivo: ", err);
-                return;
-            }
-            console.log("Archivo actualizado con éxito.");
-        });
-
-
-
-
-       
     });
 
 
+    fs.readFile(archivoStock,'utf8',(err,data)=>{
+        if(err){
+            console.error("Error al leer el archivo: ",err);
+            return;
+        }
+
+        let jsonData = JSON.parse(data);
+
+        jsonData.frutas.forEach(fruta => {
+            if(fruta.nombre===nombre_fruta){
+                id_fruta=fruta.id;
+            }          
+        });
+
+        jsonData.verduras.forEach(verdura => {
+            if(verdura.nombre===cliente_fruta){
+                id_verdura=verdura.id;
+            }          
+        });
+
+
+    });
+
+    
 
 
     fs.readFile(archivoVentasJSON,'utf8',(err,data)=>{
@@ -440,53 +405,45 @@ function actualizarProducto(nombre_fruta,cantidad_fruta,nombre_verdura,cantidad_
             return;
         }
 
-
-
-
-
-
-
-
         let jsonData = JSON.parse(data);
-
-
-
-
-
-
-
 
         const fechaActual=new Date();
         const fechaCreada=fechaActual.getFullYear()+"/"+fechaActual.getMonth()+"/"+fechaActual.getDay()+" "+fechaActual.getHours()+":"+fechaActual.getMinutes()+":"+fechaActual.getSeconds();
 
 
-
-
-
-
-
-
         if(cantidad_fruta>0){
+            
             const cantidad_frutaInt=parseInt(cantidad_fruta);
+            crear_registro_fruta=true;
             const registroFruta=[
                 {
+                    "id_venta":x,
+                    "id_producto":id_fruta,
                     "producto":nombre_fruta,
                     "cantidad":cantidad_frutaInt,
                     "comprador":cliente_fruta,
-                    "genero":genero,
+                    "genero":cliente_fruta_genero,
+                    "edad":cliente_fruta_edad,
                     "fecha_compra":fechaCreada
                 }
             ];
             jsonData.frutas_anuales.push(registroFruta);
         }
+
         if(cantidad_verdura>0){
             const cantidad_verduraInt=parseInt(cantidad_verdura);
+            if(crear_registro_fruta){
+                x+=1;
+            }
             const registroVerdura=[
                 {
+                    "id_venta":x,
+                    "id_producto":id_verdura,
                     "producto":nombre_verdura,
                     "cantidad":cantidad_verduraInt,
                     "comprador":cliente_verdura,
-                    "genero":genero,
+                    "genero":cliente_verdura_genero,
+                    "edad":cliente_verdura_edad,
                     "fecha_compra":fechaCreada
                 }
             ];
@@ -506,21 +463,11 @@ function actualizarProducto(nombre_fruta,cantidad_fruta,nombre_verdura,cantidad_
         });
 
 
-
-
-
-
-
-
-
-
-
-
     });
 
 
 
-
+    
 }
 function anadirFruta(nombre_fruta,cantidad_fruta){
     const fs=require('fs');
