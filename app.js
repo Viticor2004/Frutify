@@ -1,8 +1,14 @@
 const { json } = require('express');
 const express = require('express');
 const app = express();
-
-
+const cors = require('cors');
+const { captureRejectionSymbol } = require('events');
+const { LocalStorage } = require('node-localstorage');
+const { loadEnvFile } = require('process');
+const { strict } = require('assert');
+const localStorage = new LocalStorage('./miDirectorioDeStorage');
+app.use(cors());
+app.use(express.json());
 
 
 app.get('/eliminar/:id', (req, res) => {
@@ -44,29 +50,12 @@ app.get('/anadir/:nombre/:email/:telefono/:direccion/:genero/:edad', (req, res) 
 
 
 app.post('/comprar/producto', (req, res) => {
+    
     // Extraer los datos del payload
     const { frutas, verduras } = req.body;
-
-    // Variables para la venta
-    let nombre_fruta, cantidad_fruta, cliente_fruta;
-    let nombre_verdura, cantidad_verdura, cliente_verdura;
-
-    // Verificar si hay datos de frutas
-    if (frutas) {
-        nombre_fruta = frutas.nombre;
-        cantidad_fruta = frutas.cantidad;
-        cliente_fruta = frutas.cliente;
-    }
-
-    // Verificar si hay datos de verduras
-    if (verduras) {
-        nombre_verdura = verduras.nombre;
-        cantidad_verdura = verduras.cantidad;
-        cliente_verdura = verduras.cliente;
-    }
-
     // Llamar a la función realizarVenta con los datos extraídos
-    realizarVenta(nombre_fruta, cantidad_fruta, cliente_fruta, nombre_verdura, cantidad_verdura, cliente_verdura);
+    
+    realizarVenta(frutas,verduras);
 
     // Responder al cliente con éxito
     res.status(200).json({ message: 'Venta realizada con éxito' });
@@ -311,27 +300,24 @@ function anadir(nombre,email,telefono,direccion, genero, edad){
 
 }
 
-function actualizarProducto(nombre_fruta,cantidad_fruta,cliente_fruta,nombre_verdura,cantidad_verdura,cliente_verdura){
+function realizarVenta(frutas,verduras){
     const fs=require('fs');
     const path=require('path');
+    
+    console.log("hola que tal todo: ");
 
-    const archivoVentasJSON=path.join(__dirname,'ventas.json');
-    const archivoCliente=path.join(__dirname,'informacion.json');
-    const archivoStock=path.join(__dirname,'stock.json');
+    localStorage.setItem('frutas', JSON.stringify(frutas));
+    localStorage.setItem('verduras', JSON.stringify(verduras));
 
-    let cliente_fruta_genero;
-    let cliente_fruta_edad;
 
-    let cliente_verdura_genero;
-    let cliente_verdura_edad;
+    let cliente_fruta_genero,cliente_fruta_edad;
+    let cliente_verdura_genero,cliente_verdura_edad;
 
     let id_fruta;
     let id_verdura;
 
-    let crear_registro_fruta=false;
-
-    let x=1;
-    let encontrado = false;
+    const archivoCliente=path.join(__dirname,'informacion.json');
+    const archivoStock=path.join(__dirname,'stock.json');
 
     fs.readFile(archivoCliente,'utf8',(err,data)=>{
         if(err){
@@ -341,39 +327,29 @@ function actualizarProducto(nombre_fruta,cantidad_fruta,cliente_fruta,nombre_ver
 
         let jsonData = JSON.parse(data);
 
-
         jsonData.usuarios.forEach(usuario => {
-            if(usuario.nombre===cliente_fruta){
+            if(usuario.nombre===frutas.cliente){
                 cliente_fruta_genero=usuario.genero;
                 cliente_fruta_edad=usuario.edad;
+                
             }
-            if(usuario.nombre===cliente_verdura){
+            if(usuario.nombre===verduras.cliente){
                 cliente_verdura_genero=usuario.genero;
                 cliente_verdura_edad=usuario.edad;
-            }
+            }  
         });
-    
+
+        localStorage.setItem('cliente_fruta_genero',cliente_fruta_genero);
+        localStorage.setItem('cliente_fruta_edad',cliente_fruta_edad);
+        localStorage.setItem('cliente_verdura_genero',cliente_verdura_genero);
+        localStorage.setItem('cliente_verdura_edad',cliente_verdura_edad);
+
         
-        
-
-        const id_encontrar=jsonData.usuarios;
-
-        do{
-            for(let usuario of id_encontrar){
-                if(usuario.id===x) {
-                    encontrado=true;
-                    break;
-                }
-            }
-            if(encontrado)x++;
-        }while(encontrado);
-
-
 
     });
 
-
     fs.readFile(archivoStock,'utf8',(err,data)=>{
+
         if(err){
             console.error("Error al leer el archivo: ",err);
             return;
@@ -382,93 +358,247 @@ function actualizarProducto(nombre_fruta,cantidad_fruta,cliente_fruta,nombre_ver
         let jsonData = JSON.parse(data);
 
         jsonData.frutas.forEach(fruta => {
-            if(fruta.nombre===nombre_fruta){
+            if(fruta.nombre===frutas.nombre){
                 id_fruta=fruta.id;
-            }          
+            }
         });
 
         jsonData.verduras.forEach(verdura => {
-            if(verdura.nombre===cliente_fruta){
+            if(verdura.nombre===verduras.nombre){
                 id_verdura=verdura.id;
-            }          
+            }
         });
 
+        localStorage.setItem('id_fruta',id_fruta);
+        localStorage.setItem('id_verdura',id_verdura);
 
+        anadirVenta();
+
+
+
+    
     });
+   
+    
+    // let x=1;
+    // let encontrado = false;
 
     
 
+    // fs.readFile(archivoCliente,'utf8',(err,data)=>{
+    //     if(err){
+    //         console.error("Error al leer el archivo: ",err);
+    //         return;
+    //     }
 
-    fs.readFile(archivoVentasJSON,'utf8',(err,data)=>{
-        if(err){
-            console.error("Error al leer el archivo: ",err);
+    //     let jsonData = JSON.parse(data);
+
+
+    //     jsonData.usuarios.forEach(usuario => {
+    //         if(usuario.nombre===cliente_fruta){
+    //             cliente_fruta_genero=usuario.genero;
+    //             cliente_fruta_edad=usuario.edad;
+    //         }
+    //         if(usuario.nombre===cliente_verdura){
+    //             cliente_verdura_genero=usuario.genero;
+    //             cliente_verdura_edad=usuario.edad;
+    //         }
+    //     });
+    
+        
+        
+
+    //     const id_encontrar=jsonData.usuarios;
+
+    //     do{
+    //         for(let usuario of id_encontrar){
+    //             if(usuario.id===x) {
+    //                 encontrado=true;
+    //                 break;
+    //             }
+    //         }
+    //         if(encontrado)x++;
+    //     }while(encontrado);
+
+
+
+    // });
+
+
+    // fs.readFile(archivoStock,'utf8',(err,data)=>{
+    //     if(err){
+    //         console.error("Error al leer el archivo: ",err);
+    //         return;
+    //     }
+
+    //     let jsonData = JSON.parse(data);
+
+    //     jsonData.frutas.forEach(fruta => {
+    //         if(fruta.nombre===nombre_fruta){
+    //             id_fruta=fruta.id;
+    //         }          
+    //     });
+
+    //     jsonData.verduras.forEach(verdura => {
+    //         if(verdura.nombre===cliente_fruta){
+    //             id_verdura=verdura.id;
+    //         }          
+    //     });
+
+
+    // });
+
+//   fs.readFile(archivoVentasJSON,'utf8',(err,data)=>{
+        // const fechaActual=new Date();
+        // const fechaCreada=fechaActual.getFullYear()+"/"+fechaActual.getMonth()+"/"+fechaActual.getDay()+" "+fechaActual.getHours()+":"+fechaActual.getMinutes()+":"+fechaActual.getSeconds();
+        // let registroFruta;
+        // let registroVerdura;
+
+        // if(cantidad_fruta>0){
+            
+        //     const cantidad_frutaInt=parseInt(cantidad_fruta);
+        //     crear_registro_fruta=true;
+        //     registroFruta=[
+        //         {
+        //             "id_venta":x,
+        //             "id_producto":id_fruta,
+        //             "producto":nombre_fruta,
+        //             "cantidad":cantidad_frutaInt,
+        //             "comprador":cliente_fruta,
+        //             "genero":cliente_fruta_genero,
+        //             "edad":cliente_fruta_edad,
+        //             "fecha_compra":fechaCreada
+        //         }
+        //     ];
+            
+        // }
+
+        // if(cantidad_verdura>0){
+        //     const cantidad_verduraInt=parseInt(cantidad_verdura);
+        //     if(crear_registro_fruta){
+        //         x+=1;
+        //     }
+        //     registroVerdura=[
+        //         {
+        //             "id_venta":x,
+        //             "id_producto":id_verdura,
+        //             "producto":nombre_verdura,
+        //             "cantidad":cantidad_verduraInt,
+        //             "comprador":cliente_verdura,
+        //             "genero":cliente_verdura_genero,
+        //             "edad":cliente_verdura_edad,
+        //             "fecha_compra":fechaCreada
+        //         }
+        //     ];
+            
+        // }
+
+       
+        
+
+        // const datos={
+        //     frutas: registroFruta,
+        //     verduras: registroVerdura
+        // };
+        
+
+        // fs.writeFile(archivoVentasJSON, JSON.stringify(jsonData, null, 2),'utf8', (err) => {
+        //     if (err) {
+        //         console.error("Error al escribir en el archivo: ", err);
+        //         return;
+        //     }
+        //     console.log("Se ha añadido ventas al fichero ventas.json");
+
+        // });
+
+
+
+//    });
+
+
+}
+
+
+
+function anadirVenta(){
+    
+    const fs=require('fs');
+    const path=require('path');
+
+    const archivoVentasJSON=path.join(__dirname,'ventas.json');
+
+    const frutas = JSON.parse(localStorage.getItem('frutas'));
+    const verduras = JSON.parse(localStorage.getItem('verduras'));
+
+    const cliente_fruta_genero=localStorage.getItem('cliente_fruta_genero');
+    const cliente_fruta_edad=localStorage.getItem('cliente_fruta_edad');
+    const cliente_fruta_edadInt=parseInt(cliente_fruta_edad);
+    const cliente_verdura_genero=localStorage.getItem('cliente_verdura_genero');
+    const cliente_verdura_edad=localStorage.getItem('cliente_verdura_edad');
+    const cliente_verdura_edadInt=parseInt(cliente_verdura_edad);
+
+
+    const id_fruta=localStorage.getItem('id_fruta');
+    const id_frutaInt=parseInt(id_fruta);
+    const id_verdura=localStorage.getItem('id_verdura');
+    const id_verduraInt=parseInt(id_verdura);
+
+    fs.readFile(archivoVentasJSON, 'utf8', (err, data) => {
+        if (err) {
+            console.error("Error al leer el archivo: ", err);
             return;
         }
-
-        let jsonData = JSON.parse(data);
+        let jsonData=JSON.parse(data);
 
         const fechaActual=new Date();
         const fechaCreada=fechaActual.getFullYear()+"/"+fechaActual.getMonth()+"/"+fechaActual.getDay()+" "+fechaActual.getHours()+":"+fechaActual.getMinutes()+":"+fechaActual.getSeconds();
 
+        
 
-        if(cantidad_fruta>0){
-            
-            const cantidad_frutaInt=parseInt(cantidad_fruta);
-            crear_registro_fruta=true;
-            const registroFruta=[
-                {
-                    "id_venta":x,
-                    "id_producto":id_fruta,
-                    "producto":nombre_fruta,
-                    "cantidad":cantidad_frutaInt,
-                    "comprador":cliente_fruta,
-                    "genero":cliente_fruta_genero,
-                    "edad":cliente_fruta_edad,
-                    "fecha_compra":fechaCreada
-                }
-            ];
-            jsonData.frutas_anuales.push(registroFruta);
-        }
+        const registroFruta=
+            {
+                "id_venta":1,
+                "id_producto":id_frutaInt,
+                "producto":frutas.nombre,
+                "cantidad":frutas.cantidad,
+                "comprador":frutas.cliente,
+                "genero":cliente_fruta_genero,
+                "edad":cliente_fruta_edadInt,
+                "fecha_compra":fechaCreada
+            }   
 
-        if(cantidad_verdura>0){
-            const cantidad_verduraInt=parseInt(cantidad_verdura);
-            if(crear_registro_fruta){
-                x+=1;
-            }
-            const registroVerdura=[
-                {
-                    "id_venta":x,
-                    "id_producto":id_verdura,
-                    "producto":nombre_verdura,
-                    "cantidad":cantidad_verduraInt,
-                    "comprador":cliente_verdura,
-                    "genero":cliente_verdura_genero,
-                    "edad":cliente_verdura_edad,
-                    "fecha_compra":fechaCreada
-                }
-            ];
-            jsonData.verduras_anuales.push(registroVerdura);
-        }
+        const registroVerdura=
+            {
+                "id_venta":1,
+                "id_producto":id_verduraInt,
+                "producto":verduras.nombre,
+                "cantidad":verduras.cantidad,
+                "comprador":verduras.cliente,
+                "genero":cliente_verdura_genero,
+                "edad":cliente_verdura_edadInt,
+                "fecha_compra":fechaCreada
+            }       
+
+        jsonData.frutas.push(registroFruta);
+        jsonData.verduras.push(registroVerdura);
 
 
-
-
-       
-        fs.writeFile(archivoVentasJSON, JSON.stringify(jsonData, null, 2), (err) => {
+        fs.writeFile(archivoVentasJSON, JSON.stringify(jsonData, null, 2),'utf8', (err) => {
             if (err) {
                 console.error("Error al escribir en el archivo: ", err);
                 return;
             }
-            console.log("Archivo de ventas actualizado con éxito.");
+            console.log("Se ha realizado con éxito las ventas");
+
         });
 
 
     });
 
 
-
-    
 }
+
+
 function anadirFruta(nombre_fruta,cantidad_fruta){
     const fs=require('fs');
     const path=require('path');

@@ -127,7 +127,7 @@
 </body>
 <script>
     const nombre = localStorage.getItem('nombre');
-    console.log(nombre);
+    
     function anadirFrutasOpciones(){
         let opcionesFrutas = "";
         const opciones = document.getElementById("selectFruits");
@@ -144,73 +144,135 @@
         }
         opciones.innerHTML = opcionesVerduras;
     }
-    function comprar(){
-        const botonComprar = document.getElementById("comprar");
-        botonComprar.addEventListener('click', function(){
-            const selectFruits = document.getElementById("selectFruits");
-            const selectedOptionFruits = selectFruits.options[selectFruits.selectedIndex];
-            const valueSeleccionadoFruta = selectedOptionFruits.value;
-            const cliente_fruta=document.getElementById("cliente_fruta").value;
-            const selectVegetables = document.getElementById("selectVegetables");
-            const selectedOptionVegetables = selectVegetables.options[selectVegetables.selectedIndex];
-            const valueSeleccionadoVerdura = selectedOptionVegetables.value;
-            const cliente_verdura=document.getElementById("cliente_verdura").value;
-            const quantityFruits = parseInt(document.getElementById("cantidad_fruta").value);
-            const quantityVegetables = parseInt(document.getElementById("cantidad_verdura").value);
-            
-            fetch('stock.json')
-            .then(response => response.json())
-            .then(data => {
-                let nuevaURL = `http://localhost:3000/comprar/producto`;
-                let frutasboolean = false;
-                let verdurasboolean = false;
-                const frutasDatos = data.frutas;
-                const verdurasDatos = data.verduras;
+    function comprar() {
+    const botonComprar = document.getElementById("comprar");
 
-                // frutasDatos.forEach(fruta => {
-                //     if(valueSeleccionadoFruta === fruta.nombre && quantityFruits <= fruta.cantidad && quantityFruits >= 0 ){
-                         nuevaURL += `/${valueSeleccionadoFruta}/${quantityFruits}/${cliente_fruta}`;
-                //         frutasboolean = true;
-                //     }
-                // });
-                // verdurasDatos.forEach(verdura => {
-                //     if(valueSeleccionadoVerdura === verdura.nombre &&  quantityVegetables <= verdura.cantidad && quantityVegetables >= 0 ){
-                         nuevaURL += `/${valueSeleccionadoVerdura}/${quantityVegetables}/${cliente_verdura}`;
-                //         verdurasboolean = true;
-                //     }
-                // });
-                //const usuario = localStorage.getItem('nombre');
-                //const genero = localStorage.getItem('genero');
-                // const genero = "Hombre";
-                // nuevaURL += `/${usuario}/${genero}`;
-                const payload = {
-                    frutas: frutasboolean ? { nombre: valueSeleccionadoFruta, cantidad: quantityFruits, cliente: cliente_fruta } : null,
-                    verduras: verdurasboolean ? { nombre: valueSeleccionadoVerdura, cantidad: quantityVegetables, cliente: cliente_verdura } : null
-                };
-              
-                fetch('http://localhost:3000/comprar/producto', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(payload)
-                })
+    botonComprar.addEventListener('click', function () {
+        const selectFruits = document.getElementById("selectFruits");
+        const selectedOptionFruits = selectFruits.options[selectFruits.selectedIndex];
+        const valueSeleccionadoFruta = selectedOptionFruits.value;
+        const cliente_fruta = document.getElementById("cliente_fruta").value;
+
+        const selectVegetables = document.getElementById("selectVegetables");
+        const selectedOptionVegetables = selectVegetables.options[selectVegetables.selectedIndex];
+        const valueSeleccionadoVerdura = selectedOptionVegetables.value;
+        const cliente_verdura = document.getElementById("cliente_verdura").value;
+
+        const quantityFruits = parseInt(document.getElementById("cantidad_fruta").value);
+        const quantityVegetables = parseInt(document.getElementById("cantidad_verdura").value);
+
+        // Variables para verificar los errores
+        let errors = [];
+
+        // Verificación de cantidad de frutas y verduras
+        if (isNaN(quantityFruits) || quantityFruits <= 0) {
+            errors.push("Por favor, ingresa una cantidad válida para la fruta.");
+        }
+
+        if (isNaN(quantityVegetables) || quantityVegetables <= 0) {
+            errors.push("Por favor, ingresa una cantidad válida para la verdura.");
+        }
+
+
+        fetch('stock.json')
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Error al obtener los datos del stock.');
+            }
+            return response.json();
+        })
+        .then(data => {
+            const frutas = data.frutas;
+            const verduras = data.verduras;
+
+            let cantidadFrutasEncontrado = false;
+            let cantidadVerdurasEncontrado = false;
+
+            frutas.forEach(fruta => {
+                if (quantityFruits <= fruta.cantidad) {
+                    cantidadFrutasEncontrado = true;
+                }
+            });
+
+            verduras.forEach(verdura => {
+                if (quantityVegetables <= verdura.cantidad) {
+                    cantidadVerdurasEncontrado = true;
+                }
+            });
+
+           
+            fetch('informacion.json')
                 .then(response => {
                     if (!response.ok) {
-                        throw new Error('Error en la compra');
+                        throw new Error('Error al obtener la información de los clientes.');
                     }
                     return response.json();
                 })
                 .then(data => {
-                    console.log('Respuesta del servidor:', data);
-                    pintarDatosNuevos(); // Asume que esta función se encarga de actualizar la UI
-                    alert("Comprado con éxito");
+                    const clientes = data.usuarios;
+
+                    let clienteFrutaEncontrado = false;
+                    let clienteVerduraEncontrado = false;
+
+                    clientes.forEach(usuario => {
+                        if (usuario.nombre === cliente_fruta) {
+                            clienteFrutaEncontrado = true;
+                        }
+                        if (usuario.nombre === cliente_verdura) {
+                            clienteVerduraEncontrado = true;
+                        }
+                    });
+
+                    if (!clienteFrutaEncontrado) {
+                        errors.push("No se ha encontrado el cliente para la venta de la fruta.");
+                    }
+
+                    if (!clienteVerduraEncontrado) {
+                        errors.push("No se ha encontrado el cliente para la venta de la verdura.");
+                    }
+
+                    if (errors.length > 0) {
+                        alert(errors.join("\n"));
+                        return;
+                    }
+
+                    const payload = {
+                        frutas: { nombre: valueSeleccionadoFruta, cantidad: quantityFruits, cliente: cliente_fruta },
+                        verduras: { nombre: valueSeleccionadoVerdura, cantidad: quantityVegetables, cliente: cliente_verdura }
+                    };
+
+                    fetch('http://localhost:3000/comprar/producto', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(payload)
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        localStorage.setItem('ventaRealizada', true);
+                    })
+                    .catch(error => {
+                        alert("Error al realizar la venta.");
+                        console.error(error);
+                    });
                 })
-                .catch(error => console.error('Error en el proceso:', error));
-                        alert("Comprado con éxito");
+                .catch(error => {
+                    console.error('Error al obtener la información de los clientes: ', error);
                 });
+        })
+        .catch(error => {
+            console.error('Error al obtener los datos del stock: ', error);
         });
+    });
+    const ventaRealizada=localStorage.getItem('ventaRealizada');
+    if(ventaRealizada){
+        alert("Venta realizada con éxito");
+        localStorage.removeItem('ventaRealizada');
     }
+}
+
+
     comprar();
     function anadirFruta(){
         const botonAnadir = document.getElementById("anadir_fruta");
