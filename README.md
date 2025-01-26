@@ -20,6 +20,7 @@ Frutify es nuestra gran frutería. La más querida del pueblo (es la única). Ya
 - Instalar node.js: https://nodejs.org/es
 - Ejecutar este código: git clone https://github.com/Viticor2004/Frutify.git
 - Ejecutar comando: node app.js en la terminal de Visual Studio Code.
+- Ejecutar comando: npm install node-localstorage en la terminal de Visual Studio Code
 - Descargarse extensión Live Server en Visual Studio Code.
 
 ## Acceso (web)
