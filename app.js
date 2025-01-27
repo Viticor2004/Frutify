@@ -2,10 +2,10 @@ const { json } = require('express');
 const express = require('express');
 const app = express();
 const cors = require('cors');
-const { captureRejectionSymbol } = require('events');
+const { captureRejectionSymbol, errorMonitor } = require('events');
 const { LocalStorage } = require('node-localstorage');
 const { loadEnvFile } = require('process');
-const { strict } = require('assert');
+const { strict, ifError } = require('assert');
 const localStorage = new LocalStorage('./miDirectorioDeStorage');
 app.use(cors());
 app.use(express.json());
@@ -62,33 +62,40 @@ app.post('/comprar/producto', (req, res) => {
 });
 
 
-app.get('/anadir/fruta/:nombre_fruta/:cantidad_fruta', (req, res) => {
-   
-    const nombre_fruta=req.params.nombre_fruta;
-    const cantidad_fruta=req.params.cantidad_fruta;
-    anadirFruta(nombre_fruta,cantidad_fruta);
-});
+app.post('/anadir/fruta', (req, res) => {
 
-
-app.get('/anadir/verdura/:nombre_verdura/:cantidad_verdura', (req, res) => {
+    const{fruta}=req.body;
     
-    const nombre_verdura=req.params.nombre_verdura;
-    const cantidad_verdura=req.params.cantidad_verdura;
-    anadirVerdura(nombre_verdura,cantidad_verdura);
+    anadirFruta(fruta);
+
+    // Responder al cliente con éxito
+    res.status(200).json({ message: 'Fruta añadida con éxito' });
+    
 });
 
 
-app.get('/eliminar/fruta/:nombre_fruta', (req, res) => {
+app.post('/anadir/verdura', (req, res) => {
+    const{verdura}=req.body;
+    anadirVerdura(verdura);
+    res.status(200).json({ message: 'Verdura añadida con éxito' });
+
+});
+
+
+app.delete('/eliminar/fruta/:nombre_fruta', (req, res) => {
     
     const nombre_fruta=req.params.nombre_fruta;
     eliminarFruta(nombre_fruta);
+    res.status(200).json({ message: `Fruta ${nombre_fruta} eliminada con éxito.` });
+    
 });
 
 
-app.get('/eliminar/verdura/:nombre_verdura', (req, res) => {
+app.delete('/eliminar/verdura/:nombre_verdura', (req, res) => {
    
     const nombre_verdura=req.params.nombre_verdura;
     eliminarVerdura(nombre_verdura);
+    res.status(200).json({ message: `Fruta ${nombre_fruta} eliminada con éxito.` });
 });
 
 
@@ -373,9 +380,6 @@ function realizarVenta(frutas,verduras){
         localStorage.setItem('id_verdura',id_verdura);
 
         anadirVenta();
-
-
-
     
     });
    
@@ -599,14 +603,12 @@ function anadirVenta(){
 }
 
 
-function anadirFruta(nombre_fruta,cantidad_fruta){
+function anadirFruta(fruta){
     const fs=require('fs');
     const path=require('path');
 
-
     const archivoJSON = path.join(__dirname, 'stock.json');
 
-   
     fs.readFile(archivoJSON, 'utf8', (err, data) => {
         if (err) {
             console.error("Error al leer el archivo: ", err);
@@ -616,60 +618,31 @@ function anadirFruta(nombre_fruta,cantidad_fruta){
         if (data) {
             jsonData = JSON.parse(data);
         }
-        
-        let x=1;
-        let encontrado = false;
+                
+        const frutaCantidadInt=parseInt(fruta.cantidad);
 
-        const frutasEncontrar=jsonData.frutas;
-        const verdurasEncontrar=jsonData.verduras;
-
-       
-        do{
-            for(let fruta of frutasEncontrar){
-                if(fruta.id===x) {
-                    encontrado=true;
-                    break;
-                }
-            }
-            if(encontrado)x++;
-        }while(encontrado);
-
-    
-        do{
-            for(let verdura of verdurasEncontrar){
-                if(verdura.id===x) {
-                    encontrado=true;
-                    break;
-                }
-            }
-            if(encontrado)x++;
-        }while(encontrado);
-
-        const cantidad_frutaInt=parseInt(cantidad_fruta);
-
-        const registroFruta = [
+        const registroFruta = 
             {
-                "id":x,
-                "nombre": nombre_fruta,
-                "cantidad": cantidad_frutaInt
+                "id":1,
+                "nombre": fruta.nombre,
+                "cantidad": frutaCantidadInt
             }
-        ];
 
 
-        jsonData.frutas.push(...registroFruta);
+        jsonData.frutas.push(registroFruta);
        
         fs.writeFile(archivoJSON, JSON.stringify(jsonData, null, 2), (err) => {
             if (err) {
                 console.error("Error al escribir en el archivo: ", err);
                 return;
             }
-            console.log("Archivo actualizado con éxito.");
+            console.log("Fruta añadida con éxito.");
         });
     });
 }
 
 
-function anadirVerdura(nombre_verdura,cantidad_verdura){
+function anadirVerdura(verdura){
     const fs=require('fs');
     const path=require('path');
 
@@ -684,54 +657,25 @@ function anadirVerdura(nombre_verdura,cantidad_verdura){
         if (data) {
             jsonData = JSON.parse(data);
         }
-        
-        let x=1;
-        let encontrado = false;
-
-        const frutasEncontrar=jsonData.frutas;
-        const verdurasEncontrar=jsonData.verduras;
-
-        
-        do{
-            for(let fruta of frutasEncontrar){
-                if(fruta.id===x) {
-                    encontrado=true;
-                    break;
-                }
-            }
-            if(encontrado)x++;
-        }while(encontrado);
-
-        do{
-            for(let verdura of verdurasEncontrar){
-                if(verdura.id===x) {
-                    encontrado=true;
-                    break;
-                }
-            }
-            if(encontrado)x++;
-        }while(encontrado);
 
 
-        const cantidad_verduraInt=parseInt(cantidad_verdura);
+        const verduraCantidadInt=parseInt(verdura.cantidad);
 
-        const registroVerdura = [
+        const registroVerdura = 
             {
-                "id":x,
-                "nombre": nombre_verdura,
-                "cantidad": cantidad_verduraInt
+                "id":1,
+                "nombre": verdura.nombre,
+                "cantidad": verduraCantidadInt
             }
-        ];
-        
 
-        jsonData.verduras.push(...registroVerdura);
+        jsonData.verduras.push(registroVerdura);
        
         fs.writeFile(archivoJSON, JSON.stringify(jsonData, null, 2), (err) => {
             if (err) {
                 console.error("Error al escribir en el archivo: ", err);
                 return;
             }
-            console.log("Archivo actualizado con éxito.");
+            console.log("Verdura añadida con éxito.");
         });
     });
 
@@ -742,29 +686,24 @@ function eliminarFruta(nombre_fruta){
     const fs=require('fs');
     const path=require('path');
 
-
-
-
     const archivoJSON = path.join(__dirname, 'stock.json');
-
-
-
 
     fs.readFile(archivoJSON, 'utf8', (err, data) => {
         if (err) {
             console.error('Error al leer el archivo:', err);
             return;
         }
+        
         let jsonData = JSON.parse(data);
        
         jsonData.frutas = jsonData.frutas.filter(fruta => fruta.nombre !== nombre_fruta);
-        // Guardar el archivo actualizado
+
         fs.writeFile(archivoJSON, JSON.stringify(jsonData, null, 2), (err) => {
             if (err) {
                 console.error('Error al guardar el archivo:', err);
                 return;
             }
-            console.log('Verdura y fruta eliminado y archivo actualizado');
+            console.log('Fruta eliminado y archivo actualizado');
            
         });
     });
@@ -775,13 +714,7 @@ function eliminarVerdura(nombre_verdura){
     const fs=require('fs');
     const path=require('path');
 
-
-
-
     const archivoJSON = path.join(__dirname, 'stock.json');
-
-
-
 
     fs.readFile(archivoJSON, 'utf8', (err, data) => {
         if (err) {
@@ -790,7 +723,7 @@ function eliminarVerdura(nombre_verdura){
         }
         let jsonData = JSON.parse(data);
         jsonData.verduras = jsonData.verduras.filter(verdura => verdura.nombre !== nombre_verdura);
-        // Guardar el archivo actualizado
+       
         fs.writeFile(archivoJSON, JSON.stringify(jsonData, null, 2), (err) => {
             if (err) {
                 console.error('Error al guardar el archivo:', err);
