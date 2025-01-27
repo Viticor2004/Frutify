@@ -99,19 +99,22 @@ app.delete('/eliminar/verdura/:nombre_verdura', (req, res) => {
 });
 
 
-app.get('/modificar/stock_fruta/:nombre_fruta/:cantidad_fruta', (req, res) => {
-    
+app.put('/modificar/stock_fruta/:nombre_fruta', (req, res) => {    
     const nombre_fruta=req.params.nombre_fruta;
-    const cantidad_fruta=req.params.cantidad_fruta;
-    modificarStockFruta(nombre_fruta,cantidad_fruta);
+    const stock_fruta=req.body.stock_fruta;
+
+    modificarStockFruta(nombre_fruta,stock_fruta);
+    res.status(200).send(`Ha sido actualizado`);
 });
 
 
-app.get('/modificar/stock_verdura/:nombre_verdura/:cantidad_verdura', (req, res) => {
+app.get('/modificar/stock_verdura/:nombre_verdura', (req, res) => {
     
     const nombre_verdura=req.params.nombre_verdura;
-    const cantidad_verdura=req.params.cantidad_verdura;
-    modificarStockVerdura(nombre_verdura,cantidad_verdura);
+    const stock_verdura=req.body.stock_verdura;
+
+    modificarStockVerdura(nombre_verdura,stock_verdura);
+    res.status(200).send(`Ha sido actualizado`);
 });
 
 
@@ -736,8 +739,8 @@ function eliminarVerdura(nombre_verdura){
 }
 
 
-function modificarStockFruta(nombre_fruta,cantidad_fruta){
-   
+function modificarStockFruta(nombre_fruta,stock_fruta){
+
     const fs=require('fs');
     const path=require('path');
     const archivoJSON = path.join(__dirname, 'stock.json');
@@ -748,19 +751,15 @@ function modificarStockFruta(nombre_fruta,cantidad_fruta){
             return;
         }
 
-
         let jsonData = JSON.parse(data);
 
-
-        const cantidad_frutaInt=parseInt(cantidad_fruta);
-
+        const stock_frutaInt=parseInt(stock_fruta);
 
         jsonData.frutas.forEach(fruta => {
             if(fruta.nombre===nombre_fruta){
-                fruta.cantidad=cantidad_frutaInt;
+                fruta.cantidad=stock_frutaInt;
             }
         });
-
 
         fs.writeFile(archivoJSON, JSON.stringify(jsonData, null, 2), (err) => {
             if (err) {
@@ -773,12 +772,12 @@ function modificarStockFruta(nombre_fruta,cantidad_fruta){
 }
 
 
-function modificarStockVerdura(nombre_verdura,cantidad_verdura){
+function modificarStockVerdura(nombre_verdura,stock_verdura){
    
     const fs=require('fs');
     const path=require('path');
     const archivoJSON = path.join(__dirname, 'stock.json');
-    
+
     fs.readFile(archivoJSON,'utf8',(err,data)=>{
         if(err){
             console.error("Error al leer el archivo: ",err);
@@ -787,11 +786,11 @@ function modificarStockVerdura(nombre_verdura,cantidad_verdura){
 
         let jsonData = JSON.parse(data);
 
-        const cantidad_verduraInt=parseInt(cantidad_verdura);
+        const stock_verduraInt=parseInt(stock_verdura);
 
         jsonData.verduras.forEach(verdura => {
             if(verdura.nombre===nombre_verdura){
-                verdura.cantidad=cantidad_verduraInt;
+                verdura.cantidad=stock_verduraInt;
             }
         });
 

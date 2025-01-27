@@ -441,8 +441,8 @@
             const stockVerduras=data.frutas;
             let stockVerdurasEncontrado=false;
 
-            stockVerduras.forEach(fruta => {
-                if(fruta.nombre===eliminarVerdura){
+            stockVerduras.forEach(verdura => {
+                if(verdura.nombre===eliminarVerdura){
                     stockVerdurasEncontrado=true;
                 }
             });
@@ -484,13 +484,43 @@
         botonStock.addEventListener('click', function(){
             const nombreStockFruta = document.getElementById("nombre_stock_fruta").value;
             const stockFruta = document.getElementById("stock_fruta").value;
-            let nuevaURL = `http://localhost:3000/modificar/stock_fruta/${nombreStockFruta}/${stockFruta}`;
-            fetch(nuevaURL)
-            .then(response => response.text())
-            .then(data => {})
-            .catch(error => console.error(error));
-            alert("Stock modificado con éxito");
+
+            let stockFrutaEncontrado=false;
+            fetch('stock.json')
+            .then(response => {
+            if (!response.ok) {
+                throw new Error('Error al obtener los datos del stock.');
+            }
+            return response.json();
+            })
+            .then(data => {
+            const stockFrutas=data.frutas;
+
+            stockFrutas.forEach(fruta => {
+                if(fruta.nombre===nombreStockFruta){
+                    stockFrutaEncontrado=true;
+                }
+            });
+            if(!stockFrutaEncontrado){
+                alert("No existe una fruta con ese nombre");
+                return;
+            }
+            
+            fetch(`http://localhost:3000/modificar/stock_fruta/${nombreStockFruta}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'            },
+            body: JSON.stringify({
+                stock_fruta: stockFruta
+            })
+            })
+            .then(response => response.json())  
+            .then(data => console.log(data))
+            .catch(error => console.error('Error:', error));
+
         });
+        
+    });
     }
     modificarStockFruta();
 
@@ -499,13 +529,42 @@
         botonStock.addEventListener('click', function(){
             const nombreStockVerdura = document.getElementById("nombre_stock_verdura").value;
             const stockVerdura = document.getElementById("stock_verdura").value;
-            let nuevaURL = `http://localhost:3000/modificar/stock_verdura/${nombreStockVerdura}/${stockVerdura}`;
-            fetch(nuevaURL)
-            .then(response => response.text())
-            .then(data => {})
-            .catch(error => console.error(error));
-            alert("Stock modificado con éxito");
+            let stockVerduraEncontrado=false;
+            fetch('stock.json')
+            .then(response => {
+            if (!response.ok) {
+                throw new Error('Error al obtener los datos del stock.');
+            }
+            return response.json();
+            })
+            .then(data => {
+            const stockVerduras=data.verduras;
+
+            stockVerduras.forEach(verdura => {
+                if(verdura.nombre===nombreStockFruta){
+                    stockVerduraEncontrado=true;
+                }
+            });
+            if(!stockVerduraEncontrado){
+                alert("No existe una verdura con ese nombre");
+                return;
+            }
+            
+            fetch(`http://localhost:3000/modificar/stock_fruta/${nombreStockVerdura}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'            },
+            body: JSON.stringify({
+                stock_verdura: stockVerdura
+            })
+            })
+            .then(response => response.json())  
+            .then(data => console.log(data))
+            .catch(error => console.error('Error:', error));
+
         });
+        
+    });
     }
     modificarStockVerdura();
 </script>
