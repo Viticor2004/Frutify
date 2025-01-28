@@ -560,11 +560,18 @@ function anadirVenta(){
         const fechaActual=new Date();
         const fechaCreada=fechaActual.getFullYear()+"/"+fechaActual.getMonth()+"/"+fechaActual.getDay()+" "+fechaActual.getHours()+":"+fechaActual.getMinutes()+":"+fechaActual.getSeconds();
 
+
+        const allItems=[...jsonData.frutas,...jsonData.verduras];
+
+        const ids = allItems.map(item => item.id_venta);
+
+        const idMax=Math.max(...ids);
+        const id=idMax;
         
 
         const registroFruta=
             {
-                "id_venta":1,
+                "id_venta":id,
                 "id_producto":id_frutaInt,
                 "producto":frutas.nombre,
                 "cantidad":frutas.cantidad,
@@ -576,7 +583,7 @@ function anadirVenta(){
 
         const registroVerdura=
             {
-                "id_venta":1,
+                "id_venta":id,
                 "id_producto":id_verduraInt,
                 "producto":verduras.nombre,
                 "cantidad":verduras.cantidad,

@@ -58,10 +58,10 @@ fetch('informacion.json')
 
         definirEmpleados(empleados);
         if (logeado && usuario_administrador) {
-            definirUsuarioLogeado(valor_nombre,usuario_administrador);
+            definirUsuarioLogeado(valor_nombre,usuario_administrador,valor_gmail);
             redirigir();
         } else if (logeado && usuario_administrador === false){
-            definirUsuarioLogeado(valor_nombre,usuario_administrador);
+            definirUsuarioLogeado(valor_nombre,usuario_administrador,valor_gmail);
             redirigirNoAdmin();
         }
 
@@ -87,9 +87,10 @@ function definirEmpleados(empleados) {
 }
 
 
-function definirUsuarioLogeado(valor_nombre,usuario_administrador) {
+function definirUsuarioLogeado(valor_nombre,usuario_administrador,valor_gmail) {
     localStorage.setItem('nombre',valor_nombre);
     localStorage.setItem('administrador',usuario_administrador);
+    localStorage.setItem('email',valor_gmail);
 }
 
 

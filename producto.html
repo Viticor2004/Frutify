@@ -238,7 +238,7 @@
                         frutas: { nombre: valueSeleccionadoFruta, cantidad: quantityFruits, cliente: cliente_fruta },
                         verduras: { nombre: valueSeleccionadoVerdura, cantidad: quantityVegetables, cliente: cliente_verdura }
                     };
-
+                    localStorage.setItem('payload', JSON.stringify(payload));
                     fetch('http://localhost:3000/comprar/producto', {
                         method: 'POST',
                         headers: {
@@ -258,6 +258,9 @@
                 .catch(error => {
                     console.error('Error al obtener la información de los clientes: ', error);
                 });
+
+
+
         })
         .catch(error => {
             console.error('Error al obtener los datos del stock: ', error);
@@ -266,7 +269,6 @@
     const ventaRealizada=localStorage.getItem('ventaRealizada');
     if(ventaRealizada){
         alert("Venta realizada con éxito");
-        localStorage.removeItem('ventaRealizada');
     }
 }
 
@@ -568,4 +570,74 @@
     }
     modificarStockVerdura();
 </script>
+
+<script
+  type="text/javascript"
+  src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js">
+</script>
+
+    
+<script type="text/javascript">
+    const nombre=localStorage.getItem('nombre');
+    emailjs.init('DHX-oYV2Ez6jvz5a9');
+
+    function enviarEmail(mensaje) {
+
+        const data = {
+            user_name: `${nombre}`,  
+            user_email: "kmenendez@estudiante.edib.es",  
+            message: `${mensaje}`,  
+        };
+       
+        if (data.user_name !== "" && data.user_email !== "") {
+            emailjs.send('service_nbpy0h8', 'template_p4pam1s', data)
+                .then((response) => {
+                    console.log('¡Correo enviado con éxito!', response);
+                }, (error) => {
+                    console.log('¡Error al enviar el correo!', error);
+                });
+        } else {
+            console.log('Por favor, completa los campos de nombre y email.');
+        }
+    }
+    const ventaRealizada=localStorage.getItem('ventaRealizada');
+
+    if(ventaRealizada){
+        enviarEmail("La venta ha sido un éxito");
+        
+    }
+    const payload= JSON.parse(localStorage.getItem('payload'));
+    
+    if(ventaRealizada){
+        fetch('stock.json')
+            .then(response => {
+            if (!response.ok) {
+                throw new Error('Error al obtener los datos del stock.');
+            }
+            return response.json();
+            })
+            .then(data => {
+            const frutas=data.frutas;
+            const verduras=data.verduras;
+
+            frutas.forEach(fruta => {
+                if(fruta.nombre===payload.frutas.nombre && fruta.cantidad<=10){
+                    enviarEmail("Queda poco stock de la fruta vendida");
+                }
+            });
+            verduras.forEach(verdura => {
+                if(verdura.nombre===payload.verduras.nombre && verdura.cantidad<=10){
+                    enviarEmail("Queda poco stock de la verdura vendida");
+                }
+            });
+
+        })
+        .catch(error=>console.error('Error:',error))
+        localStorage.removeItem('ventaRealizada');
+        localStorage.removeItem('payload');
+    }
+
+
+</script>
+
 </html>
