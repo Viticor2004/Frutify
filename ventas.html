@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+      <!DOCTYPE html>
 <html lang="en">
 <head>
   <link rel="icon" href="images/iconofrutify.png" type="image/x-icon">
@@ -15,7 +15,7 @@
       var ventaSemanal;
       var frutasGeneroResultado;
       var verdurasGeneroResultado;
-      fetch('ventas_ficticias.json')
+      fetch('ventas.json')
         .then(response => response.json())
         .then(data => {
          
@@ -25,8 +25,9 @@
           google.charts.load('current', {packages: ['corechart', 'bar']});
          
           
-          const ventasFrutasAnuales=data.frutas_anuales;
-          const ventasVerdurasAnuales=data.verduras_anuales;
+          const ventasFrutasAnuales=data.frutas;
+          
+          const ventasVerdurasAnuales=data.verduras;
           const vMensuales=data.ventas_mensuales;
           const vSemanales=data.ventas_semanales;
       
@@ -452,10 +453,7 @@
           <button id="frutas_resultado">Exportar</button> 
           <div id="verdurasAnual" style="width:500px;height: 500px;"></div>
           <button id="verduras_resultado">Exportar</button>
-          <div id="ventasMensual" style="width: 500px;height: 500px;"></div>
-          <button id="mensuales_resultado">Exportar</button>
-          <div id="ventasSemanal" style="width: 500px;height: 500px;"></div>
-          <button id="semanales_resultado">Exportar</button>
+
 
           <div id="ventasFrutasGenero" style="width: 500px;height: 500px;"></div>
           <button id="frutas_genero_resultado">Exportar</button>

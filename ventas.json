@@ -29,6 +29,26 @@
       "genero": "Masculino",
       "edad": 35,
       "fecha_compra": "2025/0/3 22:12:14"
+    },
+    {
+      "id_venta": 7,
+      "id_producto": 1,
+      "producto": "Manzanas",
+      "cantidad": 1,
+      "comprador": "Pepe",
+      "genero": "Masculino",
+      "edad": 35,
+      "fecha_compra": "2025/0/3 23:24:19"
+    },
+    {
+      "id_venta": 9,
+      "id_producto": 1,
+      "producto": "Naranjas",
+      "cantidad": 2,
+      "comprador": "Carla",
+      "genero": "Femenino",
+      "edad": 29,
+      "fecha_compra": "2025/0/3 23:39:54"
     }
   ],
   "verduras": [
@@ -61,6 +81,26 @@
       "genero": "Masculino",
       "edad": 42,
       "fecha_compra": "2025/0/3 22:12:14"
+    },
+    {
+      "id_venta": 8,
+      "id_producto": 25,
+      "producto": "Brócolis",
+      "cantidad": 1,
+      "comprador": "Carla",
+      "genero": "Femenino",
+      "edad": 29,
+      "fecha_compra": "2025/0/3 23:24:19"
+    },
+    {
+      "id_venta": 10,
+      "id_producto": 25,
+      "producto": "Calabacitas",
+      "cantidad": 4,
+      "comprador": "Carlota",
+      "genero": "Femenino",
+      "edad": 33,
+      "fecha_compra": "2025/0/3 23:39:54"
     }
   ]
 }

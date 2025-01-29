@@ -382,11 +382,37 @@ function realizarVenta(frutas,verduras){
         localStorage.setItem('id_fruta',id_fruta);
         localStorage.setItem('id_verdura',id_verdura);
 
-        anadirVenta();
-    
     });
    
-    
+    fs.readFile(archivoStock, 'utf8', (err, data) => {
+        if (err) {
+            console.error("Error al leer el archivo: ", err);
+            return;
+        }
+        let jsonData=JSON.parse(data);
+
+        jsonData.frutas.forEach(fruta => {
+            if(fruta.nombre===frutas.nombre){
+                fruta.cantidad-=frutas.cantidad;
+            }
+        });
+        jsonData.verduras.forEach(verdura => {
+            if(verdura.nombre===verduras.nombre){
+                verdura.cantidad-=verduras.cantidad;
+            }
+        });
+
+        fs.writeFile(archivoStock, JSON.stringify(jsonData, null, 2),'utf8', (err) => {
+            if (err) {
+                console.error("Error al escribir en el archivo: ", err);
+                return;
+            }
+            console.log("Se ha realizado con éxito las ventas");
+
+        });
+
+        anadirVenta();
+    });
     // let x=1;
     // let encontrado = false;
 
