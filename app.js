@@ -596,7 +596,7 @@ function anadirVenta(){
 
             const registroVerdura=
             {
-                "id_venta":idMaxVerdura,
+                "id_venta":idMaxVerdura +1 ,
                 "id_producto":id_verduraInt,
                 "producto":verduras.nombre,
                 "cantidad":verduras.cantidad,
