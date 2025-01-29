@@ -15,25 +15,35 @@
       var ventaSemanal;
       var frutasGeneroResultado;
       var verdurasGeneroResultado;
-      fetch('stock.json')
+      fetch('ventas_ficticias.json')
         .then(response => response.json())
         .then(data => {
-
+         
+         
+         
           google.charts.load('current', {'packages':['corechart']});
           google.charts.load('current', {packages: ['corechart', 'bar']});
          
           
-          const frutas=data.frutas;
-          const verduras=data.verduras;
-          
-          // google.charts.setOnLoadCallback(frutasAnual);
-          // google.charts.setOnLoadCallback(verdurasAnual);
+          const ventasFrutasAnuales=data.frutas_anuales;
+          const ventasVerdurasAnuales=data.verduras_anuales;
+          const vMensuales=data.ventas_mensuales;
+          const vSemanales=data.ventas_semanales;
+      
+    
+         
+
+
+          //Funcion que se ejecuta una vez que la librería de Google Charts se haya cargado completamente. Ejecuta la función creada para crear la gráfica
+          google.charts.setOnLoadCallback(frutasAnual);
+          google.charts.setOnLoadCallback(verdurasAnual);
           google.charts.setOnLoadCallback(ventasFrutasGenero);
           google.charts.setOnLoadCallback(ventasVerdurasGenero);
           google.charts.setOnLoadCallback(ventasMensual);
           google.charts.setOnLoadCallback(ventasSemanal);
 
           
+
           var frutasAnuales=[];
           var verdurasAnuales=[];
           var ventasMensuales=[];
@@ -46,14 +56,13 @@
           const acumuladorMensual={};
           
           //Suman las cantidades del mismo producto
-          frutas.forEach(({ producto, cantidad }) => {
-            // if (acumuladorFrutas[producto]) {
-            //   acumuladorFrutas[producto] += cantidad;
-            // } else {
-            //}
-            acumuladorFrutas[producto] = cantidad;
+          ventasFrutasAnuales.forEach(({ producto, cantidad }) => {
+            if (acumuladorFrutas[producto]) {
+              acumuladorFrutas[producto] += cantidad;
+            } else {
+              acumuladorFrutas[producto] = cantidad;
+            }
           });
-          
 
           
           //Convierte el objeto en array
@@ -62,71 +71,171 @@
 
 
 
-          verduras.forEach(({ producto, cantidad }) => {
-            // if (acumuladorVerduras[producto]) {
-            //   acumuladorVerduras[producto] += cantidad;
-            // } else {
-              
-            //}
-            acumuladorVerduras[producto] = cantidad;
+          ventasVerdurasAnuales.forEach(({ producto, cantidad }) => {
+            if (acumuladorVerduras[producto]) {
+              acumuladorVerduras[producto] += cantidad;
+            } else {
+              acumuladorVerduras[producto] = cantidad;
+            }
           });
 
 
           verdurasResultado = Object.entries(acumuladorVerduras);
 
 
-          
         
 
-          // ventasFrutasAnuales.forEach(({ producto, cantidad, genero }) => {
-          //   if (!acumuladorFrutasGenero[producto]) {
-          //     acumuladorFrutasGenero[producto] = { Masculino: 0, Femenino: 0 };
-          //   }
-          //   acumuladorFrutasGenero[producto][genero] += cantidad;
-          // });
+          ventasFrutasAnuales.forEach(({ producto, cantidad, genero }) => {
+            if (!acumuladorFrutasGenero[producto]) {
+              acumuladorFrutasGenero[producto] = { Masculino: 0, Femenino: 0 };
+            }
+            acumuladorFrutasGenero[producto][genero] += cantidad;
+          });
 
-          // //convierte el objeto en un array de arrays
-          // frutasGeneroResultado = Object.entries(acumuladorFrutasGenero).map(([producto, generos]) => [
-          //   producto, 
-          //   generos.Masculino, 
-          //   generos.Femenino
-          // ]);
+          //convierte el objeto en un array de arrays
+          frutasGeneroResultado = Object.entries(acumuladorFrutasGenero).map(([producto, generos]) => [
+            producto, 
+            generos.Masculino, 
+            generos.Femenino
+          ]);
 
 
 
           
 
 
-          // ventasVerdurasAnuales.forEach(({ producto, cantidad, genero }) => {
-          //   if (!acumuladorVerdurasGenero[producto]) {
-          //     acumuladorVerdurasGenero[producto] = { Masculino: 0, Femenino: 0 };
-          //   }
-          //   acumuladorVerdurasGenero[producto][genero] += cantidad;
-          // });
+          ventasVerdurasAnuales.forEach(({ producto, cantidad, genero }) => {
+            if (!acumuladorVerdurasGenero[producto]) {
+              acumuladorVerdurasGenero[producto] = { Masculino: 0, Femenino: 0 };
+            }
+            acumuladorVerdurasGenero[producto][genero] += cantidad;
+          });
 
          
-          // verdurasGeneroResultado = Object.entries(acumuladorVerdurasGenero).map(([producto, generos]) => [
-          //   producto, 
-          //   generos.Masculino, 
-          //   generos.Femenino
-          // ]);
+          verdurasGeneroResultado = Object.entries(acumuladorVerdurasGenero).map(([producto, generos]) => [
+            producto, 
+            generos.Masculino, 
+            generos.Femenino
+          ]);
 
 
 
           //ventaMensual
 
-          // ventaMensual=[];
-          // vMensuales.forEach(venta=>{
-          //   ventaMensual.push([venta.mes,venta.frutas,venta.verduras]);
-          // });
+          ventaMensual=[];
+          vMensuales.forEach(venta=>{
+            ventaMensual.push([venta.mes,venta.frutas,venta.verduras]);
+          });
 
       
           //ventaSemanal
-          // ventaSemanal=[];
-          // vSemanales.forEach(venta=>{
-          //   ventaSemanal.push([venta.dia,venta.frutas,venta.verduras]);
-          // });
+          ventaSemanal=[];
+          vSemanales.forEach(venta=>{
+            ventaSemanal.push([venta.dia,venta.frutas,venta.verduras]);
+          });
          
+
+
+          function frutasAnual() {
+
+            //aquí se introduce el contenido y las etiquetas
+            var data = google.visualization.arrayToDataTable([
+              ['Frutas', 'Frutas/año'],
+              ...frutasResultado
+            ]);
+
+
+           
+
+
+            var options = {
+              title: 'Ventas anuales de fruta',
+              curveType: 'function', // Suaviza las líneas
+              legend: { position: 'bottom' },
+              bar: {groupWidth:'100%'},
+              backgroundColor: 'transparent' // Cambia el color de fondo a tu preferencia
+            };
+
+
+            var chart = new google.visualization.PieChart(document.getElementById('frutasAnual'));
+
+
+            chart.draw(data, options);
+          }
+
+
+          function verdurasAnual() {
+
+
+            var data = google.visualization.arrayToDataTable([
+              ['Verduras', 'Verduras/año'],
+              ...verdurasResultado
+            ]);
+
+            var options = {
+              title: 'Ventas anuales de verdura',
+              curveType: 'function', // Suaviza las líneas
+              legend: { position: 'bottom' },
+              bar: {groupWidth:'100%'},
+              backgroundColor: 'transparent' // Cambia el color de fondo a tu preferencia
+            };
+
+
+            var chart = new google.visualization.PieChart(document.getElementById('verdurasAnual'));
+
+
+            chart.draw(data, options);
+          }
+
+
+
+          //Función para dibujar el gráfico de ventas por género
+          function ventasFrutasGenero() {
+            var data = google.visualization.arrayToDataTable([
+            ['Fruta', 'Hombres', 'Mujeres'],
+            ...frutasGeneroResultado
+            ]);
+
+            var materialOptions = {
+              title: 'Ventas mensuales',
+              curveType: 'function', // Suaviza las líneas
+              legend: { position: 'bottom' },
+              bar: { groupWidth: '100%' },
+              backgroundColor: 'transparent',  // Para intentar cambiar el fondo del gráfico
+              chartArea: {
+                backgroundColor: 'transparent' // Asegúrate de que el área del gráfico sea también transparente
+              }
+            };
+
+            var materialChart = new google.charts.Bar(document.getElementById('ventasFrutasGenero'));
+            materialChart.draw(data, materialOptions);
+          }
+          function ventasVerdurasGenero() {
+            var data = google.visualization.arrayToDataTable([
+            ['Verduras', 'Hombres', 'Mujeres'],
+            ...verdurasGeneroResultado
+            ]);
+
+            var materialOptions = {
+            chart: {
+              title: 'Venta anual de verduras por género',
+              subtitle: ''
+            },
+            hAxis: {
+              title: 'Cantidad vendida',
+              minValue: 0,
+            },
+            vAxis: {
+              title: 'Frutas'
+            },
+            bars: 'horizontal', // tipo de barra horizontal
+            };
+
+            var materialChart = new google.charts.Bar(document.getElementById('ventasVerdurasGenero'));
+            materialChart.draw(data, materialOptions);
+          }
+
+
 
 
           function frutasAnual() {
@@ -179,7 +288,59 @@
             chart.draw(data, options);
           }
 
+
+          function ventasMensual() {
+            
+           
+            var data=google.visualization.arrayToDataTable([
+              ['Mes', 'Frutas','Verduras'],
+              ...ventaMensual
+            ]);
+
+
+           
+            var options = {
+              title: 'Ventas mensuales',
+              curveType: 'function', // Suaviza las líneas
+              legend: { position: 'bottom' },
+              bar: {groupWidth:'100%'},
+              backgroundColor: 'transparent' // Cambia el color de fondo a tu preferencia
+            };
+
+            
+            var chart = new google.visualization.ColumnChart(document.getElementById('ventasMensual'));
+            chart.draw(data, options);
+          }
+          function ventasSemanal() {
+            
+          
+            var data=google.visualization.arrayToDataTable([
+              ['Dia', 'Frutas','Verduras'],
+              ...ventaSemanal
+            ]);
+
+
+         
+            var options = {
+              title: 'Ventas semanales',
+              curveType: 'function', // Suaviza las líneas
+              legend: { position: 'bottom' },
+              bar: {groupWidth:'100%'},
+              backgroundColor: 'transparent' // Cambia el color de fondo a tu preferencia
+            };
+
+           
+            var chart = new google.visualization.ColumnChart(document.getElementById('ventasSemanal'));
+            chart.draw(data, options);
+          }
+
+
         });
+
+
+        var ventaFrutasResultado;
+        var ventaVerdurasResultado;
+        //De las ventas del módulo de ventas
         fetch('ventas.json')
         .then(response => response.json())
         .then(data => {
@@ -212,8 +373,8 @@
           });
           
           
-          var ventaFrutasResultado = Object.entries(acumuladorFrutas);
-          var ventaVerdurasResultado=Object.entries(acumuladorVerduras);
+          ventaFrutasResultado = Object.entries(acumuladorFrutas);
+          ventaVerdurasResultado=Object.entries(acumuladorVerduras);
 
           function ventaFrutas() {
 
@@ -394,14 +555,14 @@
       document.getElementById("venta_frutas").addEventListener("click", function() {
         var data = google.visualization.arrayToDataTable([
              ['Producto', 'Cantidad'],
-             ...verdurasGeneroResultado
+             ...ventaFrutasResultado
         ]);
         exportToCSV(data);
       });
       document.getElementById("venta_verduras").addEventListener("click", function() {
         var data = google.visualization.arrayToDataTable([
              ['Producto', 'Cantidad'],
-             ...verdurasGeneroResultado
+             ...ventaVerdurasResultado
         ]);
         exportToCSV(data);
       });

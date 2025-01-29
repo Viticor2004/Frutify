@@ -566,12 +566,15 @@ function anadirVenta(){
         const ids = allItems.map(item => item.id_venta);
 
         const idMax=Math.max(...ids);
-        const id=idMax;
+
+        
         
 
-        const registroFruta=
+        if(frutas.cantidad!==0){
+
+            const registroFruta=
             {
-                "id_venta":id,
+                "id_venta":idMax+1,
                 "id_producto":id_frutaInt,
                 "producto":frutas.nombre,
                 "cantidad":frutas.cantidad,
@@ -581,9 +584,19 @@ function anadirVenta(){
                 "fecha_compra":fechaCreada
             }   
 
-        const registroVerdura=
+            jsonData.frutas.push(registroFruta);
+        }
+
+        var idMaxVerdura=idMax;
+        if(frutas.cantidad!==0){
+            idMaxVerdura+=1;
+        }
+
+        if(verduras.cantidad!==0){
+
+            const registroVerdura=
             {
-                "id_venta":id,
+                "id_venta":idMaxVerdura,
                 "id_producto":id_verduraInt,
                 "producto":verduras.nombre,
                 "cantidad":verduras.cantidad,
@@ -591,10 +604,13 @@ function anadirVenta(){
                 "genero":cliente_verdura_genero,
                 "edad":cliente_verdura_edadInt,
                 "fecha_compra":fechaCreada
-            }       
+            }      
 
-        jsonData.frutas.push(registroFruta);
-        jsonData.verduras.push(registroVerdura);
+
+            jsonData.verduras.push(registroVerdura);
+
+        }
+
 
 
         fs.writeFile(archivoVentasJSON, JSON.stringify(jsonData, null, 2),'utf8', (err) => {
@@ -631,9 +647,16 @@ function anadirFruta(fruta){
                 
         const frutaCantidadInt=parseInt(fruta.cantidad);
 
+        const allItems=[...jsonData.frutas];
+
+        const ids = allItems.map(item => item.id_venta);
+
+        const idMax=Math.max(...ids);
+
+
         const registroFruta = 
             {
-                "id":1,
+                "id":idMax+1,
                 "nombre": fruta.nombre,
                 "cantidad": frutaCantidadInt
             }
@@ -671,9 +694,16 @@ function anadirVerdura(verdura){
 
         const verduraCantidadInt=parseInt(verdura.cantidad);
 
+        const allItems=[...jsonData.verduras];
+
+        const ids = allItems.map(item => item.id_venta);
+
+        const idMax=Math.max(...ids);
+
+
         const registroVerdura = 
             {
-                "id":1,
+                "id":idMax+1,
                 "nombre": verdura.nombre,
                 "cantidad": verduraCantidadInt
             }
