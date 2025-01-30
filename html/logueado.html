@@ -3,7 +3,9 @@
 <head>
     <!-- <script type="module" src="fetch.js"></script> -->
     <script src="../js/informacion.js"></script>
+
     <link rel="icon" href="../images/iconofrutify.png" type="image/x-icon">
+
     <script>
 
     </script>
@@ -25,11 +27,7 @@
 
         // Verifica que 'empleados' sea un JSON válido
         if (empleadosString) {
-
-
                 const empleados = JSON.parse(empleadosString);    
-
-
                 function mostrarEmpleados() {
                     let tabla = `
                         <table>
@@ -43,6 +41,7 @@
                                     <th>Dirección</th>
                                     <th>Genero</th>
                                     <th>Edad</th>
+
                                 </tr>
                             </thead>
                             </div>
@@ -50,10 +49,7 @@
                             <tbody>
                     `;
 
-
                     // Recorre el arreglo de empleados y genera las filas de la tabla
-
-
                     fetch('../json/informacion.json')
                     .then(response=>{
                         if(!response.ok){
@@ -64,8 +60,6 @@
                     .then(data => {
                         
                           const personas=data.usuarios;
-                          
-
 
                           personas.forEach(usuario => { 
                             
@@ -79,10 +73,10 @@
                                     <td>${usuario.direccion}</td>
                                     <td>${usuario.genero}</td>
                                     <td>${usuario.edad}</td>
+
                                     <td><div class="botones"> <button class="modificar" data-id='${usuario.id}' ><img src="../images/iconoModificar.png" alt="modificar"></button> <button class="eliminar" data-id='${usuario.id}' id='eliminar'><img src="../images/cruzRoja.png" alt="cruzRoja"></button> </div></td>
                                 </tr>                            
                             `;
-
 
                             }
                         
@@ -90,7 +84,6 @@
                         tabla += `</tbody></table>`; // Cierra las etiquetas de la tabla
                         const panel = document.getElementById("panel");
                         panel.innerHTML = tabla;
-
 
                         document.querySelectorAll(".eliminar").forEach(boton => {
                             boton.addEventListener("click", function() {
@@ -103,8 +96,6 @@
                                 const nuevaUrl = `http://localhost:3000/eliminar/${idE}`;
                                 //window.history.pushState({}, '', nuevaUrl); 
                                 //window.location.href = nuevaUrl;  // Cambia la URL y recarga la página
-
-
                                 // Aquí podrías hacer la solicitud al servidor para eliminar el usuario
                                 // Por ejemplo, usando fetch:
                                 fetch(nuevaUrl)
@@ -157,17 +148,13 @@
                                         }
                                         // const input=document.createElement('input');
                                         // input.innerHTML=td.innerHTML;
-
-
                                         // td.replaceWith(input);
                                     });
                                 }
 
-
                                 const ids=document.querySelectorAll('.id');
                                 const aceptar=document.querySelector('.aceptar');
                                 aceptar.addEventListener('click', function() {
-
 
                                     //const nuevaUrl = `localhost:3000/modificar/3/d/q/s/a/d`;
                                     let nuevaUrl = `http://localhost:3000/modificar/${id}`;
@@ -194,8 +181,6 @@
                         const anadir = document.querySelector('.anadir');
                         anadir.addEventListener("click", function () {
                             console.log("Se ha pulsado sobre el botón añadir");
-
-
                             const tabla = document.querySelector("#panel table tbody");
                             
                             const inputs_=[];
@@ -209,6 +194,7 @@
                                     <td><input></td>
                                     <td><input></td>
                                     <td><input></td>
+
                                     <td>
                                         <div class="botones">
                                             <button class="modificar" data-id="aleatorio"></button>
@@ -224,8 +210,6 @@
                                 
                                 const aceptar=document.querySelector('.aceptar');
                                 aceptar.addEventListener('click', function() {
-
-
                                     //const nuevaUrl = `localhost:3000/modificar/3/d/q/s/a/d`;
                                     let nuevaUrl = `http://localhost:3000/anadir`;
                                     inputs_.forEach(input => {
@@ -260,6 +244,7 @@
                         //     tabla_anadida += `</tbody></table>`;
                         //     panel.innerHTML = tabla_anadida;
                         // });
+
                     })
                     .catch(error => {
                             console.error(error);
@@ -269,15 +254,12 @@
                 // Llama a la función para mostrar los empleados
                 mostrarEmpleados();
 
-
             } else {
                 console.error("No se encontraron empleados en el localStorage");
             }
 });
     </script>
    
-
-
     <link rel="icon" href="../images/iconofrutify.png" type="image/x-icon">
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -285,8 +267,6 @@
     <link rel="stylesheet" href="../css/estilos.css" type="text/css">
     <title>Frutify</title>
 </head>
-
-
 <body class="bodyLogueado">
     
     <header>
@@ -312,7 +292,6 @@
     <div class="panel" id="panel">
  
     </div>
-
 
     <div id="isAdmin" style="display: block;">
         <div id="mostrarEmpleados">

@@ -1,4 +1,5 @@
-      <!DOCTYPE html>
+<!DOCTYPE html>
+
 <html lang="en">
 <head>
   <link rel="icon" href="../images/iconofrutify.png" type="image/x-icon">
@@ -23,11 +24,10 @@
          
           google.charts.load('current', {'packages':['corechart']});
           google.charts.load('current', {packages: ['corechart', 'bar']});
-         
-          
-          const ventasFrutasAnuales=data.frutas;
-          
+
+          const ventasFrutasAnuales=data.frutas; 
           const ventasVerdurasAnuales=data.verduras;
+
           const vMensuales=data.ventas_mensuales;
           const vSemanales=data.ventas_semanales;
       
@@ -235,10 +235,6 @@
             var materialChart = new google.charts.Bar(document.getElementById('ventasVerdurasGenero'));
             materialChart.draw(data, materialOptions);
           }
-
-
-
-
           function frutasAnual() {
 
             //aquí se introduce el contenido y las etiquetas
@@ -335,7 +331,6 @@
             chart.draw(data, options);
           }
 
-
         });
 
 
@@ -426,12 +421,9 @@
           
 
         });
+
       
     </script>
-
-    
-    
-
 
 </head>
 <body>
@@ -525,6 +517,7 @@
       document.getElementById("mensuales_resultado").addEventListener("click", function() {
         var data = google.visualization.arrayToDataTable([
               ['Stock', 'Frutas','Verduras'],
+
                ...ventaMensual
         ]);
         exportToCSV(data);
@@ -564,6 +557,7 @@
         ]);
         exportToCSV(data);
       });
+
     </script>
 </body>
 </html>
