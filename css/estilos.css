@@ -242,6 +242,7 @@ form {
     .fondo_naranjas{
         display: none;
     }
+
     .fondo_frutas{
         display: none;
     }
@@ -249,27 +250,61 @@ form {
     table{
         margin-top: 100px;
     }
+
     .aceptar{
         margin-left: 280px;
         margin-top: 250px;
+        position: relative;
+        top: 40px;
+        left: -7%;
     }
+
     .anadir{
         margin-left: -500px;
         margin-top: 250px;
+        position: relative;
+        top: 40px;
+        left: -1%;
+    }
+
+    .botones {
+        display: flex;
+        justify-content: center;
+        position: relative;
+        top: 95px;
+        left: -75%;
+        flex-wrap: wrap;
+        height: -20%;
+        margin-top: -50px;
+    }
+
+    .panel {
+        margin-top: 100px;
+        max-height: 300px;
+        height: auto; 
+        overflow: auto;
     }
 
     .Bienvenido{
         margin-left: -100px;
+        margin-top: -100px;
+        position: relative;
+        text-align: center;
+        transform: translateX(20%);
+        font-size: 25px;
     }
+
     #cerrarSesion{
-        margin-left: -290px;
-        margin-top: 60px;
+        position: absolute;
+        top: 30px;
+        right: 10px;
+        margin-top: 0;
+        width: auto;
     }
+
     th:nth-of-type(3) {
         width: 20px;  /* Establece el ancho de la celda */
     }
-    
-
   }
 
 /* ADMIN */ 
