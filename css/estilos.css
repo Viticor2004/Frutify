@@ -1,7 +1,4 @@
 
-
-
-
 * {
     margin: 0;
     padding: 0;
@@ -249,6 +246,7 @@ form {
     table{
         margin-top: 100px;
     }
+
     .aceptar{
         margin-left: 280px;
         margin-top: 250px;
@@ -258,19 +256,36 @@ form {
         margin-top: 250px;
     }
 
-    .Bienvenido{
-        margin-left: -100px;
+    .ventas {
+        padding: 8px 15px;
     }
-    #cerrarSesion{
-        margin-left: -290px;
-        margin-top: 60px;
+
+    .Bienvenido h2 {
+        font-size: 0.9em;
+        margin: 0;
     }
+    
+    #poner {
+        font-size: 0.9em;
+        margin-top: 5px;
+    }
+
+    #cerrarSesion {
+        margin-left: auto;
+        padding: 8px 12px;
+        border-radius: 5px;
+        border: none;
+    }
+
+
     th:nth-of-type(3) {
         width: 20px;  /* Establece el ancho de la celda */
     }
     
 
-  }
+
+}
+
 
 /* ADMIN */ 
 
@@ -332,4 +347,6 @@ td .eliminar img {
     margin-left: 6px;
     width: 40px;
     height: 40px;
+
 }
+

@@ -1,0 +1,760 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="icon" href="../images/iconofrutify.png" type="image/x-icon">
+    <link rel="stylesheet" href="../css/producto.css">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Producto</title>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+</head>
+<script>
+     const frutas = [];
+    const verduras = [];
+    fetch('../json/stock.json')
+    .then(response => response.json())
+    .then(data => {
+        google.charts.load('current', {'packages':['corechart']});
+        google.charts.load('current', {packages: ['corechart', 'bar']});
+        const frutasDatos = data.frutas;
+        const verdurasDatos = data.verduras;
+        google.charts.setOnLoadCallback(frutasStock);
+        google.charts.setOnLoadCallback(verdurasStock);
+        frutasDatos.forEach(fruta => {
+            frutas.push([fruta.nombre, fruta.cantidad]);
+        });
+        verdurasDatos.forEach(verdura => {
+            verduras.push([verdura.nombre, verdura.cantidad]);
+        });
+        anadirFrutasOpciones();
+        anadirVerdurasOpciones();
+
+        function frutasStock(){
+            var data = google.visualization.arrayToDataTable([
+                ['Frutas', 'Cantidad'],
+                ...frutas
+            ]);
+            var materialOptions = {
+                chart: { title: 'Venta anual de frutas por género' },
+                hAxis: { title: 'Cantidad vendida', minValue: 0 },
+                vAxis: { title: 'Frutas' },
+                bars: 'vertical',
+            };
+            var materialChart = new google.charts.Bar(document.getElementById('frutasStock'));
+            materialChart.draw(data, materialOptions);
+        }
+
+        function verdurasStock() {
+            var data = google.visualization.arrayToDataTable([
+                ['Verduras', 'Cantidad'],
+                ...verduras
+            ]);
+            var materialOptions = {
+                chart: { title: 'Venta anual de verduras por género' },
+                hAxis: { title: 'Cantidad vendida', minValue: 0 },
+                vAxis: { title: 'Verduras' },
+                bars: 'vertical',
+            };
+            var materialChart = new google.charts.Bar(document.getElementById('verdurasStock'));
+            materialChart.draw(data, materialOptions);
+        }
+    });
+</script>
+<body>
+    <header>
+        <img src="../images/iconofrutify.png" alt="Logo">
+        <div>
+            <a href="logueado.html"><input type="button" id="volverAtras" value="Volver"></a>
+            <a href="index.html"><input type="submit" id="cerrarSesion" value="Cerrar Sesión"></a>
+        </div>
+    </header>
+    <div class="contenedor">
+        <div class="contenedor_h3">
+            <h3 id="frutas">Frutas</h3>
+            <h3 id="verduras">Verduras</h3>
+        </div>
+        <div class="paneles">
+            <div class="panelfruta" id="panelfruta"></div>
+            <h3 id="verdurasMovil">Verduras</h3>
+            <div class="panelverdura" id="panelverdura"></div>
+        </div>
+        <div class="botones">
+            <label>Seleccionar Fruta</label>
+            <select id="selectFruits"></select>
+            <label>Cantidad</label>
+            <input type="number" id="cantidad_fruta">
+            <label>Cliente para la fruta</label>
+            <input type="text" id="cliente_fruta">
+            <label>Seleccionar Verdura</label>
+            <select id="selectVegetables"></select>
+            <label>Cantidad</label>
+            <input type="number" id="cantidad_verdura">
+            <label>Cliente para la verdura</label>
+            <input type="text" id="cliente_verdura">
+            <button id="comprar">Comprar</button>
+
+            <!-- Añadir -->
+            <label>Nombre de la nueva fruta</label>
+            <input type="text" id="nombre_nuevo_producto_fruta">
+            <label>Cantidad</label>
+            <input type="number" id="cantidad_nuevo_producto_fruta">
+            <button id="anadir_fruta">Añadir nuevo producto</button>
+
+            <label>Nombre de la nueva verdura</label>
+            <input type="text" id="nombre_nuevo_producto_verdura">
+            <label>Cantidad</label>
+            <input type="number" id="cantidad_nuevo_producto_verdura">
+            <button id="anadir_verdura">Añadir nuevo producto</button>
+
+            <!-- Eliminar -->
+            <label>Nombre de la fruta a eliminar</label>
+            <input type="text" id="eliminar_fru">
+            <button id="eliminar_fruta">Eliminar fruta</button>
+
+            <label>Nombre de la verdura a eliminar</label>
+            <input type="text" id="eliminar_verd">
+            <button id="eliminar_verdura">Eliminar verdura</button>
+
+            <!-- Modificar -->
+            <label>Nombre de la fruta a modificar</label>
+            <input type="text" id="nombre_stock_fruta">
+            <label>Nuevo stock</label>
+            <input type="number" id="stock_fruta">
+            <button id="modificar_stock_fruta">Modificar stock</button>
+
+            <label>Nombre de la verdura a modificar</label>
+            <input type="text" id="nombre_stock_verdura">
+            <label>Nuevo stock</label>
+            <input type="number" id="stock_verdura">
+            <button id="modificar_stock_verdura">Modificar stock</button>
+        </div>
+    </div>
+</body>
+<script>
+    
+    function anadirFrutasOpciones(){
+        let opcionesFrutas = "";
+        const opciones = document.getElementById("selectFruits");
+        for(let x = 0; x < frutas.length; x++){
+            opcionesFrutas += `<option value='${frutas[x][0]}'>${frutas[x][0]}</option>`;
+        }
+        opciones.innerHTML = opcionesFrutas;
+    }
+    function anadirVerdurasOpciones(){
+        let opcionesVerduras = "";
+        const opciones = document.getElementById("selectVegetables");
+        for(let x = 0; x < verduras.length; x++){
+            opcionesVerduras += `<option value='${verduras[x][0]}'>${verduras[x][0]}</option>`;
+        }
+        opciones.innerHTML = opcionesVerduras;
+    }
+    function comprar() {
+    const botonComprar = document.getElementById("comprar");
+
+    botonComprar.addEventListener('click', function () {
+        const selectFruits = document.getElementById("selectFruits");
+        const selectedOptionFruits = selectFruits.options[selectFruits.selectedIndex];
+        const valueSeleccionadoFruta = selectedOptionFruits.value;
+        const cliente_fruta = document.getElementById("cliente_fruta").value;
+
+        const selectVegetables = document.getElementById("selectVegetables");
+        const selectedOptionVegetables = selectVegetables.options[selectVegetables.selectedIndex];
+        const valueSeleccionadoVerdura = selectedOptionVegetables.value;
+        const cliente_verdura = document.getElementById("cliente_verdura").value;
+
+        const quantityFruits = parseInt(document.getElementById("cantidad_fruta").value);
+        const quantityVegetables = parseInt(document.getElementById("cantidad_verdura").value);
+
+        
+        let errors = [];
+
+        if (isNaN(quantityFruits) || quantityFruits <= 0) {
+            errors.push("Por favor, ingresa una cantidad válida para la fruta.");
+        }
+
+        if (isNaN(quantityVegetables) || quantityVegetables <= 0) {
+            errors.push("Por favor, ingresa una cantidad válida para la verdura.");
+        }
+
+
+        fetch('../json/stock.json')
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Error al obtener los datos del stock.');
+            }
+            return response.json();
+        })
+        .then(data => {
+            const frutas = data.frutas;
+            const verduras = data.verduras;
+
+            let cantidadFrutasEncontrado = false;
+            let cantidadVerdurasEncontrado = false;
+
+            frutas.forEach(fruta => {
+                if (quantityFruits <= fruta.cantidad) {
+                    cantidadFrutasEncontrado = true;
+                }
+            });
+
+            verduras.forEach(verdura => {
+                if (quantityVegetables <= verdura.cantidad) {
+                    cantidadVerdurasEncontrado = true;
+                }
+            });
+
+           
+            fetch('../json/informacion.json')
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Error al obtener la información de los clientes.');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    const clientes = data.usuarios;
+
+                    let clienteFrutaEncontrado = false;
+                    let clienteVerduraEncontrado = false;
+
+                    clientes.forEach(usuario => {
+                        if (usuario.nombre === cliente_fruta) {
+                            clienteFrutaEncontrado = true;
+                        }
+                        if (usuario.nombre === cliente_verdura) {
+                            clienteVerduraEncontrado = true;
+                        }
+                    });
+
+                    if (!clienteFrutaEncontrado) {
+                        errors.push("No se ha encontrado el cliente para la venta de la fruta.");
+                    }
+
+                    if (!clienteVerduraEncontrado) {
+                        errors.push("No se ha encontrado el cliente para la venta de la verdura.");
+                    }
+
+                    if (errors.length > 0) {
+                        alert(errors.join("\n"));
+                        return;
+                    }
+
+                    const payload = {
+                        frutas: { nombre: valueSeleccionadoFruta, cantidad: quantityFruits, cliente: cliente_fruta },
+                        verduras: { nombre: valueSeleccionadoVerdura, cantidad: quantityVegetables, cliente: cliente_verdura }
+                    };
+                    localStorage.setItem('payload', JSON.stringify(payload));
+                    fetch('http://localhost:3000/comprar/producto', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(payload)
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        localStorage.setItem('ventaRealizada', true);
+                    })
+                    .catch(error => {
+                        alert("Error al realizar la venta.");
+                        console.error(error);
+                    });
+                })
+                .catch(error => {
+                    console.error('Error al obtener la información de los clientes: ', error);
+                });
+
+
+
+        })
+        .catch(error => {
+            console.error('Error al obtener los datos del stock: ', error);
+        });
+    });
+    const ventaRealizada=localStorage.getItem('ventaRealizada');
+    if(ventaRealizada){
+        alert("Venta realizada con éxito");
+    }
+}
+
+
+    comprar();
+    function anadirFruta(){
+        const botonAnadir = document.getElementById("anadir_fruta");
+        botonAnadir.addEventListener('click', function(){
+            const nuevoProductoFruta = document.getElementById("nombre_nuevo_producto_fruta").value;
+            const cantidadNuevoProductoFruta = document.getElementById("cantidad_nuevo_producto_fruta").value;
+            let errors=[];
+
+            if(nuevoProductoFruta.length===0 || !isNaN(nuevoProductoFruta)){
+                errors.push("Por favor, ingresa una cantidad válida para la fruta.");
+            }
+            
+            if(cantidadNuevoProductoFruta===""){
+                errors.push("Por favor, ingresa una cantidad válida para la fruta.");
+            }
+
+            if (errors.length > 0) {
+                alert(errors.join("\n"));
+                return;
+            }
+
+            const payload={
+                fruta:{
+                    nombre:nuevoProductoFruta,
+                    cantidad:cantidadNuevoProductoFruta
+                }
+            };
+            fetch('http://localhost:3000/anadir/fruta', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(payload)
+            })
+            .then(response => response.json())
+            .then(data => {
+                localStorage.setItem('frutaAnadida',true);
+            })
+            .catch(error => {
+                alert("Error al realizar la venta.");
+                console.error(error);
+            });
+            });
+            const frutaAnadida=localStorage.getItem('frutaAnadida');
+            if(frutaAnadida){
+                alert("Fruta añadida con éxito");
+                localStorage.removeItem('frutaAnadida');
+            }
+    }
+    anadirFruta();
+    function anadirVerdura(){
+        const botonAnadir = document.getElementById("anadir_verdura");
+        botonAnadir.addEventListener('click', function(){
+            const nuevoProductoVerdura = document.getElementById("nombre_nuevo_producto_verdura").value;
+            const cantidadNuevoProductoVerdura = document.getElementById("cantidad_nuevo_producto_verdura").value;
+            let errors=[];
+
+            if(nuevoProductoVerdura.length===0 || !isNaN(nuevoProductoVerdura)){
+                errors.push("Por favor, ingresa una cantidad válida para la fruta.");
+            }
+            
+            if(cantidadNuevoProductoVerdura===""){
+                errors.push("Por favor, ingresa una cantidad válida para la fruta.");
+            }
+
+            if (errors.length > 0) {
+                alert(errors.join("\n"));
+                return;
+            }
+            const payload={
+                verdura:{
+                    nombre:nuevoProductoVerdura,
+                    cantidad:cantidadNuevoProductoVerdura
+                }
+            };
+
+            fetch('http://localhost:3000/anadir/verdura', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(payload)
+            })
+            .then(response => response.json())
+            .then(data => {
+                localStorage.setItem('verduraAnadida',true);
+            })
+            .catch(error => {
+                alert("Error al realizar la venta.");
+                console.error(error);
+            });
+        });
+            const verduraAnadida=localStorage.getItem('verduraAnadida');
+            if(verduraAnadida){
+                alert("Verdura añadida con éxito");
+                localStorage.removeItem('verduraAnadida');
+            }
+    }
+    anadirVerdura();
+
+    function eliminarFruta(){
+        const botonEliminar = document.getElementById("eliminar_fruta");
+        botonEliminar.addEventListener('click', function(){
+            const eliminarFruta = document.getElementById("eliminar_fru").value;
+        
+        fetch('../json/stock.json')
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Error al obtener los datos del stock.');
+            }
+            return response.json();
+        })
+        .then(data => {
+            const stockFrutas=data.frutas;
+            let stockFrutasEncontrado=false;
+
+            stockFrutas.forEach(fruta => {
+                if(fruta.nombre===eliminarFruta){
+                    stockFrutasEncontrado=true;
+                }
+            });
+            if(!stockFrutasEncontrado){
+                alert("No existe una fruta con ese nombre");
+                return;
+            }
+
+
+            fetch(`http://localhost:3000/eliminar/fruta/${eliminarFruta}`, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            })
+            .then(response => response.json())
+            .then(data => {
+                localStorage.setItem('frutaEliminada',true);
+            })
+            .catch(error => {
+                alert("Error al eliminar la venta");
+                console.error(error);
+                });
+            })
+        .catch(error => {
+            console.error('Error al obtener la información de los clientes: ', error);
+        });
+
+        });
+        const frutaEliminada=localStorage.getItem('frutaEliminada');
+            if(frutaEliminada){
+                alert("Fruta eliminada con éxito");
+                localStorage.removeItem('frutaEliminada');
+            }
+
+}
+    eliminarFruta();
+    function eliminarVerdura(){
+        const botonEliminar = document.getElementById("eliminar_verdura");
+        botonEliminar.addEventListener('click', function(){
+            const eliminarVerdura = document.getElementById("eliminar_verd").value;
+            fetch('../json/stock.json')
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Error al obtener los datos del stock.');
+            }
+            return response.json();
+        })
+        .then(data => {
+            const stockVerduras=data.frutas;
+            let stockVerdurasEncontrado=false;
+
+            stockVerduras.forEach(verdura => {
+                if(verdura.nombre===eliminarVerdura){
+                    stockVerdurasEncontrado=true;
+                }
+            });
+            if(!stockVerdurasEncontrado){
+                alert("No existe una verdura con ese nombre");
+                return;
+            }
+
+
+            fetch(`http://localhost:3000/eliminar/verdura/${eliminarVerdura}`, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            })
+            .then(response => response.json())
+            .then(data => {
+                localStorage.setItem('verduraEliminada',true);
+            })
+            .catch(error => {
+                alert("Error al eliminar la venta");
+                console.error(error);
+                });
+            })
+            .catch(error => {
+                console.error('Error al obtener la información de los clientes: ', error);
+            });
+        });
+        const verduraEliminada=localStorage.getItem('verduraEliminada');
+            if(verduraEliminada){
+                alert("Verdura eliminada con éxito");
+                localStorage.removeItem('verduraEliminada');
+            }
+    }
+    eliminarVerdura();
+
+    function modificarStockFruta(){
+        const botonStock = document.getElementById("modificar_stock_fruta");
+        botonStock.addEventListener('click', function(){
+            const nombreStockFruta = document.getElementById("nombre_stock_fruta").value;
+            const stockFruta = document.getElementById("stock_fruta").value;
+
+            let stockFrutaEncontrado=false;
+            fetch('../json/stock.json')
+            .then(response => {
+            if (!response.ok) {
+                throw new Error('Error al obtener los datos del stock.');
+            }
+            return response.json();
+            })
+            .then(data => {
+            const stockFrutas=data.frutas;
+
+            stockFrutas.forEach(fruta => {
+                if(fruta.nombre===nombreStockFruta){
+                    stockFrutaEncontrado=true;
+                }
+            });
+            if(!stockFrutaEncontrado){
+                alert("No existe una fruta con ese nombre");
+                return;
+            }
+            
+            fetch(`http://localhost:3000/modificar/stock_fruta/${nombreStockFruta}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'            },
+            body: JSON.stringify({
+                stock_fruta: stockFruta
+            })
+            })
+            .then(response => response.json())  
+            .then(data => console.log(data))
+            .catch(error => console.error('Error:', error));
+
+        });
+        
+    });
+    }
+    modificarStockFruta();
+
+    function modificarStockVerdura(){
+        const botonStock = document.getElementById("modificar_stock_verdura");
+        botonStock.addEventListener('click', function(){
+            const nombreStockVerdura = document.getElementById("nombre_stock_verdura").value;
+            const stockVerdura = document.getElementById("stock_verdura").value;
+            let stockVerduraEncontrado=false;
+            fetch('../json/stock.json')
+            .then(response => {
+            if (!response.ok) {
+                throw new Error('Error al obtener los datos del stock.');
+            }
+            return response.json();
+            })
+            .then(data => {
+            const stockVerduras=data.verduras;
+
+            stockVerduras.forEach(verdura => {
+                if(verdura.nombre===nombreStockFruta){
+                    stockVerduraEncontrado=true;
+                }
+            });
+            if(!stockVerduraEncontrado){
+                alert("No existe una verdura con ese nombre");
+                return;
+            }
+            
+            fetch(`http://localhost:3000/modificar/stock_fruta/${nombreStockVerdura}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'            },
+            body: JSON.stringify({
+                stock_verdura: stockVerdura
+            })
+            })
+            .then(response => response.json())  
+            .then(data => console.log(data))
+            .catch(error => console.error('Error:', error));
+
+        });
+        
+    });
+    }
+    modificarStockVerdura();
+</script>
+
+<script
+  type="text/javascript"
+  src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js">
+</script>
+
+    
+<script type="text/javascript">
+    const nombre=localStorage.getItem('nombre');
+    emailjs.init('DHX-oYV2Ez6jvz5a9');
+
+    function enviarEmail(mensaje) {
+
+        const data = {
+            user_name: `${nombre}`,  
+            user_email: "kmenendez@estudiante.edib.es",  
+            message: `${mensaje}`,  
+        };
+       
+        if (data.user_name !== "" && data.user_email !== "") {
+            emailjs.send('service_nbpy0h8', 'template_p4pam1s', data)
+                .then((response) => {
+                    console.log('¡Correo enviado con éxito!', response);
+                }, (error) => {
+                    console.log('¡Error al enviar el correo!', error);
+                });
+        } else {
+            console.log('Por favor, completa los campos de nombre y email.');
+        }
+    }
+    const ventaRealizada=localStorage.getItem('ventaRealizada');
+
+    if(ventaRealizada){
+        enviarEmail("La venta ha sido un éxito");
+        
+    }
+    const payload= JSON.parse(localStorage.getItem('payload'));
+    
+    if(ventaRealizada){
+        fetch('../json/stock.json')
+            .then(response => {
+            if (!response.ok) {
+                throw new Error('Error al obtener los datos del stock.');
+            }
+            return response.json();
+            })
+            .then(data => {
+            const frutas=data.frutas;
+            const verduras=data.verduras;
+
+            frutas.forEach(fruta => {
+                if(fruta.nombre===payload.frutas.nombre && fruta.cantidad<=10){
+                    enviarEmail("Queda poco stock de la fruta vendida");
+                }
+            });
+            verduras.forEach(verdura => {
+                if(verdura.nombre===payload.verduras.nombre && verdura.cantidad<=10){
+                    enviarEmail("Queda poco stock de la verdura vendida");
+                }
+            });
+
+        })
+        .catch(error=>console.error('Error:',error))
+        localStorage.removeItem('ventaRealizada');
+        localStorage.removeItem('payload');
+    }
+
+
+</script>
+<script>
+ function mostrarFruta() {
+            let tabla = `
+                <table>
+                    <div>
+                        <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Nombre</th>
+                            <th>Cantidad</th>
+                        </tr>
+                    </thead>
+                    </div>
+                    
+                    <tbody>
+            `;
+
+            fetch('../json/stock.json')
+            .then(response=>{
+                if(!response.ok){
+                    throw new Error('Error');
+                }
+                return response.json();
+            })
+            .then(data => {
+                
+                const frutas=data.frutas;
+                
+
+
+                frutas.forEach(fruta => { 
+                    
+                        tabla += `
+                        <tr>
+                            <td>${fruta.id}</td>
+                            <td>${fruta.nombre}</td>
+                            <td>${fruta.cantidad}</td>
+                        </tr>                            
+                    `;
+
+                
+                });
+                tabla += `</tbody></table>`; // Cierra las etiquetas de la tabla
+                const panelfruta = document.getElementById("panelfruta");
+                panelfruta.innerHTML = tabla;
+
+
+            })
+            .catch(error => {
+                    console.error(error);
+            });
+        }
+
+        // Llama a la función para mostrar los empleados
+        mostrarFruta();
+
+        function mostrarVerdura() {
+            let tabla = `
+                <table>
+                    <div>
+                        <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Nombre</th>
+                            <th>Cantidad</th>
+                        </tr>
+                    </thead>
+                    </div>
+                    
+                    <tbody>
+            `;
+
+            fetch('../json/stock.json')
+            .then(response=>{
+                if(!response.ok){
+                    throw new Error('Error');
+                }
+                return response.json();
+            })
+            .then(data => {
+                
+                const verduras=data.verduras;
+                
+
+
+                verduras.forEach(verdura => { 
+                    
+                        
+                        tabla += `
+                        <tr>
+                            <td>${verdura.id}</td>
+                            <td>${verdura.nombre}</td>
+                            <td>${verdura.cantidad}</td>
+                        </tr>                            
+                    `;
+                
+                });
+                tabla += `</tbody></table>`; // Cierra las etiquetas de la tabla
+                const panelverdura = document.getElementById("panelverdura");
+                panelverdura.innerHTML = tabla;
+
+
+            })
+            .catch(error => {
+                    console.error(error);
+            });
+        }
+
+        // Llama a la función para mostrar los empleados
+        mostrarVerdura();
+
+</script>
+</html>

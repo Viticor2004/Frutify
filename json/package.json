@@ -18,6 +18,9 @@
   },
   "homepage": "https://github.com/Viticor2004/Frutify#readme",
   "dependencies": {
-    "express": "^4.21.1"
+    "cors": "^2.8.5",
+    "express": "^4.21.1",
+    "node-localstorage": "^3.0.5"
+
   }
 }

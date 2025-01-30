@@ -1,0 +1,156 @@
+{
+  "frutas": [
+    {
+      "id": 1,
+      "nombre": "Manzanas",
+      "cantidad": 10
+    },
+    {
+      "id": 2,
+      "nombre": "Naranjas",
+      "cantidad": 18
+    },
+    {
+      "id": 3,
+      "nombre": "Plátanos",
+      "cantidad": 1000
+    },
+    {
+      "id": 4,
+      "nombre": "Fresas",
+      "cantidad": 1000
+    },
+    {
+      "id": 5,
+      "nombre": "Uvas",
+      "cantidad": 1000
+    },
+    {
+      "id": 6,
+      "nombre": "Mangos",
+      "cantidad": 1000
+    },
+    {
+      "id": 7,
+      "nombre": "Peras",
+      "cantidad": 1000
+    },
+    {
+      "id": 8,
+      "nombre": "Limones",
+      "cantidad": 1000
+    },
+    {
+      "id": 9,
+      "nombre": "Sandías",
+      "cantidad": 1000
+    },
+    {
+      "id": 10,
+      "nombre": "Melones",
+      "cantidad": 1000
+    },
+    {
+      "id": 11,
+      "nombre": "Piñas",
+      "cantidad": 1000
+    },
+    {
+      "id": 12,
+      "nombre": "Ciruelas",
+      "cantidad": 1000
+    },
+    {
+      "id": 14,
+      "nombre": "Kiwis",
+      "cantidad": 1000
+    },
+    {
+      "id": 15,
+      "nombre": "Papayas",
+      "cantidad": 1000
+    }
+  ],
+  "verduras": [
+    {
+      "id": 16,
+      "nombre": "Cebollas",
+      "cantidad": 425
+    },
+    {
+      "id": 17,
+      "nombre": "Tomates",
+      "cantidad": 1000
+    },
+    {
+      "id": 18,
+      "nombre": "Zanahorias",
+      "cantidad": 1000
+    },
+    {
+      "id": 19,
+      "nombre": "Papas",
+      "cantidad": 1000
+    },
+    {
+      "id": 20,
+      "nombre": "Ajos",
+      "cantidad": 1000
+    },
+    {
+      "id": 21,
+      "nombre": "Lechugas",
+      "cantidad": 1000
+    },
+    {
+      "id": 22,
+      "nombre": "Pepinos",
+      "cantidad": 1000
+    },
+    {
+      "id": 23,
+      "nombre": "Chiles",
+      "cantidad": 1000
+    },
+    {
+      "id": 24,
+      "nombre": "Calabacitas",
+      "cantidad": 996
+    },
+    {
+      "id": 25,
+      "nombre": "Brócolis",
+      "cantidad": 1000
+    },
+    {
+      "id": 26,
+      "nombre": "Coliflores",
+      "cantidad": 1000
+    },
+    {
+      "id": 27,
+      "nombre": "Pimientos",
+      "cantidad": 1000
+    },
+    {
+      "id": 28,
+      "nombre": "Maices",
+      "cantidad": 1000
+    },
+    {
+      "id": 29,
+      "nombre": "Berenjenas",
+      "cantidad": 1000
+    },
+    {
+      "id": 30,
+      "nombre": "Espárragos",
+      "cantidad": 444
+    },
+    {
+      "id": 31,
+      "nombre": "Rábanos",
+      "cantidad": 444
+    }
+  ]
+}

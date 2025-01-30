@@ -1,6 +1,5 @@
-
-
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
   <link rel="icon" href="../images/iconofrutify.png" type="image/x-icon">
@@ -25,9 +24,10 @@
          
           google.charts.load('current', {'packages':['corechart']});
           google.charts.load('current', {packages: ['corechart', 'bar']});
-         
-          const ventasFrutasAnuales=data.frutas_anuales;
-          const ventasVerdurasAnuales=data.verduras_anuales;
+
+          const ventasFrutasAnuales=data.frutas; 
+          const ventasVerdurasAnuales=data.verduras;
+
           const vMensuales=data.ventas_mensuales;
           const vSemanales=data.ventas_semanales;
       
@@ -235,9 +235,55 @@
             var materialChart = new google.charts.Bar(document.getElementById('ventasVerdurasGenero'));
             materialChart.draw(data, materialOptions);
           }
+          function frutasAnual() {
+
+            //aquí se introduce el contenido y las etiquetas
+            var data = google.visualization.arrayToDataTable([
+              ['Frutas', 'Frutas/año'],
+              ...frutasResultado
+            ]);
 
 
+           
 
+            var options = {
+              title: 'Ventas anuales de fruta',
+              curveType: 'function', // Suaviza las líneas
+              legend: { position: 'bottom' },
+              bar: {groupWidth:'100%'},
+              backgroundColor: 'transparent' // Cambia el color de fondo a tu preferencia
+            };
+
+
+            var chart = new google.visualization.PieChart(document.getElementById('frutasAnual'));
+
+
+            chart.draw(data, options);
+          }
+
+
+          function verdurasAnual() {
+
+
+            var data = google.visualization.arrayToDataTable([
+              ['Verduras', 'Verduras/año'],
+              ...verdurasResultado
+            ]);
+
+            var options = {
+              title: 'Ventas anuales de verdura',
+              curveType: 'function', // Suaviza las líneas
+              legend: { position: 'bottom' },
+              bar: {groupWidth:'100%'},
+              backgroundColor: 'transparent' // Cambia el color de fondo a tu preferencia
+            };
+
+
+            var chart = new google.visualization.PieChart(document.getElementById('verdurasAnual'));
+
+
+            chart.draw(data, options);
+          }
 
 
           function ventasMensual() {
@@ -285,19 +331,99 @@
             chart.draw(data, options);
           }
 
-          
-          
-          
+        });
 
+
+        var ventaFrutasResultado;
+        var ventaVerdurasResultado;
+        //De las ventas del módulo de ventas
+        fetch('../json/ventas.json')
+        .then(response => response.json())
+        .then(data => {
+          let acumuladorVerduras={};
+          let acumuladorFrutas={};
+          const frutas=data.frutas;
+          const verduras=data.verduras;
+
+          google.charts.load('current', {'packages':['corechart']});
+          google.charts.load('current', {packages: ['corechart', 'bar']});
+          
+          google.charts.setOnLoadCallback(ventaFrutas);
+          google.charts.setOnLoadCallback(ventaVerduras);
+
+          verduras.forEach(({ producto, cantidad }) => {
+            if (acumuladorVerduras[producto]) {
+              acumuladorVerduras[producto] += cantidad;
+            } else {
+              acumuladorVerduras[producto] = cantidad;
+            }
+            
+          }); 
+
+          frutas.forEach(({ producto, cantidad }) => {
+            if (acumuladorFrutas[producto]) {
+              acumuladorFrutas[producto] += cantidad;
+            } else {
+              acumuladorFrutas[producto] = cantidad;
+            }
+          });
+          
+          
+          ventaFrutasResultado = Object.entries(acumuladorFrutas);
+          ventaVerdurasResultado=Object.entries(acumuladorVerduras);
+
+          function ventaFrutas() {
+
+            //aquí se introduce el contenido y las etiquetas
+            var data = google.visualization.arrayToDataTable([
+              ['Frutas', 'Frutas/año'],
+              ...ventaFrutasResultado
+            ]);
+
+           
+
+            var options = {
+              title: 'Ventas anuales de frutas',
+              curveType: 'function', // Suaviza las líneas
+              legend: { position: 'bottom' },
+              bar: {groupWidth:'100%'},
+              backgroundColor: 'transparent' // Cambia el color de fondo a tu preferencia
+            };
+
+
+            var chart = new google.visualization.PieChart(document.getElementById('ventaFrutas'));
+
+
+            chart.draw(data, options);
+          }
+
+          function ventaVerduras() {
+
+            //aquí se introduce el contenido y las etiquetas
+            var data = google.visualization.arrayToDataTable([
+              ['Verduras', 'Verduras/año'],
+              ...ventaVerdurasResultado
+            ]);
+
+            var options = {
+              title: 'Ventas anuales de verduras',
+              curveType: 'function', // Suaviza las líneas
+              legend: { position: 'bottom' },
+              bar: {groupWidth:'100%'},
+              backgroundColor: 'transparent' // Cambia el color de fondo a tu preferencia
+            };
+
+            var chart = new google.visualization.PieChart(document.getElementById('ventaVerduras'));
+
+            chart.draw(data, options);
+            
+          }
+          
 
         });
 
       
     </script>
-
-    
-    
-
 
 </head>
 <body>
@@ -319,15 +445,17 @@
           <button id="frutas_resultado">Exportar</button> 
           <div id="verdurasAnual" style="width:500px;height: 500px;"></div>
           <button id="verduras_resultado">Exportar</button>
-          <div id="ventasMensual" style="width: 500px;height: 500px;"></div>
-          <button id="mensuales_resultado">Exportar</button>
-          <div id="ventasSemanal" style="width: 500px;height: 500px;"></div>
-          <button id="semanales_resultado">Exportar</button>
+
 
           <div id="ventasFrutasGenero" style="width: 500px;height: 500px;"></div>
           <button id="frutas_genero_resultado">Exportar</button>
           <div id="ventasVerdurasGenero" style="width: 500px;height: 500px;"></div>
           <button id="verduras_genero_resultado">Exportar</button>
+
+          <div id="ventaFrutas" style="width: 500px;height: 500px;"></div>
+          <button id="venta_frutas">Exportar</button>
+          <div id="ventaVerduras" style="width: 500px;height: 500px;"></div>
+          <button id="venta_verduras">Exportar</button>
          
         </section>
     </div>
@@ -388,7 +516,8 @@
       });
       document.getElementById("mensuales_resultado").addEventListener("click", function() {
         var data = google.visualization.arrayToDataTable([
-              ['Mes', 'Frutas','Verduras'],
+              ['Stock', 'Frutas','Verduras'],
+
                ...ventaMensual
         ]);
         exportToCSV(data);
@@ -414,6 +543,21 @@
         ]);
         exportToCSV(data);
       });
+      document.getElementById("venta_frutas").addEventListener("click", function() {
+        var data = google.visualization.arrayToDataTable([
+             ['Producto', 'Cantidad'],
+             ...ventaFrutasResultado
+        ]);
+        exportToCSV(data);
+      });
+      document.getElementById("venta_verduras").addEventListener("click", function() {
+        var data = google.visualization.arrayToDataTable([
+             ['Producto', 'Cantidad'],
+             ...ventaVerdurasResultado
+        ]);
+        exportToCSV(data);
+      });
+
     </script>
 </body>
 </html>
