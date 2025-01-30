@@ -127,7 +127,7 @@ function eliminar(idE){
     const path=require('path');
 
 
-    const archivoJSON = path.join(__dirname, 'informacion.json');
+    const archivoJSON = path.join(__dirname, '../json/informacion.json');
 
     fs.readFile(archivoJSON, 'utf8', (err, data) => {
         if (err) {
@@ -161,7 +161,7 @@ function modificar(idM,nombre,email,telefono,direccion){
     //modificar(idM,nombre,email,contrasena,administrar,telefono,direccion);
     const fs=require('fs');
     const path=require('path');
-    const archivoJSON = path.join(__dirname, 'informacion.json');
+    const archivoJSON = path.join(__dirname, '../json/informacion.json');
 
     fs.readFile(archivoJSON,'utf8',(err,data)=>{
         if(err){
@@ -195,7 +195,7 @@ function anadir(nombre,email,telefono,direccion, genero, edad){
 
     const fs=require('fs');
     const path=require('path');
-    const archivoJSON = path.join(__dirname, 'informacion.json');
+    const archivoJSON = path.join(__dirname, '../json/informacion.json');
 
     fs.readFile(archivoJSON, 'utf8', (err, data) => {
         if (err) {
@@ -265,8 +265,8 @@ function realizarVenta(frutas,verduras){
     let id_fruta;
     let id_verdura;
 
-    const archivoCliente=path.join(__dirname,'informacion.json');
-    const archivoStock=path.join(__dirname,'stock.json');
+    const archivoCliente=path.join(__dirname,'../json/informacion.json');
+    const archivoStock=path.join(__dirname,'../json/stock.json');
 
     fs.readFile(archivoCliente,'utf8',(err,data)=>{
         if(err){
@@ -497,7 +497,7 @@ function anadirVenta(){
     const fs=require('fs');
     const path=require('path');
 
-    const archivoVentasJSON=path.join(__dirname,'ventas.json');
+    const archivoVentasJSON=path.join(__dirname,'../json/ventas.json');
 
     const frutas = JSON.parse(localStorage.getItem('frutas'));
     const verduras = JSON.parse(localStorage.getItem('verduras'));
@@ -598,7 +598,7 @@ function anadirFruta(fruta){
     const fs=require('fs');
     const path=require('path');
 
-    const archivoJSON = path.join(__dirname, 'stock.json');
+    const archivoJSON = path.join(__dirname, '../json/stock.json');
 
     fs.readFile(archivoJSON, 'utf8', (err, data) => {
         if (err) {
@@ -644,7 +644,7 @@ function anadirVerdura(verdura){
     const fs=require('fs');
     const path=require('path');
 
-    const archivoJSON = path.join(__dirname, 'stock.json');
+    const archivoJSON = path.join(__dirname, '../json/stock.json');
    
     fs.readFile(archivoJSON, 'utf8', (err, data) => {
         if (err) {
@@ -691,7 +691,7 @@ function eliminarFruta(nombre_fruta){
     const fs=require('fs');
     const path=require('path');
 
-    const archivoJSON = path.join(__dirname, 'stock.json');
+    const archivoJSON = path.join(__dirname, '../json/stock.json');
 
     fs.readFile(archivoJSON, 'utf8', (err, data) => {
         if (err) {
@@ -719,7 +719,7 @@ function eliminarVerdura(nombre_verdura){
     const fs=require('fs');
     const path=require('path');
 
-    const archivoJSON = path.join(__dirname, 'stock.json');
+    const archivoJSON = path.join(__dirname, '../json/stock.json');
 
     fs.readFile(archivoJSON, 'utf8', (err, data) => {
         if (err) {
@@ -745,7 +745,7 @@ function modificarStockFruta(nombre_fruta,stock_fruta){
 
     const fs=require('fs');
     const path=require('path');
-    const archivoJSON = path.join(__dirname, 'stock.json');
+    const archivoJSON = path.join(__dirname, '../json/stock.json');
     
     fs.readFile(archivoJSON,'utf8',(err,data)=>{
         if(err){
@@ -778,7 +778,7 @@ function modificarStockVerdura(nombre_verdura,stock_verdura){
    
     const fs=require('fs');
     const path=require('path');
-    const archivoJSON = path.join(__dirname, 'stock.json');
+    const archivoJSON = path.join(__dirname, '../json/stock.json');
 
     fs.readFile(archivoJSON,'utf8',(err,data)=>{
         if(err){
