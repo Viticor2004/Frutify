@@ -10,7 +10,7 @@
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 </head>
 <script>
-    const frutas = [];
+     const frutas = [];
     const verduras = [];
     fetch('../json/stock.json')
     .then(response => response.json())
@@ -64,16 +64,21 @@
 <body>
     <header>
         <img src="../images/iconofrutify.png" alt="Logo">
-        <input type="text" placeholder="Buscar producto">
         <div>
             <a href="logueado.html"><input type="button" id="volverAtras" value="Volver"></a>
             <a href="index.html"><input type="submit" id="cerrarSesion" value="Cerrar Sesión"></a>
         </div>
     </header>
     <div class="contenedor">
-        <h3>Gráficas de Stock</h3>
-        <div id="frutasStock"></div>
-        <div id="verdurasStock"></div>
+        <div class="contenedor_h3">
+            <h3 id="frutas">Frutas</h3>
+            <h3 id="verduras">Verduras</h3>
+        </div>
+        <div class="paneles">
+            <div class="panelfruta" id="panelfruta"></div>
+            <h3 id="verdurasMovil">Verduras</h3>
+            <div class="panelverdura" id="panelverdura"></div>
+        </div>
         <div class="botones">
             <label>Seleccionar Fruta</label>
             <select id="selectFruits"></select>
@@ -173,7 +178,7 @@
         }
 
 
-        fetch('stock.json')
+        fetch('../json/stock.json')
         .then(response => {
             if (!response.ok) {
                 throw new Error('Error al obtener los datos del stock.');
@@ -200,7 +205,7 @@
             });
 
            
-            fetch('informacion.json')
+            fetch('../json/informacion.json')
                 .then(response => {
                     if (!response.ok) {
                         throw new Error('Error al obtener la información de los clientes.');
@@ -379,7 +384,7 @@
         botonEliminar.addEventListener('click', function(){
             const eliminarFruta = document.getElementById("eliminar_fru").value;
         
-        fetch('stock.json')
+        fetch('../json/stock.json')
         .then(response => {
             if (!response.ok) {
                 throw new Error('Error al obtener los datos del stock.');
@@ -433,7 +438,7 @@
         const botonEliminar = document.getElementById("eliminar_verdura");
         botonEliminar.addEventListener('click', function(){
             const eliminarVerdura = document.getElementById("eliminar_verd").value;
-            fetch('stock.json')
+            fetch('../json/stock.json')
         .then(response => {
             if (!response.ok) {
                 throw new Error('Error al obtener los datos del stock.');
@@ -489,7 +494,7 @@
             const stockFruta = document.getElementById("stock_fruta").value;
 
             let stockFrutaEncontrado=false;
-            fetch('stock.json')
+            fetch('../json/stock.json')
             .then(response => {
             if (!response.ok) {
                 throw new Error('Error al obtener los datos del stock.');
@@ -533,7 +538,7 @@
             const nombreStockVerdura = document.getElementById("nombre_stock_verdura").value;
             const stockVerdura = document.getElementById("stock_verdura").value;
             let stockVerduraEncontrado=false;
-            fetch('stock.json')
+            fetch('../json/stock.json')
             .then(response => {
             if (!response.ok) {
                 throw new Error('Error al obtener los datos del stock.');
@@ -610,7 +615,7 @@
     const payload= JSON.parse(localStorage.getItem('payload'));
     
     if(ventaRealizada){
-        fetch('stock.json')
+        fetch('../json/stock.json')
             .then(response => {
             if (!response.ok) {
                 throw new Error('Error al obtener los datos del stock.');
@@ -640,5 +645,116 @@
 
 
 </script>
+<script>
+ function mostrarFruta() {
+            let tabla = `
+                <table>
+                    <div>
+                        <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Nombre</th>
+                            <th>Cantidad</th>
+                        </tr>
+                    </thead>
+                    </div>
+                    
+                    <tbody>
+            `;
 
+            fetch('../json/stock.json')
+            .then(response=>{
+                if(!response.ok){
+                    throw new Error('Error');
+                }
+                return response.json();
+            })
+            .then(data => {
+                
+                const frutas=data.frutas;
+                
+
+
+                frutas.forEach(fruta => { 
+                    
+                        tabla += `
+                        <tr>
+                            <td>${fruta.id}</td>
+                            <td>${fruta.nombre}</td>
+                            <td>${fruta.cantidad}</td>
+                        </tr>                            
+                    `;
+
+                
+                });
+                tabla += `</tbody></table>`; // Cierra las etiquetas de la tabla
+                const panelfruta = document.getElementById("panelfruta");
+                panelfruta.innerHTML = tabla;
+
+
+            })
+            .catch(error => {
+                    console.error(error);
+            });
+        }
+
+        // Llama a la función para mostrar los empleados
+        mostrarFruta();
+
+        function mostrarVerdura() {
+            let tabla = `
+                <table>
+                    <div>
+                        <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Nombre</th>
+                            <th>Cantidad</th>
+                        </tr>
+                    </thead>
+                    </div>
+                    
+                    <tbody>
+            `;
+
+            fetch('../json/stock.json')
+            .then(response=>{
+                if(!response.ok){
+                    throw new Error('Error');
+                }
+                return response.json();
+            })
+            .then(data => {
+                
+                const verduras=data.verduras;
+                
+
+
+                verduras.forEach(verdura => { 
+                    
+                        
+                        tabla += `
+                        <tr>
+                            <td>${verdura.id}</td>
+                            <td>${verdura.nombre}</td>
+                            <td>${verdura.cantidad}</td>
+                        </tr>                            
+                    `;
+                
+                });
+                tabla += `</tbody></table>`; // Cierra las etiquetas de la tabla
+                const panelverdura = document.getElementById("panelverdura");
+                panelverdura.innerHTML = tabla;
+
+
+            })
+            .catch(error => {
+                    console.error(error);
+            });
+        }
+
+        // Llama a la función para mostrar los empleados
+        mostrarVerdura();
+
+</script>
 </html>
