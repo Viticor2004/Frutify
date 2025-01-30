@@ -2,9 +2,9 @@
 <html lang="en">
 <head>
     <!-- <script type="module" src="fetch.js"></script> -->
-    <script src="informacion.js"></script>
+    <script src="../js/informacion.js"></script>
+    <link rel="icon" href="../images/iconofrutify.png" type="image/x-icon">
     <script>
-
 
     </script>
     <script>
@@ -16,14 +16,12 @@
         // Mostrar el nombre del usuario logueado
         document.getElementById('info').innerHTML = `${nombre}`;
 
-
         // Mostrar mensaje de administrador y tabla de empleados si es administrador
         const mostrar_empleados = document.getElementById('mostrarEmpleados');
         if(administrador === "true") {
             document.getElementById('poner').innerHTML = `<p>Hola administrador</p>`;
             document.getElementById('isAdmin').style = "display: block;";
         }
-
 
         // Verifica que 'empleados' sea un JSON válido
         if (empleadosString) {
@@ -56,7 +54,7 @@
                     // Recorre el arreglo de empleados y genera las filas de la tabla
 
 
-                    fetch('informacion.json')
+                    fetch('../json/informacion.json')
                     .then(response=>{
                         if(!response.ok){
                             throw new Error('Error');
@@ -81,7 +79,7 @@
                                     <td>${usuario.direccion}</td>
                                     <td>${usuario.genero}</td>
                                     <td>${usuario.edad}</td>
-                                    <td><div class="botones"> <button class="modificar" data-id='${usuario.id}' ><img src="images/iconoModificar.png" alt="modificar"></button> <button class="eliminar" data-id='${usuario.id}' id='eliminar'><img src="images/cruzRoja.png" alt="cruzRoja"></button> </div></td>
+                                    <td><div class="botones"> <button class="modificar" data-id='${usuario.id}' ><img src="../images/iconoModificar.png" alt="modificar"></button> <button class="eliminar" data-id='${usuario.id}' id='eliminar'><img src="../images/cruzRoja.png" alt="cruzRoja"></button> </div></td>
                                 </tr>                            
                             `;
 
@@ -280,11 +278,11 @@
    
 
 
-    <link rel="icon" href="images/iconofrutify.png" type="image/x-icon">
+    <link rel="icon" href="../images/iconofrutify.png" type="image/x-icon">
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="estilos.css" type="text/css">
+    <link rel="stylesheet" href="../css/estilos.css" type="text/css">
     <title>Frutify</title>
 </head>
 
@@ -292,7 +290,7 @@
 <body class="bodyLogueado">
     
     <header>
-        <img src="images/iconofrutify.png" alt="naranja" class="fondo_logueado">
+        <img src="../images/iconofrutify.png" alt="naranja" class="fondo_logueado">
         <a href="index.html">
             <input type="submit" id="cerrarSesion" value="Cerrar Sesión">
         </a>
@@ -308,7 +306,7 @@
         <a href="producto.html">
             <button class="productos" type="submit">Productos</button>
         </a>
-        <button class="anadir" type="submit"><img src="images/simboloMas.png" alt="mas"></button>
+        <button class="anadir" type="submit"><img src="../images/simboloMas.png" alt="mas"></button>
         <button class="aceptar" type="submit">Aceptar</button>
     </section>
     <div class="panel" id="panel">
