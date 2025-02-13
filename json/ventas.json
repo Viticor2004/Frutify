@@ -1,4 +1,3 @@
-
 {
   "frutas": [
     {
@@ -50,6 +49,16 @@
       "genero": "Femenino",
       "edad": 29,
       "fecha_compra": "2025/0/3 23:39:54"
+    },
+    {
+      "id_venta": 11,
+      "id_producto": 1,
+      "producto": "Manzanas",
+      "cantidad": 1,
+      "comprador": "Carla",
+      "genero": "Femenino",
+      "edad": 29,
+      "fecha_compra": "2025/0/4 10:29:3"
     }
   ],
   "verduras": [
@@ -102,6 +111,16 @@
       "genero": "Femenino",
       "edad": 33,
       "fecha_compra": "2025/0/3 23:39:54"
+    },
+    {
+      "id_venta": 12,
+      "id_producto": 16,
+      "producto": "Cebollas",
+      "cantidad": 3,
+      "comprador": "Carlota",
+      "genero": "Femenino",
+      "edad": 33,
+      "fecha_compra": "2025/0/4 10:29:3"
     }
   ]
 }
