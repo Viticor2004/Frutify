@@ -66,6 +66,54 @@ fetch('../json/informacion.json')
 .catch(error=>{
     console.log(error)
 });
+
+fetch('../json/productos.json')
+    .then(response=>{
+        if(!response.ok){
+            throw new Error('Error');
+        }
+            return response.json();
+        })
+    .then(data=>{
+        const productos = data.productos;
+        productos.forEach(producto => ({
+            nombre: producto.nombre,
+            precio: producto.precio,
+            tipo: producto.tipo,
+            cantidad: producto.cantidad
+        }));
+        // CALL PRINT FUNCTIONS HERE
+        printAllProducts(productos);
+    })
+    .catch(error=>{
+        console.log(error)
+    });
+function printAllProducts(productos) {
+    let table = document.querySelector("#panel_escaparate table:first-of-type");
+    // Creamos el encabezado de la tabla
+    table.innerHTML = `
+        <tr>
+            <th>Nombre</th>
+            <th>Precio</th>
+            <th>Tipo</th>
+            <th>Cantidad</th>
+        </tr>
+    `;
+    // Recorremos los productos y los agregamos a la tabla
+    productos.forEach(producto => {
+        let row = table.insertRow();
+
+        row.innerHTML = `
+        <td>${producto.nombre}</td>
+        <td>${producto.precio}</td>
+        <td>${producto.tipo}</td>
+        <td>${producto.cantidad}</td>
+        <td><button>Comprar</button></td>
+        <td><input type='number'></td>
+        `;
+    });
+}
+
 function definirEmpleados(empleados) {
     localStorage.setItem('empleados', JSON.stringify(empleados));
 }
