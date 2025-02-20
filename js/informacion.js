@@ -110,11 +110,27 @@ function printAllProducts(productos) {
         <td>${producto.precio}</td>
         <td>${producto.tipo}</td>
         <td>${producto.cantidad}</td>
-        <td><button>Comprar</button></td>
-        <td><input type='number'></td>
+        <td><button onclick="anadirAlCarrito('${producto.id}')">Comprar</button></td>
+        <td><input id="cantidad_${producto.id}" type="number"></td>
         
         `;
+        
+       
     });
+}
+
+var carrito = [];
+
+function anadirAlCarrito(id){
+    let id_añadir = 'cantidad_' + id;
+    let cantidad_a_añadir = document.getElementById(id_añadir).value;
+    
+    carrito.push({
+        id_producto: id,
+        cantidad: cantidad_a_añadir
+    })
+
+    console.log(cantidad_a_añadir);
 }
 
 function definirEmpleados(empleados) {
