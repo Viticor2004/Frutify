@@ -121,12 +121,13 @@ function printAllProducts(productos) {
 
 var carrito = [];
 
-function anadirAlCarrito(id){
+function anadirAlCarrito(id, nombre, precio){
     let id_añadir = 'cantidad_' + id;
     let cantidad_a_añadir = document.getElementById(id_añadir).value;
     
     carrito.push({
         id_producto: id,
+        nombre_producto: 
         cantidad: cantidad_a_añadir
     })
 
