@@ -22,7 +22,7 @@
       { "id": 21, "nombre": "Lechugas", "precio": 10.0, "tipo": "verdura", "cantidad": 1000 },
       { "id": 22, "nombre": "Pepinos", "precio": 8.5, "tipo": "verdura", "cantidad": 1000 },
       { "id": 23, "nombre": "Chiles", "precio": 18.0, "tipo": "verdura", "cantidad": 1000 },
-      { "id": 24, "nombre": "Calabacitas", "precio": 11.0, "tipo": "verdura", "cantidad": 996 },
+      { "id": 24, "nombre": "Calabacines", "precio": 11.0, "tipo": "verdura", "cantidad": 996 },
       { "id": 25, "nombre": "Brócolis", "precio": 14.5, "tipo": "verdura", "cantidad": 1000 },
       { "id": 26, "nombre": "Coliflores", "precio": 16.0, "tipo": "verdura", "cantidad": 1000 },
       { "id": 27, "nombre": "Pimientos", "precio": 20.0, "tipo": "verdura", "cantidad": 1000 },

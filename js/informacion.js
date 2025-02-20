@@ -93,6 +93,7 @@ function printAllProducts(productos) {
     // Creamos el encabezado de la tabla
     table.innerHTML = `
         <tr>
+            <th></th>
             <th>Nombre</th>
             <th>Precio</th>
             <th>Tipo</th>
@@ -104,12 +105,14 @@ function printAllProducts(productos) {
         let row = table.insertRow();
 
         row.innerHTML = `
+        <img src="../images/producto_${producto.id}.jpg" class="imagen_aparte">
         <td>${producto.nombre}</td>
         <td>${producto.precio}</td>
         <td>${producto.tipo}</td>
         <td>${producto.cantidad}</td>
         <td><button>Comprar</button></td>
         <td><input type='number'></td>
+        
         `;
     });
 }
