@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <script>
         document.addEventListener("DOMContentLoaded", function() {
@@ -26,9 +26,20 @@
 <body class="bodyLogueado">
 
     <header class="header">
+        <!-- Botón del carrito con evento onclick -->
         <div class="carrito">
-            <button class="carrito"><img src="../images/carrito.jpg" alt="Carrito"></button>
+            <button class="carrito" onclick="toggleCarrito()">
+                <img src="../images/carrito.jpg" alt="Carrito">
+            </button>
+            <!-- Desplegable del carrito -->
+            <div id="carrito-dropdown" class="carrito-dropdown">
+                <h3>Carrito de Compras</h3>
+                <div id="carrito-contenido">
+                    <p>El carrito está vacío.</p>
+                </div>
+            </div>
         </div>
+
         <img src="../images/iconofrutify.png" alt="Logo Frutify">
         <a href="index.html">
             <input type="submit" id="cerrarSesion" value="Cerrar Sesión">
@@ -41,15 +52,11 @@
                 <h2>Bienvenido: <span id="info"></span></h2>
                 <h3 id="poner"></h3>
             </div>
-            
         </div>
 
         <div class="panel" id="panel_escaparate">
-            <h1>Products</h1>
-            <table>
-               
-                
-            </table>
+            <h1>Productos</h1>
+            <table></table>
         </div> 
     </section>
 

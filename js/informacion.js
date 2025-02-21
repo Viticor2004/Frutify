@@ -1,96 +1,62 @@
 let empleados = [];
+let carrito = [];
 
+// Cargar usuarios desde JSON
 fetch('../json/informacion.json')
-.then(response=>{
-    if(!response.ok){
-        throw new Error('Error');
-    }
-    return response.json();
-})
-.then(data=>{
+.then(response => response.json())
+.then(data => {
     const personas = data.usuarios;
     document.getElementById("formulario").addEventListener("submit", function(event) {
-        
-        event.preventDefault(); // Evita el envío del formulario
+        event.preventDefault();
         const valor_nombre = document.getElementById('nombre').value;
         const valor_gmail = document.getElementById('gmail').value;
         const valor_contrasena = document.getElementById('contrasena').value;
         const error = document.getElementById('error');
-        let usuarioEncontrado = false;
-        let usuario_administrador=false;
         let logeado = false;
+        let usuario_administrador = false;
+        
         personas.forEach(usuario => {
-
-            let new_empleado = new Empleado(
-                id=usuario.id,
-                nombre=usuario.nombre,
-                email=usuario.email,
-                contrasena=usuario.contrasena,
-                administrador=usuario.administrar,
-                telefono=usuario.telefono,
-                direccion=usuario.direccion,
-                genero=usuario.genero,
-                edad=usuario.edad
-
-            )
-                
+            let new_empleado = {
+                id: usuario.id,
+                nombre: usuario.nombre,
+                email: usuario.email,
+                contrasena: usuario.contrasena,
+                administrador: usuario.administrar,
+                telefono: usuario.telefono,
+                direccion: usuario.direccion,
+                genero: usuario.genero,
+                edad: usuario.edad
+            };
             empleados.push(new_empleado);
-
+            
             if (valor_nombre === usuario.nombre && valor_gmail === usuario.email && valor_contrasena === usuario.contrasena) {
-                usuarioEncontrado = true;
-                if(usuario.administrar===true){
-                    usuario_administrador=true;
-                }
-                logeado = true;                
+                logeado = true;
+                usuario_administrador = usuario.administrar;
             }
         });
-
+        
         definirEmpleados(empleados);
-        if (logeado && usuario_administrador) {
-            definirUsuarioLogeado(valor_nombre,usuario_administrador,valor_gmail);
-            redirigir();
-        } else if (logeado && usuario_administrador === false){
-            definirUsuarioLogeado(valor_nombre,usuario_administrador,valor_gmail);
-            redirigirNoAdmin();
-        }
-
-        if (!logeado) {
-            //alert("Usuario no encontrado");
-            error.innerHTML=`
-            <h1>Campos incorrectos</h1>
-            `;
+        if (logeado) {
+            definirUsuarioLogeado(valor_nombre, usuario_administrador, valor_gmail);
+            usuario_administrador ? redirigir() : redirigirNoAdmin();
+        } else {
+            error.innerHTML = `<h1>Campos incorrectos</h1>`;
         }
     });
-    
 })
-.catch(error=>{
-    console.log(error)
-});
+.catch(error => console.log(error));
 
+// Cargar productos desde JSON
 fetch('../json/productos.json')
-    .then(response=>{
-        if(!response.ok){
-            throw new Error('Error');
-        }
-            return response.json();
-        })
-    .then(data=>{
-        const productos = data.productos;
-        productos.forEach(producto => ({
-            nombre: producto.nombre,
-            precio: producto.precio,
-            tipo: producto.tipo,
-            cantidad: producto.cantidad
-        }));
-        // CALL PRINT FUNCTIONS HERE
-        printAllProducts(productos);
-    })
-    .catch(error=>{
-        console.log(error)
-    });
+.then(response => response.json())
+.then(data => {
+    const productos = data.productos;
+    printAllProducts(productos);
+})
+.catch(error => console.log(error));
+
 function printAllProducts(productos) {
-    let table = document.querySelector("#panel_escaparate table:first-of-type");
-    // Creamos el encabezado de la tabla
+    let table = document.querySelector("#panel_escaparate table");
     table.innerHTML = `
         <tr>
             <th></th>
@@ -98,61 +64,89 @@ function printAllProducts(productos) {
             <th>Precio</th>
             <th>Tipo</th>
             <th>Cantidad</th>
+            <th>Acción</th>
         </tr>
     `;
-    // Recorremos los productos y los agregamos a la tabla
     productos.forEach(producto => {
         let row = table.insertRow();
-
         row.innerHTML = `
-        <img src="../images/producto_${producto.id}.jpg" class="imagen_aparte">
-        <td>${producto.nombre}</td>
-        <td>${producto.precio}</td>
-        <td>${producto.tipo}</td>
-        <td>${producto.cantidad}</td>
-        <td><button onclick="anadirAlCarrito('${producto.id}')">Comprar</button></td>
-        <td><input id="cantidad_${producto.id}" type="number"></td>
-        
+            <td><img src="../images/producto_${producto.id}.jpg" class="imagen_aparte"></td>
+            <td>${producto.nombre}</td>
+            <td>${producto.precio}</td>
+            <td>${producto.tipo}</td>
+            <td><input id="cantidad_${producto.id}" type="number" value="1" min="1"></td>
+            <td><button onclick="anadirAlCarrito('${producto.id}', '${producto.nombre}', ${producto.precio})">Comprar</button></td>
         `;
-        
-       
     });
 }
 
-var carrito = [];
+function toggleCarrito() {
+    let carritoDropdown = document.getElementById("carrito-dropdown");
+    carritoDropdown.classList.toggle("activo");
+}
 
-function anadirAlCarrito(id, nombre, precio){
+// Evitar que el carrito se despliegue si el cursor no está sobre el botón
+document.addEventListener("click", function (event) {
+    let carritoIcono = document.querySelector(".carrito");
+    let carritoDropdown = document.getElementById("carrito-dropdown");
+    
+    if (!carritoIcono.contains(event.target) && !carritoDropdown.contains(event.target)) {
+        carritoDropdown.classList.remove("activo");
+    }
+});
+
+function anadirAlCarrito(id, nombre, precio) {
     let id_añadir = 'cantidad_' + id;
     let cantidad_a_añadir = document.getElementById(id_añadir).value;
-    
-    carrito.push({
-        id_producto: id,
-        nombre_producto: 
-        cantidad: cantidad_a_añadir
-    })
 
-    console.log(cantidad_a_añadir);
+    if (cantidad_a_añadir <= 0) {
+        alert("Selecciona una cantidad válida.");
+        return;
+    }
+
+    // Buscar si el producto ya está en el carrito
+    let productoExistente = carrito.find(producto => producto.id_producto === id);
+
+    if (productoExistente) {
+        productoExistente.cantidad += parseInt(cantidad_a_añadir);
+    } else {
+        carrito.push({
+            id_producto: id,
+            nombre_producto: nombre,
+            precio: precio,
+            cantidad: parseInt(cantidad_a_añadir)
+        });
+    }
+
+    actualizarCarrito();
 }
 
-function definirEmpleados(empleados) {
-    localStorage.setItem('empleados', JSON.stringify(empleados));
-}
+function actualizarCarrito() {
+    let carritoContenido = document.getElementById("carrito-contenido");
+    carritoContenido.innerHTML = "";
 
-function definirUsuarioLogeado(valor_nombre,usuario_administrador,valor_gmail) {
-    localStorage.setItem('nombre',valor_nombre);
-    localStorage.setItem('administrador',usuario_administrador);
-    localStorage.setItem('email',valor_gmail);
-}
+    if (carrito.length === 0) {
+        carritoContenido.innerHTML = "<p>El carrito está vacío.</p>";
+        return;
+    }
 
-function redirigir() {
-    window.location.href = "logueado.html";
-}
+    let lista = document.createElement("ul");
 
-function redirigirNoAdmin() {
-    window.location.href = "logueadoNoAdmin.html";
-}
-// function getEmpleados() {
-//     return empleados;
-// }
+    carrito.forEach(producto => {
+        let item = document.createElement("li");
+        item.innerHTML = `${producto.nombre_producto} (x${producto.cantidad}) - $${producto.precio * producto.cantidad}`;
+        lista.appendChild(item);
+    });
 
- 
+    carritoContenido.appendChild(lista);
+
+    let botonVaciar = document.createElement("button");
+    botonVaciar.classList.add("vaciar-carrito");
+    botonVaciar.innerText = "Vaciar Carrito";
+    botonVaciar.onclick = () => {
+        carrito = [];
+        actualizarCarrito();
+    };
+
+    carritoContenido.appendChild(botonVaciar);
+}
