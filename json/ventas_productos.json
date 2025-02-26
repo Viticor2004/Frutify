@@ -1,0 +1,24 @@
+[
+  {
+    "id_venta": 1,
+    "id_producto": 1,
+    "producto": "Manzanas",
+    "cantidad": 10,
+    "comprador": "Pepe",
+    "genero": "Masculino",
+    "edad": 35,
+    "fecha_compra": "2025/1/3 20:7:44",
+    "tipo": "fruta"
+  },
+  {
+    "id_venta": 2,
+    "id_producto": 16,
+    "producto": "Cebollas",
+    "cantidad": 1,
+    "comprador": "Manolo",
+    "genero": "Masculino",
+    "edad": 42,
+    "fecha_compra": "2025/1/3 20:7:44",
+    "tipo": "verdura"
+  }
+]

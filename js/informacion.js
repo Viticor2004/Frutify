@@ -121,6 +121,24 @@ function anadirAlCarrito(id, nombre, precio) {
     actualizarCarrito();
 }
 
+function realizarCompra(payload){
+    fetch('http://localhost:3000/comprar/producto', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(payload)
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log("Compra con éxito");
+    })
+    .catch(error => {
+        alert("Error al realizar la venta.");
+        console.error(error);
+    });
+}
+
 function actualizarCarrito() {
     let carritoContenido = document.getElementById("carrito-contenido");
     carritoContenido.innerHTML = "";
@@ -149,4 +167,23 @@ function actualizarCarrito() {
     };
 
     carritoContenido.appendChild(botonVaciar);
+
+    let botonComprar = document.createElement("button");
+    botonComprar.classList.add("vaciar-carrito");
+    botonComprar.innerText = "Comprar Carrito";
+    botonComprar.onclick = () => {
+        const frutas=carrito.filter(item=>item.tipo==="frutas");
+        const verduras=carrito.filter(item=>item.tipo==="verduras");
+
+        const payload={
+            frutas,
+            verduras
+        };
+
+        realizarCompra(payload);
+    };
+
+    carritoContenido.appendChild(botonComprar);
 }
+
+

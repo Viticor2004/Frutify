@@ -306,13 +306,16 @@ function realizarVenta(frutas,verduras){
 
         let jsonData = JSON.parse(data);
 
-        jsonData.frutas.forEach(fruta => {
+        const productosFruta=jsonData.productos.filter(producto=>producto.tipo==="fruta");
+        const productosVerdura=jsonData.productos.filter(producto=>producto.tipo==="verdura");
+
+        productosFruta.forEach(fruta => {
             if(fruta.nombre===frutas.nombre){
                 id_fruta=fruta.id;
             }
         });
 
-        jsonData.verduras.forEach(verdura => {
+        productosVerdura.forEach(verdura => {
             if(verdura.nombre===verduras.nombre){
                 id_verdura=verdura.id;
             }
@@ -330,12 +333,15 @@ function realizarVenta(frutas,verduras){
         }
         let jsonData=JSON.parse(data);
 
-        jsonData.frutas.forEach(fruta => {
+        const productosFruta = jsonData.productos.filter(producto => producto.tipo === "fruta");
+        const productosVerdura = jsonData.productos.filter(producto => producto.tipo === "verdura");
+
+        productosFruta.forEach(fruta => {
             if(fruta.nombre===frutas.nombre){
                 fruta.cantidad-=frutas.cantidad;
             }
         });
-        jsonData.verduras.forEach(verdura => {
+        productosVerdura.forEach(verdura => {
             if(verdura.nombre===verduras.nombre){
                 verdura.cantidad-=verduras.cantidad;
             }
@@ -497,7 +503,7 @@ function anadirVenta(){
     const fs=require('fs');
     const path=require('path');
 
-    const archivoVentasJSON=path.join(__dirname,'../json/ventas.json');
+    const archivoVentasJSON=path.join(__dirname,'../json/ventas_productos.json');
 
     const frutas = JSON.parse(localStorage.getItem('frutas'));
     const verduras = JSON.parse(localStorage.getItem('verduras'));
@@ -526,14 +532,11 @@ function anadirVenta(){
         const fechaCreada=fechaActual.getFullYear()+"/"+fechaActual.getMonth()+"/"+fechaActual.getDay()+" "+fechaActual.getHours()+":"+fechaActual.getMinutes()+":"+fechaActual.getSeconds();
 
 
-        const allItems=[...jsonData.frutas,...jsonData.verduras];
+        const allItems=[...jsonData];
 
         const ids = allItems.map(item => item.id_venta);
 
-        const idMax=Math.max(...ids);
-
-        
-        
+        let idMax=ids.length>0 ? Math.max(...ids):0;        
 
         if(frutas.cantidad!==0){
 
@@ -546,10 +549,11 @@ function anadirVenta(){
                 "comprador":frutas.cliente,
                 "genero":cliente_fruta_genero,
                 "edad":cliente_fruta_edadInt,
-                "fecha_compra":fechaCreada
+                "fecha_compra":fechaCreada,
+                "tipo":"fruta"
             }   
 
-            jsonData.frutas.push(registroFruta);
+            jsonData.push(registroFruta);
         }
 
         var idMaxVerdura=idMax;
@@ -568,11 +572,12 @@ function anadirVenta(){
                 "comprador":verduras.cliente,
                 "genero":cliente_verdura_genero,
                 "edad":cliente_verdura_edadInt,
-                "fecha_compra":fechaCreada
+                "fecha_compra":fechaCreada,
+                "tipo":"verdura"
             }      
 
 
-            jsonData.verduras.push(registroVerdura);
+            jsonData.push(registroVerdura);
 
         }
 
@@ -805,4 +810,3 @@ function modificarStockVerdura(nombre_verdura,stock_verdura){
         });
     });
 }
-

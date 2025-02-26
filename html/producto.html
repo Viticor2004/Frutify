@@ -17,8 +17,9 @@
     .then(data => {
         google.charts.load('current', {'packages':['corechart']});
         google.charts.load('current', {packages: ['corechart', 'bar']});
-        const frutasDatos = data.frutas;
-        const verdurasDatos = data.verduras;
+        const productos=data.productos;
+        const frutasDatos = productos.filter(producto => producto.tipo === "fruta");
+        const verdurasDatos = productos.filter(producto => producto.tipo === "verdura");
         google.charts.setOnLoadCallback(frutasStock);
         google.charts.setOnLoadCallback(verdurasStock);
         frutasDatos.forEach(fruta => {
@@ -330,8 +331,9 @@
             return response.json();
         })
         .then(data => {
-            const frutas = data.frutas;
-            const verduras = data.verduras;
+            const productos=data.productos;
+            const frutas=productos.filter(producto=>producto.tipo==="fruta");
+            const verduras =productos.filter(producto=>producto.tipo==="verdura");
 
             let cantidadFrutasEncontrado = false;
             let cantidadVerdurasEncontrado = false;
