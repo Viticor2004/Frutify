@@ -122,23 +122,44 @@ function anadirAlCarrito(id, nombre, precio) {
 }
 
 function realizarCompra(payload){
+    // Recoger la información del comprador desde el localStorage (puedes ajustarlo según tus necesidades)
+    const nombre_comprador = localStorage.getItem('nombre');
+    const genero_comprador = localStorage.getItem('genero');  // Asegúrate de que también se guarde el género
+    const edad_comprador = localStorage.getItem('edad');  // Asegúrate de que también se guarde la edad
+
+    // Crear un array de ventas a partir del carrito
+    const ventas = carrito.map((producto, index) => ({
+        id_venta: index + 1, // Asignar un id secuencial
+        id_producto: producto.id_producto,
+        producto: producto.nombre_producto,
+        cantidad: producto.cantidad,
+        comprador: nombre_comprador,
+        genero: genero_comprador,
+        edad: edad_comprador,
+        fecha_compra: new Date().toLocaleString(), // Fecha de compra actual
+        tipo: producto.tipo
+    }));
+
+    // Enviar las ventas al backend
     fetch('http://localhost:3000/comprar/producto', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify(payload)
+        body: JSON.stringify(ventas) // Enviar todas las ventas en el payload
     })
     .then(response => response.json())
     .then(data => {
-        console.log("Compra con éxito");
+        alert("Compra realizada con éxito.");
+        console.log("Ventas registradas:", data);
+        carrito = []; // Vaciar el carrito tras la compra
+        actualizarCarrito(); // Actualizar el carrito (ahora vacío)
     })
     .catch(error => {
         alert("Error al realizar la venta.");
         console.error(error);
     });
 }
-
 function actualizarCarrito() {
     let carritoContenido = document.getElementById("carrito-contenido");
     carritoContenido.innerHTML = "";
@@ -169,15 +190,11 @@ function actualizarCarrito() {
     carritoContenido.appendChild(botonVaciar);
 
     let botonComprar = document.createElement("button");
-    botonComprar.classList.add("vaciar-carrito");
+    botonComprar.classList.add("comprar-carrito");
     botonComprar.innerText = "Comprar Carrito";
     botonComprar.onclick = () => {
-        const frutas=carrito.filter(item=>item.tipo==="frutas");
-        const verduras=carrito.filter(item=>item.tipo==="verduras");
-
-        const payload={
-            frutas,
-            verduras
+        const payload = {
+            productos: carrito // Enviar todos los productos del carrito
         };
 
         realizarCompra(payload);

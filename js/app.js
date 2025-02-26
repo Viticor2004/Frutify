@@ -1,5 +1,7 @@
 const { json } = require('express');
 const express = require('express');
+const path = require('path');  // Esta línea es necesaria para usar el módulo `path`
+const fs = require('fs');  // Asegúrate de importar fs
 const app = express();
 const cors = require('cors');
 const { captureRejectionSymbol, errorMonitor } = require('events');
@@ -10,14 +12,54 @@ const localStorage = new LocalStorage('./miDirectorioDeStorage');
 app.use(cors());
 app.use(express.json());
 
-
-
 app.get('/eliminar/:id', (req, res) => {
     res.send('¡Hola, mundo con dExpress!');
     const idE = parseInt(req.params.id, 10); // Asegúrate de que el ID sea un número
     // 10 es de base decimal
     console.log(idE);
     eliminar(idE);
+});
+
+app.post('/comprar/producto', (req, res) => {
+    const ventas = req.body; // Recibimos el array de ventas del cliente
+
+    // Leer las ventas anteriores desde el archivo "ventas_productos.js"
+    const ventasFilePath = path.join(__dirname, '../json/ventas_productos.json');
+
+    // Intentamos leer el archivo
+    fs.readFile(ventasFilePath, 'utf8', (err, data) => {
+        if (err) {
+            if (err.code === 'ENOENT') {
+                // Si el archivo no existe, lo creamos vacío
+                console.log('Archivo de ventas no encontrado, se creará uno nuevo.');
+                data = '[]'; // Crear un array vacío si no existe el archivo
+            } else {
+                console.error('Error al leer el archivo de ventas:', err);
+                return res.status(500).json({ mensaje: "Error al leer las ventas" });
+            }
+        }
+
+        // Convertir el contenido a un array
+        let ventasRegistradas = [];
+        try {
+            ventasRegistradas = JSON.parse(data); // Si el archivo ya contiene datos
+        } catch (e) {
+            console.log('No se pudieron parsear las ventas anteriores. Se crea un nuevo array.');
+        }
+
+        // Agregar las nuevas ventas
+        ventasRegistradas.push(...ventas);
+
+        // Guardar nuevamente las ventas en el archivo
+        fs.writeFile(ventasFilePath, JSON.stringify(ventasRegistradas, null, 2), (err) => {
+            if (err) {
+                console.error('Error al guardar las ventas:', err);
+                return res.status(500).json({ mensaje: "Error al guardar las ventas" });
+            }
+
+            res.json({ mensaje: "Ventas registradas con éxito" });
+        });
+    });
 });
 
 app.get('/modificar/:id/:nombre/:email/:telefono/:direccion',(req,res)=>{
