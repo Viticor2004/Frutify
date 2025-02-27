@@ -26,14 +26,14 @@
       "nombre": "Fresas",
       "precio": 30,
       "tipo": "fruta",
-      "cantidad": 1000
+      "cantidad": 996
     },
     {
       "id": 5,
       "nombre": "Uvas",
       "precio": 25,
       "tipo": "fruta",
-      "cantidad": 1000
+      "cantidad": 999
     },
     {
       "id": 6,
@@ -103,7 +103,7 @@
       "nombre": "Cebollas",
       "precio": 5.5,
       "tipo": "verdura",
-      "cantidad": 412
+      "cantidad": 411
     },
     {
       "id": 17,

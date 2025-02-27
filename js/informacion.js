@@ -12,6 +12,8 @@ fetch('../json/informacion.json')
         const valor_gmail = document.getElementById('gmail').value;
         const valor_contrasena = document.getElementById('contrasena').value;
         const error = document.getElementById('error');
+        let genero;
+        let edad;
         let logeado = false;
         let usuario_administrador = false;
         
@@ -31,13 +33,15 @@ fetch('../json/informacion.json')
             
             if (valor_nombre === usuario.nombre && valor_gmail === usuario.email && valor_contrasena === usuario.contrasena) {
                 logeado = true;
+                genero=usuario.genero;
+                edad=usuario.edad;
                 usuario_administrador = usuario.administrar;
             }
         });
         
-        definirEmpleados(empleados);
+        
         if (logeado) {
-            definirUsuarioLogeado(valor_nombre, usuario_administrador, valor_gmail);
+            definirUsuarioLogeado(valor_nombre, usuario_administrador, valor_gmail,genero,edad);
             usuario_administrador ? redirigir() : redirigirNoAdmin();
         } else {
             error.innerHTML = `<h1>Campos incorrectos</h1>`;
@@ -45,6 +49,20 @@ fetch('../json/informacion.json')
     });
 })
 .catch(error => console.log(error));
+
+function definirUsuarioLogeado(valor_nombre,usuario_administrador,valor_gmail,genero,edad){
+    localStorage.setItem('nombre',valor_nombre);
+    localStorage.setItem('administrador',usuario_administrador);
+    localStorage.setItem('gmail',valor_gmail);
+    localStorage.setItem('genero',genero);
+    localStorage.setItem('edad',edad);
+}
+
+
+function redirigirNoAdmin(){
+    window.location.href = "/Frutify/html/logueadoNoAdmin.html";
+}
+
 
 // Cargar productos desde JSON
 fetch('../json/productos.json')
@@ -75,7 +93,7 @@ function printAllProducts(productos) {
             <td>${producto.precio}</td>
             <td>${producto.tipo}</td>
             <td><input id="cantidad_${producto.id}" type="number" value="1" min="1"></td>
-            <td><button onclick="anadirAlCarrito('${producto.id}', '${producto.nombre}', ${producto.precio})">Comprar</button></td>
+            <td><button onclick="anadirAlCarrito('${producto.id}', '${producto.nombre}', ${producto.precio},'${producto.tipo}')">Comprar</button></td>
         `;
     });
 }
@@ -95,7 +113,7 @@ document.addEventListener("click", function (event) {
     }
 });
 
-function anadirAlCarrito(id, nombre, precio) {
+function anadirAlCarrito(id, nombre, precio,tipo) {
     let id_añadir = 'cantidad_' + id;
     let cantidad_a_añadir = document.getElementById(id_añadir).value;
 
@@ -114,31 +132,59 @@ function anadirAlCarrito(id, nombre, precio) {
             id_producto: id,
             nombre_producto: nombre,
             precio: precio,
-            cantidad: parseInt(cantidad_a_añadir)
+            cantidad: parseInt(cantidad_a_añadir),
+            tipo:tipo
         });
     }
 
     actualizarCarrito();
 }
 
-function realizarCompra(payload){
-    fetch('http://localhost:3000/comprar/producto', {
+
+
+function realizarCompra(carrito){
+    // Recoger la información del comprador desde el localStorage (puedes ajustarlo según tus necesidades)
+    const nombre=localStorage.getItem('nombre');
+    const administrador=localStorage.getItem('administrador');
+    const gmail=localStorage.getItem('gmail');
+    const edad=localStorage.getItem('edad');
+    const genero=localStorage.getItem('genero');
+    let ventas;
+
+    // Crear un array de ventas a partir del carrito
+    ventas = carrito.map((producto) => ({
+        id_producto: parseInt(producto.id_producto),
+        nombre: producto.nombre_producto,
+        cantidad: producto.cantidad,
+        cliente: nombre,
+        genero: genero, //null
+        edad: edad, //null
+        fecha_compra: new Date().toLocaleString(), // Fecha de compra actual
+        tipo: producto.tipo //null
+    }));
+    console.log("Las ventas compradas son: ");
+    console.log(ventas);
+
+    // Enviar las ventas al backend
+    fetch('http://localhost:3000/venta/producto', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify(payload)
+        body: JSON.stringify(ventas) // Enviar todas las ventas en el payload
     })
     .then(response => response.json())
     .then(data => {
-        console.log("Compra con éxito");
+        alert("Compra realizada con éxito.");
+        console.log("Ventas registradas:", data);
+        carrito = []; // Vaciar el carrito tras la compra
+        actualizarCarrito(); // Actualizar el carrito (ahora vacío)
     })
     .catch(error => {
         alert("Error al realizar la venta.");
         console.error(error);
     });
 }
-
 function actualizarCarrito() {
     let carritoContenido = document.getElementById("carrito-contenido");
     carritoContenido.innerHTML = "";
@@ -169,21 +215,13 @@ function actualizarCarrito() {
     carritoContenido.appendChild(botonVaciar);
 
     let botonComprar = document.createElement("button");
-    botonComprar.classList.add("vaciar-carrito");
+    botonComprar.classList.add("comprar-carrito");
     botonComprar.innerText = "Comprar Carrito";
     botonComprar.onclick = () => {
-        const frutas=carrito.filter(item=>item.tipo==="frutas");
-        const verduras=carrito.filter(item=>item.tipo==="verduras");
 
-        const payload={
-            frutas,
-            verduras
-        };
-
-        realizarCompra(payload);
+        realizarCompra(carrito);
     };
 
     carritoContenido.appendChild(botonComprar);
 }
-
 

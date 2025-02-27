@@ -2,23 +2,100 @@
   {
     "id_venta": 1,
     "id_producto": 1,
-    "producto": "Manzanas",
-    "cantidad": 10,
-    "comprador": "Pepe",
+    "nombre": "Manzanas",
+    "cantidad": 3,
+    "cliente": "Manolo",
     "genero": "Masculino",
-    "edad": 35,
-    "fecha_compra": "2025/1/3 20:7:44",
+    "edad": "42",
+    "fecha_compra": "27/2/2025, 1:37:30",
     "tipo": "fruta"
   },
   {
     "id_venta": 2,
-    "id_producto": 16,
-    "producto": "Cebollas",
-    "cantidad": 1,
-    "comprador": "Manolo",
+    "id_producto": 1,
+    "nombre": "Manzanas",
+    "cantidad": 3,
+    "cliente": "Manolo",
     "genero": "Masculino",
-    "edad": 42,
-    "fecha_compra": "2025/1/3 20:7:44",
-    "tipo": "verdura"
+    "edad": "42",
+    "fecha_compra": "27/2/2025, 1:38:27",
+    "tipo": "fruta"
+  },
+  {
+    "id_venta": 3,
+    "id_producto": 1,
+    "nombre": "Manzanas",
+    "cantidad": 3,
+    "cliente": "Manolo",
+    "genero": "Masculino",
+    "edad": "42",
+    "fecha_compra": "27/2/2025, 1:39:00",
+    "tipo": "fruta"
+  },
+  {
+    "id_venta": 4,
+    "id_producto": 3,
+    "nombre": "Plátanos",
+    "cantidad": 3,
+    "cliente": "Manolo",
+    "genero": "Masculino",
+    "edad": "42",
+    "fecha_compra": "27/2/2025, 1:39:16",
+    "tipo": "fruta"
+  },
+  {
+    "id_venta": 5,
+    "id_producto": 2,
+    "nombre": "Naranjas",
+    "cantidad": 3,
+    "cliente": "Manolo",
+    "genero": "Masculino",
+    "edad": "42",
+    "fecha_compra": "27/2/2025, 1:40:02",
+    "tipo": "fruta"
+  },
+  {
+    "id_venta": 6,
+    "id_producto": 1,
+    "nombre": "Manzanas",
+    "cantidad": 4,
+    "cliente": "Manolo",
+    "genero": "Masculino",
+    "edad": "42",
+    "fecha_compra": "27/2/2025, 1:42:31",
+    "tipo": "fruta"
+  },
+  {
+    "id_venta": 7,
+    "id_producto": 1,
+    "nombre": "Manzanas",
+    "cantidad": 3,
+    "cliente": "Manolo",
+    "genero": "Masculino",
+    "edad": "42",
+    "fecha_compra": "27/2/2025, 1:44:26",
+    "tipo": "fruta"
+  },
+  {
+    "id_venta": 8,
+    "id_producto": 5,
+    "nombre": "Uvas",
+    "cantidad": 6,
+    "cliente": "Manolo",
+    "genero": "Masculino",
+    "edad": "42",
+    "fecha_compra": "27/2/2025, 1:45:41",
+    "tipo": "fruta"
+  },
+  {
+    "id_venta": 9,
+    "id_producto": 4,
+    "nombre": "Fresas",
+    "cantidad": 4,
+    "cliente": "Manolo",
+    "genero": "Masculino",
+    "edad": "42",
+    "fecha_compra": "27/2/2025, 1:51:22",
+    "tipo": "fruta"
   }
 ]

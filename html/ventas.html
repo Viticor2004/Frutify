@@ -16,17 +16,17 @@
       var ventaSemanal;
       var frutasGeneroResultado;
       var verdurasGeneroResultado;
-      fetch('../json/ventas.json')
+      fetch('../json/ventas_productos.json')
         .then(response => response.json())
         .then(data => {
-         
-         
-         
           google.charts.load('current', {'packages':['corechart']});
           google.charts.load('current', {packages: ['corechart', 'bar']});
+          
+          const ventasFrutasAnuales=data.filter(venta=>venta.tipo==="fruta");
 
-          const ventasFrutasAnuales=data.frutas; 
-          const ventasVerdurasAnuales=data.verduras;
+          console.log(ventasFrutasAnuales);
+
+          const ventasVerdurasAnuales=data.filter(venta=>venta.tipo==="verdura");
 
           const vMensuales=data.ventas_mensuales;
           const vSemanales=data.ventas_semanales;
@@ -57,11 +57,11 @@
           const acumuladorMensual={};
           
           //Suman las cantidades del mismo producto
-          ventasFrutasAnuales.forEach(({ producto, cantidad }) => {
-            if (acumuladorFrutas[producto]) {
-              acumuladorFrutas[producto] += cantidad;
+          ventasFrutasAnuales.forEach(({ nombre, cantidad }) => {
+            if (acumuladorFrutas[nombre]) {
+              acumuladorFrutas[nombre] += cantidad;
             } else {
-              acumuladorFrutas[producto] = cantidad;
+              acumuladorFrutas[nombre] = cantidad;
             }
           });
 
@@ -72,11 +72,11 @@
 
 
 
-          ventasVerdurasAnuales.forEach(({ producto, cantidad }) => {
-            if (acumuladorVerduras[producto]) {
-              acumuladorVerduras[producto] += cantidad;
+          ventasVerdurasAnuales.forEach(({ nombre, cantidad }) => {
+            if (acumuladorVerduras[nombre]) {
+              acumuladorVerduras[nombre] += cantidad;
             } else {
-              acumuladorVerduras[producto] = cantidad;
+              acumuladorVerduras[nombre] = cantidad;
             }
           });
 
@@ -86,16 +86,16 @@
 
         
 
-          ventasFrutasAnuales.forEach(({ producto, cantidad, genero }) => {
-            if (!acumuladorFrutasGenero[producto]) {
-              acumuladorFrutasGenero[producto] = { Masculino: 0, Femenino: 0 };
+          ventasFrutasAnuales.forEach(({ nombre, cantidad, genero }) => {
+            if (!acumuladorFrutasGenero[nombre]) {
+              acumuladorFrutasGenero[nombre] = { Masculino: 0, Femenino: 0 };
             }
-            acumuladorFrutasGenero[producto][genero] += cantidad;
+            acumuladorFrutasGenero[nombre][genero] += cantidad;
           });
 
           //convierte el objeto en un array de arrays
-          frutasGeneroResultado = Object.entries(acumuladorFrutasGenero).map(([producto, generos]) => [
-            producto, 
+          frutasGeneroResultado = Object.entries(acumuladorFrutasGenero).map(([nombre, generos]) => [
+            nombre, 
             generos.Masculino, 
             generos.Femenino
           ]);
@@ -105,16 +105,16 @@
           
 
 
-          ventasVerdurasAnuales.forEach(({ producto, cantidad, genero }) => {
-            if (!acumuladorVerdurasGenero[producto]) {
-              acumuladorVerdurasGenero[producto] = { Masculino: 0, Femenino: 0 };
+          ventasVerdurasAnuales.forEach(({ nombre, cantidad, genero }) => {
+            if (!acumuladorVerdurasGenero[nombre]) {
+              acumuladorVerdurasGenero[nombre] = { Masculino: 0, Femenino: 0 };
             }
-            acumuladorVerdurasGenero[producto][genero] += cantidad;
+            acumuladorVerdurasGenero[nombre][genero] += cantidad;
           });
 
          
-          verdurasGeneroResultado = Object.entries(acumuladorVerdurasGenero).map(([producto, generos]) => [
-            producto, 
+          verdurasGeneroResultado = Object.entries(acumuladorVerdurasGenero).map(([nombre, generos]) => [
+            nombre, 
             generos.Masculino, 
             generos.Femenino
           ]);
@@ -452,10 +452,10 @@
           <div id="ventasVerdurasGenero" style="width: 500px;height: 500px;"></div>
           <button id="verduras_genero_resultado">Exportar</button>
 
-          <div id="ventaFrutas" style="width: 500px;height: 500px;"></div>
+          <!-- <div id="ventaFrutas" style="width: 500px;height: 500px;"></div>
           <button id="venta_frutas">Exportar</button>
           <div id="ventaVerduras" style="width: 500px;height: 500px;"></div>
-          <button id="venta_verduras">Exportar</button>
+          <button id="venta_verduras">Exportar</button> -->
          
         </section>
     </div>

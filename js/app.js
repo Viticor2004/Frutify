@@ -12,6 +12,9 @@ app.use(express.json());
 
 
 
+
+
+
 app.get('/eliminar/:id', (req, res) => {
     res.send('¡Hola, mundo con dExpress!');
     const idE = parseInt(req.params.id, 10); // Asegúrate de que el ID sea un número
@@ -19,6 +22,7 @@ app.get('/eliminar/:id', (req, res) => {
     console.log(idE);
     eliminar(idE);
 });
+
 
 app.get('/modificar/:id/:nombre/:email/:telefono/:direccion',(req,res)=>{
     console.log("modificar ha entrado");
@@ -30,10 +34,12 @@ app.get('/modificar/:id/:nombre/:email/:telefono/:direccion',(req,res)=>{
     const telefono=req.params.telefono;
     const direccion=req.params.direccion;
     modificar(idM,nombre,email,telefono,direccion);
-    
+   
 });
 
+
 app.get('/anadir/:nombre/:email/:telefono/:direccion/:genero/:edad', (req, res) => {
+
 
     console.log("anadir ha entrado");
     //const idA=parseInt(req.params.id,10);
@@ -49,29 +55,53 @@ app.get('/anadir/:nombre/:email/:telefono/:direccion/:genero/:edad', (req, res) 
 });
 
 
+
+
 app.post('/comprar/producto', (req, res) => {
-    
+   
     // Extraer los datos del payload
     const { frutas, verduras } = req.body;
     // Llamar a la función realizarVenta con los datos extraídos
-    
+   
     realizarVenta(frutas,verduras);
+
 
     // Responder al cliente con éxito
     res.status(200).json({ message: 'Venta realizada con éxito' });
 });
 
 
+
+app.post('/venta/producto', (req, res) => {
+   
+    // Extraer los datos del payload
+    const ventas = req.body;
+    // Llamar a la función realizarVenta con los datos extraídos
+
+    realizarVentaNoAdmin(ventas);
+
+
+    // Responder al cliente con éxito
+    res.status(200).json({ message: 'Venta realizada con éxito' });
+});
+
+
+
+
 app.post('/anadir/fruta', (req, res) => {
 
+
     const{fruta}=req.body;
-    
+   
     anadirFruta(fruta);
+
 
     // Responder al cliente con éxito
     res.status(200).json({ message: 'Fruta añadida con éxito' });
-    
+   
 });
+
+
 
 
 app.post('/anadir/verdura', (req, res) => {
@@ -79,16 +109,21 @@ app.post('/anadir/verdura', (req, res) => {
     anadirVerdura(verdura);
     res.status(200).json({ message: 'Verdura añadida con éxito' });
 
+
 });
+
+
 
 
 app.delete('/eliminar/fruta/:nombre_fruta', (req, res) => {
-    
+   
     const nombre_fruta=req.params.nombre_fruta;
     eliminarFruta(nombre_fruta);
     res.status(200).json({ message: `Fruta ${nombre_fruta} eliminada con éxito.` });
-    
+   
 });
+
+
 
 
 app.delete('/eliminar/verdura/:nombre_verdura', (req, res) => {
@@ -99,27 +134,36 @@ app.delete('/eliminar/verdura/:nombre_verdura', (req, res) => {
 });
 
 
+
+
 app.put('/modificar/stock_fruta/:nombre_fruta', (req, res) => {    
     const nombre_fruta=req.params.nombre_fruta;
     const stock_fruta=req.body.stock_fruta;
+
 
     modificarStockFruta(nombre_fruta,stock_fruta);
     res.status(200).send(`Ha sido actualizado`);
 });
 
 
+
+
 app.get('/modificar/stock_verdura/:nombre_verdura', (req, res) => {
-    
+   
     const nombre_verdura=req.params.nombre_verdura;
     const stock_verdura=req.body.stock_verdura;
+
 
     modificarStockVerdura(nombre_verdura,stock_verdura);
     res.status(200).send(`Ha sido actualizado`);
 });
 
+
 app.listen(3000,() => {
     console.log('Servidor escuchando en http://localhost:3000');
 });
+
+
 
 
 function eliminar(idE){
@@ -127,7 +171,10 @@ function eliminar(idE){
     const path=require('path');
 
 
+
+
     const archivoJSON = path.join(__dirname, '../json/informacion.json');
+
 
     fs.readFile(archivoJSON, 'utf8', (err, data) => {
         if (err) {
@@ -138,11 +185,15 @@ function eliminar(idE){
         // Parsear el contenido JSON
         let jsonData = JSON.parse(data);
 
+
         // El id del usuario que quieres eliminar
         const idEliminar = idE;
 
+
         // Filtrar los usuarios para eliminar el usuario con el id especificado
         jsonData.usuarios = jsonData.usuarios.filter(usuario => usuario.id !== idEliminar);
+
+
 
 
         // Guardar el archivo actualizado
@@ -157,11 +208,13 @@ function eliminar(idE){
     });
 }
 
+
 function modificar(idM,nombre,email,telefono,direccion){
     //modificar(idM,nombre,email,contrasena,administrar,telefono,direccion);
     const fs=require('fs');
     const path=require('path');
     const archivoJSON = path.join(__dirname, '../json/informacion.json');
+
 
     fs.readFile(archivoJSON,'utf8',(err,data)=>{
         if(err){
@@ -193,19 +246,21 @@ function modificar(idM,nombre,email,telefono,direccion){
 }
 function anadir(nombre,email,telefono,direccion, genero, edad){
 
+
     const fs=require('fs');
     const path=require('path');
     const archivoJSON = path.join(__dirname, '../json/informacion.json');
+
 
     fs.readFile(archivoJSON, 'utf8', (err, data) => {
         if (err) {
             console.error("Error al leer el archivo: ", err);
             return;
         }
-    
+   
         // Parsear el contenido del archivo
         let jsonData = JSON.parse(data);
-    
+   
         // Obtener el arreglo de usuarios
         const personas = jsonData.usuarios;
         let x=1;
@@ -221,6 +276,7 @@ function anadir(nombre,email,telefono,direccion, genero, edad){
             if(encontrado)x++;
         }while(encontrado);
 
+
         // Crear el nuevo usuario
         const nuevoUsuario = {
             id: x, // Función para generar un ID único
@@ -233,11 +289,12 @@ function anadir(nombre,email,telefono,direccion, genero, edad){
             genero: genero,
             edad: edad
 
+
         };
-    
+   
         // Añadir el nuevo usuario al arreglo
         personas.push(nuevoUsuario);
-    
+   
         // Guardar los cambios escribiendo en el archivo JSON
         fs.writeFile(archivoJSON, JSON.stringify(jsonData, null, 2), (err) => {
             if (err) {
@@ -249,24 +306,31 @@ function anadir(nombre,email,telefono,direccion, genero, edad){
     });
 }
 
+
 function realizarVenta(frutas,verduras){
     const fs=require('fs');
     const path=require('path');
-    
+   
     console.log("hola que tal todo: ");
+
 
     localStorage.setItem('frutas', JSON.stringify(frutas));
     localStorage.setItem('verduras', JSON.stringify(verduras));
 
 
+
+
     let cliente_fruta_genero,cliente_fruta_edad;
     let cliente_verdura_genero,cliente_verdura_edad;
+
 
     let id_fruta;
     let id_verdura;
 
+
     const archivoCliente=path.join(__dirname,'../json/informacion.json');
     const archivoStock=path.join(__dirname,'../json/stock.json');
+
 
     fs.readFile(archivoCliente,'utf8',(err,data)=>{
         if(err){
@@ -274,13 +338,15 @@ function realizarVenta(frutas,verduras){
             return;
         }
 
+
         let jsonData = JSON.parse(data);
+
 
         jsonData.usuarios.forEach(usuario => {
             if(usuario.nombre===frutas.cliente){
                 cliente_fruta_genero=usuario.genero;
                 cliente_fruta_edad=usuario.edad;
-                
+               
             }
             if(usuario.nombre===verduras.cliente){
                 cliente_verdura_genero=usuario.genero;
@@ -288,26 +354,34 @@ function realizarVenta(frutas,verduras){
             }  
         });
 
+
         localStorage.setItem('cliente_fruta_genero',cliente_fruta_genero);
         localStorage.setItem('cliente_fruta_edad',cliente_fruta_edad);
         localStorage.setItem('cliente_verdura_genero',cliente_verdura_genero);
         localStorage.setItem('cliente_verdura_edad',cliente_verdura_edad);
 
-        
+
+       
+
 
     });
 
+
     fs.readFile(archivoStock,'utf8',(err,data)=>{
+
 
         if(err){
             console.error("Error al leer el archivo: ",err);
             return;
         }
 
+
         let jsonData = JSON.parse(data);
+
 
         const productosFruta=jsonData.productos.filter(producto=>producto.tipo==="fruta");
         const productosVerdura=jsonData.productos.filter(producto=>producto.tipo==="verdura");
+
 
         productosFruta.forEach(fruta => {
             if(fruta.nombre===frutas.nombre){
@@ -315,14 +389,17 @@ function realizarVenta(frutas,verduras){
             }
         });
 
+
         productosVerdura.forEach(verdura => {
             if(verdura.nombre===verduras.nombre){
                 id_verdura=verdura.id;
             }
         });
 
+
         localStorage.setItem('id_fruta',id_fruta);
         localStorage.setItem('id_verdura',id_verdura);
+
 
     });
    
@@ -333,8 +410,10 @@ function realizarVenta(frutas,verduras){
         }
         let jsonData=JSON.parse(data);
 
+
         const productosFruta = jsonData.productos.filter(producto => producto.tipo === "fruta");
         const productosVerdura = jsonData.productos.filter(producto => producto.tipo === "verdura");
+
 
         productosFruta.forEach(fruta => {
             if(fruta.nombre===frutas.nombre){
@@ -347,6 +426,7 @@ function realizarVenta(frutas,verduras){
             }
         });
 
+
         fs.writeFile(archivoStock, JSON.stringify(jsonData, null, 2),'utf8', (err) => {
             if (err) {
                 console.error("Error al escribir en el archivo: ", err);
@@ -354,14 +434,18 @@ function realizarVenta(frutas,verduras){
             }
             console.log("Se ha realizado con éxito las ventas");
 
+
         });
+
 
         anadirVenta();
     });
     // let x=1;
     // let encontrado = false;
 
-    
+
+   
+
 
     // fs.readFile(archivoCliente,'utf8',(err,data)=>{
     //     if(err){
@@ -369,7 +453,10 @@ function realizarVenta(frutas,verduras){
     //         return;
     //     }
 
+
     //     let jsonData = JSON.parse(data);
+
+
 
 
     //     jsonData.usuarios.forEach(usuario => {
@@ -382,11 +469,13 @@ function realizarVenta(frutas,verduras){
     //             cliente_verdura_edad=usuario.edad;
     //         }
     //     });
-    
-        
-        
+   
+       
+       
+
 
     //     const id_encontrar=jsonData.usuarios;
+
 
     //     do{
     //         for(let usuario of id_encontrar){
@@ -400,7 +489,12 @@ function realizarVenta(frutas,verduras){
 
 
 
+
+
+
     // });
+
+
 
 
     // fs.readFile(archivoStock,'utf8',(err,data)=>{
@@ -409,13 +503,16 @@ function realizarVenta(frutas,verduras){
     //         return;
     //     }
 
+
     //     let jsonData = JSON.parse(data);
+
 
     //     jsonData.frutas.forEach(fruta => {
     //         if(fruta.nombre===nombre_fruta){
     //             id_fruta=fruta.id;
     //         }          
     //     });
+
 
     //     jsonData.verduras.forEach(verdura => {
     //         if(verdura.nombre===cliente_fruta){
@@ -424,7 +521,10 @@ function realizarVenta(frutas,verduras){
     //     });
 
 
+
+
     // });
+
 
 //   fs.readFile(archivoVentasJSON,'utf8',(err,data)=>{
         // const fechaActual=new Date();
@@ -432,8 +532,9 @@ function realizarVenta(frutas,verduras){
         // let registroFruta;
         // let registroVerdura;
 
+
         // if(cantidad_fruta>0){
-            
+           
         //     const cantidad_frutaInt=parseInt(cantidad_fruta);
         //     crear_registro_fruta=true;
         //     registroFruta=[
@@ -448,8 +549,9 @@ function realizarVenta(frutas,verduras){
         //             "fecha_compra":fechaCreada
         //         }
         //     ];
-            
+           
         // }
+
 
         // if(cantidad_verdura>0){
         //     const cantidad_verduraInt=parseInt(cantidad_verdura);
@@ -468,17 +570,20 @@ function realizarVenta(frutas,verduras){
         //             "fecha_compra":fechaCreada
         //         }
         //     ];
-            
+           
         // }
 
+
        
-        
+       
+
 
         // const datos={
         //     frutas: registroFruta,
         //     verduras: registroVerdura
         // };
-        
+       
+
 
         // fs.writeFile(archivoVentasJSON, JSON.stringify(jsonData, null, 2),'utf8', (err) => {
         //     if (err) {
@@ -487,26 +592,38 @@ function realizarVenta(frutas,verduras){
         //     }
         //     console.log("Se ha añadido ventas al fichero ventas.json");
 
+
         // });
+
+
+
 
 
 
 //    });
 
 
+
+
 }
 
 
 
+
+
+
 function anadirVenta(){
-    
+   
     const fs=require('fs');
     const path=require('path');
 
+
     const archivoVentasJSON=path.join(__dirname,'../json/ventas_productos.json');
+
 
     const frutas = JSON.parse(localStorage.getItem('frutas'));
     const verduras = JSON.parse(localStorage.getItem('verduras'));
+
 
     const cliente_fruta_genero=localStorage.getItem('cliente_fruta_genero');
     const cliente_fruta_edad=localStorage.getItem('cliente_fruta_edad');
@@ -516,10 +633,13 @@ function anadirVenta(){
     const cliente_verdura_edadInt=parseInt(cliente_verdura_edad);
 
 
+
+
     const id_fruta=localStorage.getItem('id_fruta');
     const id_frutaInt=parseInt(id_fruta);
     const id_verdura=localStorage.getItem('id_verdura');
     const id_verduraInt=parseInt(id_verdura);
+
 
     fs.readFile(archivoVentasJSON, 'utf8', (err, data) => {
         if (err) {
@@ -528,17 +648,24 @@ function anadirVenta(){
         }
         let jsonData=JSON.parse(data);
 
+
         const fechaActual=new Date();
         const fechaCreada=fechaActual.getFullYear()+"/"+fechaActual.getMonth()+"/"+fechaActual.getDay()+" "+fechaActual.getHours()+":"+fechaActual.getMinutes()+":"+fechaActual.getSeconds();
 
 
+
+
         const allItems=[...jsonData];
+
 
         const ids = allItems.map(item => item.id_venta);
 
+
         let idMax=ids.length>0 ? Math.max(...ids):0;        
 
-        if(frutas.cantidad!==0){
+
+        if(frutas.cantidad!==0){        
+
 
             const registroFruta=
             {
@@ -551,17 +678,21 @@ function anadirVenta(){
                 "edad":cliente_fruta_edadInt,
                 "fecha_compra":fechaCreada,
                 "tipo":"fruta"
-            }   
+            }  
+
 
             jsonData.push(registroFruta);
         }
+
 
         var idMaxVerdura=idMax;
         if(frutas.cantidad!==0){
             idMaxVerdura+=1;
         }
 
+
         if(verduras.cantidad!==0){
+
 
             const registroVerdura=
             {
@@ -577,9 +708,15 @@ function anadirVenta(){
             }      
 
 
+
+
             jsonData.push(registroVerdura);
 
+
         }
+
+
+
 
 
 
@@ -590,20 +727,29 @@ function anadirVenta(){
             }
             console.log("Se ha realizado con éxito las ventas");
 
+
         });
+
+
 
 
     });
 
 
+
+
 }
+
+
 
 
 function anadirFruta(fruta){
     const fs=require('fs');
     const path=require('path');
 
+
     const archivoJSON = path.join(__dirname, '../json/stock.json');
+
 
     fs.readFile(archivoJSON, 'utf8', (err, data) => {
         if (err) {
@@ -614,22 +760,29 @@ function anadirFruta(fruta){
         if (data) {
             jsonData = JSON.parse(data);
         }
-                
+               
         const frutaCantidadInt=parseInt(fruta.cantidad);
+
 
         const allItems=[...jsonData.frutas];
 
+
         const ids = allItems.map(item => item.id_venta);
+
 
         const idMax=Math.max(...ids);
 
 
-        const registroFruta = 
+
+
+        const registroFruta =
             {
                 "id":idMax+1,
                 "nombre": fruta.nombre,
                 "cantidad": frutaCantidadInt
             }
+
+
 
 
         jsonData.frutas.push(registroFruta);
@@ -645,9 +798,12 @@ function anadirFruta(fruta){
 }
 
 
+
+
 function anadirVerdura(verdura){
     const fs=require('fs');
     const path=require('path');
+
 
     const archivoJSON = path.join(__dirname, '../json/stock.json');
    
@@ -662,21 +818,29 @@ function anadirVerdura(verdura){
         }
 
 
+
+
         const verduraCantidadInt=parseInt(verdura.cantidad);
+
 
         const allItems=[...jsonData.verduras];
 
+
         const ids = allItems.map(item => item.id_venta);
+
 
         const idMax=Math.max(...ids);
 
 
-        const registroVerdura = 
+
+
+        const registroVerdura =
             {
                 "id":idMax+1,
                 "nombre": verdura.nombre,
                 "cantidad": verduraCantidadInt
             }
+
 
         jsonData.verduras.push(registroVerdura);
        
@@ -689,24 +853,30 @@ function anadirVerdura(verdura){
         });
     });
 
+
 }
+
+
 
 
 function eliminarFruta(nombre_fruta){
     const fs=require('fs');
     const path=require('path');
 
+
     const archivoJSON = path.join(__dirname, '../json/stock.json');
+
 
     fs.readFile(archivoJSON, 'utf8', (err, data) => {
         if (err) {
             console.error('Error al leer el archivo:', err);
             return;
         }
-        
+       
         let jsonData = JSON.parse(data);
        
         jsonData.frutas = jsonData.frutas.filter(fruta => fruta.nombre !== nombre_fruta);
+
 
         fs.writeFile(archivoJSON, JSON.stringify(jsonData, null, 2), (err) => {
             if (err) {
@@ -720,11 +890,15 @@ function eliminarFruta(nombre_fruta){
 }
 
 
+
+
 function eliminarVerdura(nombre_verdura){
     const fs=require('fs');
     const path=require('path');
 
+
     const archivoJSON = path.join(__dirname, '../json/stock.json');
+
 
     fs.readFile(archivoJSON, 'utf8', (err, data) => {
         if (err) {
@@ -746,27 +920,34 @@ function eliminarVerdura(nombre_verdura){
 }
 
 
+
+
 function modificarStockFruta(nombre_fruta,stock_fruta){
+
 
     const fs=require('fs');
     const path=require('path');
     const archivoJSON = path.join(__dirname, '../json/stock.json');
-    
+   
     fs.readFile(archivoJSON,'utf8',(err,data)=>{
         if(err){
             console.error("Error al leer el archivo: ",err);
             return;
         }
 
+
         let jsonData = JSON.parse(data);
 
+
         const stock_frutaInt=parseInt(stock_fruta);
+
 
         jsonData.frutas.forEach(fruta => {
             if(fruta.nombre===nombre_fruta){
                 fruta.cantidad=stock_frutaInt;
             }
         });
+
 
         fs.writeFile(archivoJSON, JSON.stringify(jsonData, null, 2), (err) => {
             if (err) {
@@ -779,11 +960,14 @@ function modificarStockFruta(nombre_fruta,stock_fruta){
 }
 
 
+
+
 function modificarStockVerdura(nombre_verdura,stock_verdura){
    
     const fs=require('fs');
     const path=require('path');
     const archivoJSON = path.join(__dirname, '../json/stock.json');
+
 
     fs.readFile(archivoJSON,'utf8',(err,data)=>{
         if(err){
@@ -791,15 +975,19 @@ function modificarStockVerdura(nombre_verdura,stock_verdura){
             return;
         }
 
+
         let jsonData = JSON.parse(data);
 
+
         const stock_verduraInt=parseInt(stock_verdura);
+
 
         jsonData.verduras.forEach(verdura => {
             if(verdura.nombre===nombre_verdura){
                 verdura.cantidad=stock_verduraInt;
             }
         });
+
 
         fs.writeFile(archivoJSON, JSON.stringify(jsonData, null, 2), (err) => {
             if (err) {
@@ -809,4 +997,96 @@ function modificarStockVerdura(nombre_verdura,stock_verdura){
             console.log("Stock modificado con éxito");
         });
     });
+}
+
+function realizarVentaNoAdmin(ventas){
+    const fs=require('fs');
+    const path=require('path');
+    const archivoJSON = path.join(__dirname, '../json/ventas_productos.json');
+
+    fs.readFile(archivoJSON,'utf8',(err,data)=>{
+        if(err){
+            console.error("Error al leer el archivo: ",err);
+            return;
+        }
+
+
+        let jsonData = JSON.parse(data);
+
+        let lastId=jsonData.length>0?jsonData[jsonData.length-1].id_venta:0;
+        let nuevoId=lastId+1;
+
+        let ventasConId=ventas.map((venta)=>({
+            id_venta:nuevoId++,
+            ...venta
+        }));
+
+        jsonData.push(...ventasConId);
+
+
+        fs.writeFile(archivoJSON, JSON.stringify(jsonData, null, 2), (err) => {
+            if (err) {
+                console.error("Error al escribir en el archivo: ", err);
+                return;
+            }
+            console.log("Venta realizada con éxito");
+        });
+    });
+    restarStock(ventas);
+}
+
+function restarStock(ventas){
+    const fs=require('fs');
+    const path=require('path');
+    const archivoStock = path.join(__dirname, '../json/stock.json');
+    fs.readFile(archivoStock, 'utf8', (err, data) => {
+        if (err) {
+            console.error("Error al leer el archivo: ", err);
+            return;
+        }
+        let jsonData=JSON.parse(data);
+
+
+        const productosFruta = jsonData.productos.filter(producto => producto.tipo === "fruta");
+        const ventasFruta=ventas.filter(venta=>venta.tipo==="fruta");
+
+        const productosVerdura = jsonData.productos.filter(producto => producto.tipo === "verdura");
+        const ventasVerdura=ventas.filter(venta=>venta.tipo==="verdura");
+
+
+        console.log(productosFruta);
+
+        console.log(ventasFruta);
+        // productosFruta.forEach(fruta=>{
+        //     if(fruta.nombre===ventasFruta.nombre){
+        //         fruta.cantidad-=ventasFruta.cantidad;
+        //     }
+        // });
+        
+        ventasFruta.forEach(venta => {
+            
+            const producto = productosFruta.find(fruta => fruta.nombre === venta.nombre);
+            if (producto) {
+                producto.cantidad -= venta.cantidad; 
+            }
+        });
+
+        ventasVerdura.forEach(venta => {
+            
+            const producto = productosVerdura.find(verdura => verdura.nombre === venta.nombre);
+            if (producto) {
+                producto.cantidad -= venta.cantidad; 
+            }
+        });
+
+        fs.writeFile(archivoStock, JSON.stringify(jsonData, null, 2),'utf8', (err) => {
+            if (err) {
+                console.error("Error al escribir en el archivo: ", err);
+                return;
+            }
+            console.log("Se ha restado el stock con éxito");
+
+
+        });
+})
 }
