@@ -1,44 +1,64 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <script>
         document.addEventListener("DOMContentLoaded", function() {
             const nombre = localStorage.getItem('nombre');
-            const administrador=localStorage.getItem('administrador');
+            const administrador = localStorage.getItem('administrador');
             document.getElementById('info').innerHTML = `${nombre}`;
-            if(administrador==="true"){
+            if(administrador === "true"){
                 document.getElementById('poner').innerHTML = `<p>Hola administrador</p>`;
             }
-            
         });
     </script>
 
-     <link rel="icon" href="../images/iconofrutify.png" type="image/x-icon">
+    <link rel="icon" href="../images/iconofrutify.png" type="image/x-icon">
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../css/estilos.css" type="text/css">
+    <link rel="stylesheet" href="../css/escaparate.css" type="text/css">
+    <script src="../js/informacion.js"></script>
 
     <title>Frutify</title>
 </head>
 
-<body class ="bodyLogueado">
-    
-    <header>
+<body class="bodyLogueado">
 
-        <img src="../images/iconofrutify.png" alt="naranja" class="fondo_logueado">
+    <header class="header">
+        <!-- Botón del carrito con evento onclick -->
+        <div class="carrito">
+            <button class="carrito" onclick="toggleCarrito()">
+                <img src="../images/carrito.jpg" alt="Carrito">
+            </button>
+            <!-- Desplegable del carrito -->
+            <div id="carrito-dropdown" class="carrito-dropdown">
+                <h3>Carrito de Compras</h3>
+                <div id="carrito-contenido">
+                    <p>El carrito está vacío.</p>
+                </div>
+            </div>
+        </div>
+
+        <img src="../images/iconofrutify.png" alt="Logo Frutify">
         <a href="index.html">
             <input type="submit" id="cerrarSesion" value="Cerrar Sesión">
         </a>
-        
     </header>
-    <section class="sectionNoAdmin">
-        <div class="Bienvenido">
-            <h2>Bienvenido: <h2 id="info"></h2></h2>
-                <h3 id="poner"></h3>
-        </div>
-    </section>
-</body>
 
+    <section class="sectionNoAdmin">
+        <div class="contenedor_parte_superior">
+            <div class="Bienvenido">
+                <h2>Bienvenido: <span id="info"></span></h2>
+                <h3 id="poner"></h3>
+            </div>
+        </div>
+
+        <div class="panel" id="panel_escaparate">
+            <h1>Productos</h1>
+            <table></table>
+        </div> 
+    </section>
+
+</body>
 </html>
-<!-- li list style none -->
